@@ -2,18 +2,23 @@
 
 # 👋 Hi, I'm Mohammad Umar
 
-### Full-Stack Engineer | AI Integration Specialist | TypeScript & Java Expert
+### Full-Stack Engineer · AI Integration Specialist · TypeScript & Java Expert
 
-*Building intelligent web applications with exceptional UX, multi-agent AI systems, and security-first architecture*
+*Building intelligent, scalable web applications with exceptional UX, multi-agent AI systems, and security-first architectures.*
 
-[![GitHub followers](https://img.shields.io/github/followers/mohammadumar-dev?style=social)](https://github.com/mohammadumar-dev)
-[![GitHub stars](https://img.shields.io/github/stars/mohammadumar-dev?style=social)](https://github.com/mohammadumar-dev)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=social&logo=linkedin)](https://linkedin.com/in/shaikh-mohammad-umar)
+**📍 Pune, Maharashtra, IN** &nbsp;•&nbsp; **💼 Open to Collaboration** &nbsp;•&nbsp; **🤖 AI-Powered Solutions**
 
-**📍 Pune, Maharashtra, IN** • **💼 Open to Collaboration** • **🤖 AI-Powered Solutions**
+<br/>
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-ff69b4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://mohammadumar-dev.netlify.app)
-[![Email](https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mohammadumar.dev@gmail.com)
+<a href="https://mohammadumar-dev.netlify.app">
+  <img src="https://img.shields.io/badge/Portfolio-Visit-ff69b4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio"/>
+</a>
+<a href="mailto:mohammadumar.dev@gmail.com">
+  <img src="https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+</a>
+<a href="https://linkedin.com/in/shaikh-mohammad-umar">
+  <img src="https://img.shields.io/badge/LinkedIn-Profile-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+</a>
 
 </div>
 
@@ -350,20 +355,55 @@ Build systems that scale and adapt over time
 
 ## 📊 GitHub Stats
 
+<!-- Primary Overview Card -->
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=mohammadumar-dev&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&count_private=true" alt="GitHub Stats" height="170"/>
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mohammadumar-dev&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&langs_count=8" alt="Top Languages" height="170"/>
+<img
+  src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=mohammadumar-dev&theme=tokyonight"
+  alt="GitHub Profile Overview"
+  width="90%"
+/>
 
 </div>
 
+<br/>
+
+<!-- Language Distribution Cards -->
 <div align="center">
 
-[![GitHub Streak](https://github-readme-streak-stats.herokuapp.com?user=mohammadumar-dev&theme=tokyonight&hide_border=true&background=0D1117)](https://git.io/streak-stats)
+<table>
+  <tr>
+    <td align="center">
+      <img
+        src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=mohammadumar-dev&theme=tokyonight"
+        alt="Repos Per Language"
+      />
+    </td>
+    <td align="center">
+      <img
+        src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=mohammadumar-dev&theme=tokyonight"
+        alt="Most Commit Language"
+      />
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<br/>
+
+<!-- Contribution Streak -->
+<div align="center">
+
+<img
+  src="https://github-readme-streak-stats.herokuapp.com?user=mohammadumar-dev&theme=tokyonight&hide_border=true"
+  alt="GitHub Contribution Streak"
+/>
 
 </div>
 
 ---
+
 
 ## 🎯 Current Focus & Expertise
 

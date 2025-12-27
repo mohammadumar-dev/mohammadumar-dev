@@ -69,7 +69,10 @@ I create **full-stack AI-powered solutions** that combine modern web technologie
 
 <div align="center">
 
-### 💻 Languages & Core
+### 💻 Languages & Core Foundations
+<sub>Strongly typed, performance-oriented, and web-native languages</sub>
+
+<br/>
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
@@ -80,7 +83,12 @@ I create **full-stack AI-powered solutions** that combine modern web technologie
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
 
-### 🎨 Frontend Technologies
+<br/>
+
+### 🎨 Frontend Engineering
+<sub>Modern UI systems, performance-first rendering, and scalable design</sub>
+
+<br/>
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
@@ -89,7 +97,12 @@ I create **full-stack AI-powered solutions** that combine modern web technologie
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Redux](https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white)
 
-### ⚙️ Backend & APIs
+<br/>
+
+### ⚙️ Backend & API Architecture
+<sub>Enterprise-grade services, scalable APIs, and distributed systems</sub>
+
+<br/>
 
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
@@ -97,14 +110,24 @@ I create **full-stack AI-powered solutions** that combine modern web technologie
 ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![REST API](https://img.shields.io/badge/REST_API-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
+<br/>
+
 ### 🤖 AI & Machine Learning
+<sub>Agentic AI, LLM orchestration, and production-grade AI systems</sub>
+
+<br/>
 
 ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
 ![Google Gemini](https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white)
 ![Ollama](https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-121212?style=for-the-badge&logo=chainlink&logoColor=white)
 
-### 🗄️ Databases & Cloud
+<br/>
+
+### 🗄️ Databases & Cloud Infrastructure
+<sub>Reliable storage, scalable cloud platforms, and containerized deployments</sub>
+
+<br/>
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
@@ -113,7 +136,12 @@ I create **full-stack AI-powered solutions** that combine modern web technologie
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-### 🛠️ Tools & Platforms
+<br/>
+
+### 🛠️ Developer Tools & Platforms
+<sub>Productivity, collaboration, and deployment tooling</sub>
+
+<br/>
 
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
@@ -128,6 +156,7 @@ I create **full-stack AI-powered solutions** that combine modern web technologie
 </div>
 
 ---
+
 
 ## 🚀 Featured Projects
 
@@ -469,23 +498,23 @@ const currentFocus = {
 
 ## 📫 Let's Connect
 
-<div align="center">
-
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohammadumar-dev)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/shaikh-mohammad-umar)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mohammadumar.dev@gmail.com)
 [![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mohammadumar-dev.netlify.app)
 
 ### 🤝 Open to Collaboration On
-
+<div align="left">
+  
 ```yaml
 interests:
   - AI-powered full-stack applications
-  - Multi-agent systems & RAG implementations
-  - Browser extensions & developer tools
+  - Multi-agent systems & RAG pipelines
+  - Cybersecurity, privacy-first tools & secure architectures
+  - Browser extensions & developer productivity tools
   - Enterprise Java backends & microservices
-  - Security-focused utilities & privacy tools
-  - Open-source TypeScript/React projects
+  - Security-focused utilities & zero-trust patterns
+  - Open-source TypeScript & React ecosystems
 ```
 
 </div>
@@ -504,10 +533,37 @@ interests:
 
 ### 📌 Featured Repositories
 
-[![DWUI](https://github-readme-stats.vercel.app/api/pin/?username=mohammadumar-dev&repo=dwui-new-tab&theme=tokyonight&hide_border=true&bg_color=0D1117)](https://github.com/mohammadumar-dev/dwui-new-tab)
-[![Resume Agent](https://github-readme-stats.vercel.app/api/pin/?username=mohammadumar-dev&repo=resume-agent&theme=tokyonight&hide_border=true&bg_color=0D1117)](https://github.com/mohammadumar-dev/resume-agent)
+<table>
+  <tr>
+    <td width="50%" valign="top">
+
+#### 🧩 DWUI – New Tab Experience
+**A modern, customizable browser new-tab UI focused on productivity and aesthetics.**
+
+- ⚡ Custom Chrome New Tab
+- 🎨 Modern UI / UX patterns
+- 🧠 Performance-focused frontend
+
+[![Repo](https://img.shields.io/badge/View_Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohammadumar-dev/dwui-new-tab)
+
+</td>
+<td width="50%" valign="top">
+
+#### 🤖 Resume Agent
+**An AI-powered resume analysis and optimization agent.**
+
+- 🧠 LLM-driven evaluation
+- 📄 Resume parsing & insights
+- 🔐 Privacy-aware AI workflows
+
+[![Repo](https://img.shields.io/badge/View_Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohammadumar-dev/resume-agent)
+
+</td>
+  </tr>
+</table>
 
 ---
+
 
 ⭐️ **If you find my work interesting, consider following or starring the repositories!**
 

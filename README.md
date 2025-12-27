@@ -404,41 +404,47 @@ Build systems that scale and adapt over time
 
 ---
 
-
 ## 🎯 Current Focus & Expertise
 
-<div align="center">
+> A living snapshot of the technologies, architectures, and problem spaces I am actively building and exploring.
 
-```typescript
+<div align="left">
+
+```ts
+/**
+ * Current technical focus areas
+ * Updated as skills and interests evolve
+ */
 const currentFocus = {
   aiIntegration: {
-    multiAgentSystems: "Building collaborative AI agent workflows",
-    rag: "Retrieval-Augmented Generation for context-aware apps",
-    localLLMs: "Privacy-focused Ollama integration",
-    cloudAI: "OpenAI, Gemini, Claude API orchestration"
+    multiAgentSystems: "Collaborative AI agent workflows & orchestration",
+    rag: "Retrieval-Augmented Generation for context-aware applications",
+    localLLMs: "Privacy-first local LLMs using Ollama",
+    cloudAI: "OpenAI, Gemini, Claude API integration & routing"
   },
-  
+
   webDevelopment: {
     frontend: "Next.js 15, React 19, TypeScript",
-    backend: "Spring Boot microservices, FastAPI for AI",
+    backend: "Spring Boot microservices, FastAPI for AI services",
     databases: "PostgreSQL, MongoDB, Supabase",
     deployment: "Docker, AWS, Vercel, Render"
   },
-  
+
   specializations: [
     "Browser UX innovation & Chrome extensions",
     "Multi-tenant SaaS architectures",
-    "Zero-knowledge security patterns",
-    "Prompt engineering & model integration",
-    "WebGL & modern CSS animations"
+    "Zero-knowledge & security-first design patterns",
+    "Prompt engineering & model interoperability",
+    "WebGL, modern CSS, and animation systems"
   ],
-  
+
   exploring: {
-    advanced: "RAG pipelines, vector databases, agentic workflows",
+    aiSystems: "RAG pipelines, vector databases, agentic workflows",
     frontend: "Shadcn UI v2, Next.js App Router patterns",
-    backend: "Event-driven architectures, CQRS patterns"
+    backend: "Event-driven systems, CQRS, async messaging"
   }
 };
+
 ```
 
 </div>

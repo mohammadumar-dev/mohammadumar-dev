@@ -1,583 +1,403 @@
 <div align="center">
 
-# 👋 Hi, I'm Mohammad Umar
+<!-- Animated Header -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Mohammad%20Umar&fontSize=42&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Full-Stack%20Engineer%20%7C%20AI%20Integration%20Specialist&descAlignY=51&descAlign=50" width="100%"/>
 
-### Full-Stack Engineer · AI Integration Specialist · TypeScript & Java Expert
+<!-- Typing Animation -->
+<a href="https://git.io/typing-svg">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=6366F1&center=true&vCenter=true&multiline=false&repeat=true&width=600&height=100&lines=Building+Intelligent+Systems+%F0%9F%A4%96;TypeScript+%2B+Java+Expert+%E2%9A%A1;AI-Powered+Solutions+%F0%9F%9A%80;Security-First+Architectures+%F0%9F%94%90" alt="Typing SVG" />
+</a>
 
-*Building intelligent, scalable web applications with exceptional UX, multi-agent AI systems, and security-first architectures.*
+<!-- Badges -->
+<p>
+  <img src="https://img.shields.io/badge/📍_Location-Pune,_IN-6366F1?style=for-the-badge&labelColor=1e293b" alt="Location"/>
+  <img src="https://img.shields.io/badge/💼_Status-Open_to_Collaborate-10b981?style=for-the-badge&labelColor=1e293b" alt="Status"/>
+  <img src="https://komarev.com/ghpvc/?username=mohammadumar-dev&color=6366f1&style=for-the-badge&label=PROFILE+VIEWS" alt="Profile Views"/>
+</p>
 
-**📍 Pune, Maharashtra, IN** &nbsp;•&nbsp; **💼 Open to Collaboration** &nbsp;•&nbsp; **🤖 AI-Powered Solutions**
+<!-- Social Links with Hover Effect -->
+<p>
+  <a href="https://mohammadumar-dev.netlify.app">
+    <img src="https://img.shields.io/badge/🌐_Portfolio-ff69b4?style=for-the-badge&logo=google-chrome&logoColor=white&labelColor=831843" alt="Portfolio"/>
+  </a>
+  <a href="mailto:mohammadumar.dev@gmail.com">
+    <img src="https://img.shields.io/badge/📧_Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white&labelColor=991b1b" alt="Email"/>
+  </a>
+  <a href="https://linkedin.com/in/shaikh-mohammad-umar">
+    <img src="https://img.shields.io/badge/💼_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=1e3a8a" alt="LinkedIn"/>
+  </a>
+  <a href="https://github.com/mohammadumar-dev">
+    <img src="https://img.shields.io/badge/⭐_GitHub-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=0f172a" alt="GitHub"/>
+  </a>
+</p>
 
 <br/>
 
-<a href="https://mohammadumar-dev.netlify.app">
-  <img src="https://img.shields.io/badge/Portfolio-Visit-ff69b4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio"/>
-</a>
-<a href="mailto:mohammadumar.dev@gmail.com">
-  <img src="https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
-</a>
-<a href="https://linkedin.com/in/shaikh-mohammad-umar">
-  <img src="https://img.shields.io/badge/LinkedIn-Profile-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
-</a>
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
 </div>
 
----
+<!-- About Section with Gradient -->
+<div align="center">
 
-## 🎯 What I Build
+## <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30px"> About Me
 
-I create **full-stack AI-powered solutions** that combine modern web technologies with intelligent automation. My expertise spans enterprise backends, browser innovations, and privacy-focused AI systems.
+</div>
 
+```typescript
+const mohammadumar = {
+    role: "Full-Stack Engineer & AI Integration Specialist",
+    location: "Pune, Maharashtra, IN",
+    
+    expertise: {
+        frontend: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+        backend: ["Spring Boot", "FastAPI", "Node.js", "PostgreSQL"],
+        ai: ["Multi-Agent Systems", "RAG", "Ollama", "OpenAI", "Gemini"],
+        specialty: ["Chrome Extensions", "WebGL", "Zero-Knowledge Security"]
+    },
+    
+    currentFocus: [
+        "🤖 Building AI-powered full-stack applications",
+        "🔐 Privacy-first & security-centric architectures", 
+        "⚡ High-performance web experiences",
+        "🧩 Browser extensions & developer tools"
+    ],
+    
+    philosophy: "Intelligent systems that respect privacy 🛡️"
+};
+```
+
+<div align="center">
+
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
+
+## <img src="https://media2.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif?cid=ecf05e47a0n3gi1bfqntqmob8g9aid1oyj2wr3ds3mg700bl&rid=giphy.gif" width="28px"> Tech Stack
+
+<!-- Tech Stack Grid with Icons -->
 <table>
 <tr>
-<td width="33%">
-
-### 🎨 Frontend Excellence
-- **TypeScript-first** development
-- **React/Next.js** ecosystems
-- **Browser extensions** & custom UX
-- **Glassmorphism** & modern UI/UX
-- **WebGL animations** & effects
-
-</td>
-<td width="33%">
-
-### ⚙️ Backend Mastery
-- **Spring Boot** microservices
-- **FastAPI** for AI services
-- **Multi-tenant** architectures
-- **RESTful APIs** & authentication
-- **Node.js/Express** backends
-
-</td>
-<td width="33%">
-
-### 🤖 AI Integration
-- **Multi-agent systems**
-- **RAG** implementations
-- **Ollama/OpenAI/Gemini** integration
-- **Prompt engineering**
-- **Local-first AI** processing
-
-</td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=typescript" width="65px" alt="TypeScript"/>
+    <br/><sub><b>TypeScript</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=react" width="65px" alt="React"/>
+    <br/><sub><b>React</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=nextjs" width="65px" alt="Next.js"/>
+    <br/><sub><b>Next.js</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=java" width="65px" alt="Java"/>
+    <br/><sub><b>Java</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=spring" width="65px" alt="Spring"/>
+    <br/><sub><b>Spring Boot</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=python" width="65px" alt="Python"/>
+    <br/><sub><b>Python</b></sub>
+  </td>
+</tr>
+<tr>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=tailwind" width="65px" alt="Tailwind"/>
+    <br/><sub><b>Tailwind CSS</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=nodejs" width="65px" alt="Node.js"/>
+    <br/><sub><b>Node.js</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=fastapi" width="65px" alt="FastAPI"/>
+    <br/><sub><b>FastAPI</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=postgres" width="65px" alt="PostgreSQL"/>
+    <br/><sub><b>PostgreSQL</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=mongodb" width="65px" alt="MongoDB"/>
+    <br/><sub><b>MongoDB</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=docker" width="65px" alt="Docker"/>
+    <br/><sub><b>Docker</b></sub>
+  </td>
+</tr>
+<tr>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=aws" width="65px" alt="AWS"/>
+    <br/><sub><b>AWS</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=git" width="65px" alt="Git"/>
+    <br/><sub><b>Git</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=vscode" width="65px" alt="VS Code"/>
+    <br/><sub><b>VS Code</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=vercel" width="65px" alt="Vercel"/>
+    <br/><sub><b>Vercel</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://skillicons.dev/icons?i=linux" width="65px" alt="Linux"/>
+    <br/><sub><b>Linux</b></sub>
+  </td>
+  <td align="center" width="140" height="112.43">
+    <img src="https://techstack-generator.vercel.app/restapi-icon.svg" width="65px" alt="REST API"/>
+    <br/><sub><b>REST API</b></sub>
+  </td>
 </tr>
 </table>
 
----
+<!-- AI & Special Tools -->
+<p>
+  <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI"/>
+  <img src="https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Gemini"/>
+  <img src="https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white" alt="Ollama"/>
+  <img src="https://img.shields.io/badge/LangChain-121212?style=for-the-badge&logo=chainlink&logoColor=white" alt="LangChain"/>
+</p>
 
-## 🛠️ Tech Stack & Expertise
-
-<div align="center">
-
-### 💻 Languages & Core Foundations
-<sub>Strongly typed, performance-oriented, and web-native languages</sub>
-
-<br/>
-
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
-
-<br/>
-
-### 🎨 Frontend Engineering
-<sub>Modern UI systems, performance-first rendering, and scalable design</sub>
-
-<br/>
-
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Shadcn UI](https://img.shields.io/badge/Shadcn_UI-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Redux](https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white)
-
-<br/>
-
-### ⚙️ Backend & API Architecture
-<sub>Enterprise-grade services, scalable APIs, and distributed systems</sub>
-
-<br/>
-
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
-![REST API](https://img.shields.io/badge/REST_API-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-
-<br/>
-
-### 🤖 AI & Machine Learning
-<sub>Agentic AI, LLM orchestration, and production-grade AI systems</sub>
-
-<br/>
-
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
-![Google Gemini](https://img.shields.io/badge/Google_Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white)
-![Ollama](https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-121212?style=for-the-badge&logo=chainlink&logoColor=white)
-
-<br/>
-
-### 🗄️ Databases & Cloud Infrastructure
-<sub>Reliable storage, scalable cloud platforms, and containerized deployments</sub>
-
-<br/>
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-
-<br/>
-
-### 🛠️ Developer Tools & Platforms
-<sub>Productivity, collaboration, and deployment tooling</sub>
-
-<br/>
-
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white)
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
 </div>
 
----
-
-
-## 🚀 Featured Projects
-
+<!-- Featured Projects - Collapsible -->
 <div align="center">
 
-| Project | Description | Tech Stack | Links |
-|---------|-------------|------------|-------|
-| **🎨 DWUI — New Tab** | Chrome extension with glassmorphic UI & WebGL Aurora animations | ![TypeScript](https://img.shields.io/badge/-TS-3178C6?style=flat-square&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black) ![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white) | [![Chrome Store](https://img.shields.io/badge/Chrome-Install-4285F4?style=flat-square&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/dwui-new-tab/ngecoiihhnlpkkajpfpdnmbfhmhdknac) [![GitHub](https://img.shields.io/badge/-Repo-181717?style=flat-square&logo=github)](https://github.com/mohammadumar-dev/dwui-new-tab) |
-| **🤖 Resume-Agent** | AI-powered resume optimizer with local LLM processing & multi-agent architecture | ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) ![Ollama](https://img.shields.io/badge/-Ollama-000?style=flat-square) | [![GitHub](https://img.shields.io/badge/-Repo-181717?style=flat-square&logo=github)](https://github.com/mohammadumar-dev/resume-agent) |
-| **🏢 Carventory Multi-Tenant** | Enterprise vehicle inventory system with robust data isolation | ![Java](https://img.shields.io/badge/-Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white) ![Spring](https://img.shields.io/badge/-Spring-6DB33F?style=flat-square&logo=spring&logoColor=white) ![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white) | [![GitHub](https://img.shields.io/badge/-Repo-181717?style=flat-square&logo=github)](https://github.com/mohammadumar-dev/Carventory-Multi-Teanant) |
-| **🔐 SecureVault** | Zero-knowledge encrypted vault for sensitive web workflows | ![TypeScript](https://img.shields.io/badge/-TS-3178C6?style=flat-square&logo=typescript&logoColor=white) ![JavaScript](https://img.shields.io/badge/-JS-F7DF1E?style=flat-square&logo=javascript&logoColor=black) | [![GitHub](https://img.shields.io/badge/-Repo-181717?style=flat-square&logo=github)](https://github.com/mohammadumar-dev/SecureVault) |
+## <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30px"> Featured Projects
 
 </div>
 
----
+<details>
+<summary><b>🎨 DWUI — Dynamic Web User Interface</b> <i>(Click to expand)</i></summary>
+<br/>
 
-### 🔍 Project Showcase
+<div align="center">
+<img src="https://github.com/mohammadumar-dev/dwui-new-tab/raw/main/screenshots/preview_1.webp" alt="DWUI Preview" width="80%"/>
+</div>
 
-<details open>
-<summary><b>🎨 DWUI — Dynamic Web User Interface</b></summary>
-<br>
+### ✨ Transform Chrome's New Tab Experience
 
-**Transform Chrome's new tab into a stunning modern interface**
+**A stunning modern interface with WebGL animations and glassmorphism design**
 
-<img src="https://github.com/mohammadumar-dev/dwui-new-tab/raw/main/screenshots/preview_1.webp" alt="DWUI Preview" width="600"/>
-
-#### ✨ Key Features
-- 🌊 **WebGL Aurora Background** - Smooth animated gradient using OGL
-- 💎 **Glassmorphism Design** - Modern glass-like transparency effects
+#### 🎯 Key Features
+- 🌊 **WebGL Aurora Background** - Smooth animated gradients using OGL
+- 💎 **Glassmorphism Design** - Modern glass-like transparency
 - 🔍 **Smart Search** - Integrated Chrome search API
-- ⏰ **Real-time Clock** - Timezone-aware digital clock
-- 📱 **Quick Access Sidebar** - Google apps and essential tools
+- ⏰ **Real-time Clock** - Timezone-aware display
 - 🎯 **Customizable Shortcuts** - Drag-and-drop grid layout
-- 🌙 **Dark Theme** - Optimized for low-light environments
+- 🌙 **Dark Theme** - Optimized for low-light
 
-#### 🛠️ Tech Stack
-**Frontend:** React 19, TypeScript, Vite  
-**UI:** Shadcn UI, Tailwind CSS, Lucide Icons  
-**Animation:** OGL (WebGL), dnd-kit  
-**Platform:** Chrome Extensions API
+#### 🛠️ Built With
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Tailwind](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 
-#### 📊 Architecture Highlights
-- Component-based architecture with React hooks
-- Local storage for user preferences
-- Chrome API integration for native search
-- WebGL shader programming for effects
-- Type-safe development with TypeScript
-
-[![Install on Chrome](https://img.shields.io/badge/Install-Chrome_Web_Store-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/dwui-new-tab/ngecoiihhnlpkkajpfpdnmbfhmhdknac)
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/dwui-new-tab/ngecoiihhnlpkkajpfpdnmbfhmhdknac">
+    <img src="https://img.shields.io/badge/Install-Chrome_Web_Store-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Chrome Store"/>
+  </a>
+  <a href="https://github.com/mohammadumar-dev/dwui-new-tab">
+    <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
 
 </details>
 
-<details open>
-<summary><b>🤖 Resume-Agent — AI-Powered Resume Optimization</b></summary>
-<br>
+<details>
+<summary><b>🤖 Resume-Agent — AI Resume Optimizer</b> <i>(Click to expand)</i></summary>
+<br/>
 
-**Local-first AI resume optimizer with FastAPI + Ollama**
+### 🎯 Local-First AI Resume Optimization
 
-#### 🎯 Core Capabilities
-- 🔒 **Privacy-First Processing** - All data stays on your machine
+**Privacy-focused resume optimizer powered by local LLMs**
+
+#### 🔥 Core Capabilities
+- 🔒 **Privacy-First** - All processing stays on your machine
 - 🤖 **Multi-Model Support** - LLaMA 3.2, Phi-3, DeepSeek-R1
-- 📄 **ATS Optimization** - Single-page, clean formatting, measurable results
-- ⚡ **Streaming Responses** - Real-time NDJSON chunk processing
-- 🎨 **Role Tailoring** - Customized for target job + company
+- 📄 **ATS Optimization** - Single-page, clean formatting
+- ⚡ **Streaming Responses** - Real-time NDJSON processing
+- 🎨 **Role Tailoring** - Customized for target jobs
 
 #### 🏗️ Architecture
-
 ```
-┌─────────────────┐
-│   FastAPI       │ ← Form-data API (/api/v1/generate)
-│   Layer         │   - master_resume, target_role
-└────────┬────────┘   - job_description, company_name
-         │
-         ▼
-┌─────────────────┐
-│ Resume          │ ← Prompt Engineering
-│ Generator       │   - ATS rules enforcement
-└────────┬────────┘   - Content optimization
-         │
-         ▼
-┌─────────────────┐
-│ AI Client       │ ← Ollama Integration
-│ (Ollama)        │   - Streaming NDJSON
-└────────┬────────┘   - Multi-model support
-         │
-         ▼
-┌─────────────────┐
-│ Local LLM       │ ← Zero-cost inference
-│ (LLaMA 3.2)     │   - Offline processing
-└─────────────────┘
+FastAPI Layer → Resume Generator → AI Client (Ollama) → Local LLM
 ```
 
 #### 🔮 Future Roadmap
-- **Multi-Agent Architecture**: Specialized agents for rewriting, skill matching, job fit analysis
-- **Cloud AI Integration**: OpenAI, Gemini, Claude, Groq, DeepSeek API
-- **RAG Implementation**: Document retrieval for context-aware optimization
-- **Next.js Frontend**: Real-time streaming UI, model selection, file upload
-- **Advanced Tools**: Cover letters, skill-gap analysis, keyword matching, PDF export
+- Multi-Agent Architecture with specialized agents
+- Cloud AI Integration (OpenAI, Gemini, Claude)
+- RAG Implementation for context-aware optimization
+- Next.js Frontend with real-time streaming UI
+- Cover letters, skill-gap analysis, PDF export
 
-#### 🛠️ Tech Stack
-**Backend:** FastAPI, Python  
-**AI Engine:** Ollama (LLaMA 3.2, Phi-3, DeepSeek)  
-**Architecture:** Service-oriented, modular AI client layer  
-**API Design:** RESTful with form-data support
+#### 🛠️ Built With
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Ollama](https://img.shields.io/badge/-Ollama-000000?style=flat-square)
 
-#### 💡 Innovation Highlights
-- Zero-dependency on external APIs (runs 100% locally)
-- NDJSON streaming for progressive output
-- Modular design ready for multi-agent expansion
-- Environment-based configuration (`.env`)
-- API key authentication for production use
+<p align="center">
+  <a href="https://github.com/mohammadumar-dev/resume-agent">
+    <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
 
 </details>
 
 <details>
-<summary><b>🏢 Carventory Multi-Tenant</b></summary>
-<br>
+<summary><b>🏢 Carventory Multi-Tenant</b> <i>(Click to expand)</i></summary>
+<br/>
 
-**Enterprise vehicle inventory management system**
+### 🎯 Enterprise Vehicle Inventory System
 
-- 🏗️ **Multi-tenant architecture** with complete data isolation
-- 🔐 **Role-based access control** (RBAC)
-- 🐳 **Containerized deployment** with Docker
-- 📊 **RESTful API** design with Swagger documentation
-- 🔄 **Microservices-ready** architecture
-- 💾 **PostgreSQL** database with optimized queries
+**Multi-tenant architecture with complete data isolation**
 
-**Tech:** Java, Spring Boot, Docker, PostgreSQL, REST APIs
+#### 🔥 Key Features
+- 🏗️ **Multi-Tenant Architecture** - Complete data isolation
+- 🔐 **Role-Based Access Control** - Granular permissions
+- 🐳 **Containerized Deployment** - Docker-ready
+- 📊 **RESTful API Design** - Swagger documentation
+- 🔄 **Microservices-Ready** - Scalable architecture
+- 💾 **Optimized PostgreSQL** - Performance-tuned queries
+
+#### 🛠️ Built With
+![Java](https://img.shields.io/badge/-Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/-Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+
+<p align="center">
+  <a href="https://github.com/mohammadumar-dev/Carventory-Multi-Teanant">
+    <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
 
 </details>
 
 <details>
-<summary><b>🔐 SecureVault</b></summary>
-<br>
+<summary><b>🔐 SecureVault — Zero-Knowledge Encrypted Vault</b> <i>(Click to expand)</i></summary>
+<br/>
 
-**Zero-knowledge encrypted vault for web workflows**
+### 🎯 Privacy-First Data Vault
 
-- 🛡️ **Client-side encryption** - Never trust the server
-- 🔑 **Zero-knowledge architecture** - Server can't read your data
-- 🌐 **Browser-based** - No backend required
+**Client-side encryption for sensitive web workflows**
+
+#### 🔥 Key Features
+- 🛡️ **Client-Side Encryption** - Never trust the server
+- 🔑 **Zero-Knowledge Architecture** - Server can't read your data
+- 🌐 **Browser-Based** - No backend required
 - 🎨 **Modern UI** - Built with TypeScript
-- 🔒 **Privacy-first** - Local storage only
+- 🔒 **Privacy-First** - Local storage only
 
-**Tech:** TypeScript, JavaScript, CSS, Web Crypto API
+#### 🛠️ Built With
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Web Crypto](https://img.shields.io/badge/-Web_Crypto_API-646CFF?style=flat-square)
+
+<p align="center">
+  <a href="https://github.com/mohammadumar-dev/SecureVault">
+    <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
 
 </details>
 
----
-
-## 💭 Engineering Philosophy
-
-<table>
-<tr>
-<td width="33%" align="center">
-
-**🎯 Full-Stack Thinking**
-
-Design holistic systems where frontend and backend work in harmony
-
-</td>
-<td width="33%" align="center">
-
-**🤖 AI-First Development**
-
-Integrate intelligent automation from the ground up
-
-</td>
-<td width="33%" align="center">
-
-**🔒 Security by Design**
-
-Privacy and security as non-negotiable foundations
-
-</td>
-</tr>
-<tr>
-<td width="33%" align="center">
-
-**⚡ Type Safety Everywhere**
-
-TypeScript for frontends, strong typing for backends
-
-</td>
-<td width="33%" align="center">
-
-**🧩 Pragmatic Architecture**
-
-Solve real problems without unnecessary complexity
-
-</td>
-<td width="33%" align="center">
-
-**👤 User-Centric UX**
-
-Beautiful interfaces that users actually want to use
-
-</td>
-</tr>
-<tr>
-<td width="33%" align="center">
-
-**📚 Continuous Learning**
-
-Always exploring cutting-edge tech and patterns
-
-</td>
-<td width="33%" align="center">
-
-**🌐 Local-First Privacy**
-
-Process sensitive data on-device whenever possible
-
-</td>
-<td width="33%" align="center">
-
-**🔄 Modular Design**
-
-Build systems that scale and adapt over time
-
-</td>
-</tr>
-</table>
-
----
-
-## 📊 GitHub Stats
-
-<!-- Primary Overview Card -->
 <div align="center">
 
-<img
-  src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=mohammadumar-dev&theme=tokyonight"
-  alt="GitHub Profile Overview"
-  width="90%"
-/>
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
-</div>
+## <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30px"> GitHub Analytics
 
-<br/>
+<!-- GitHub Stats Cards -->
+<p>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=mohammadumar-dev&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=true&bg_color=0d1117"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=mohammadumar-dev&layout=compact&langs_count=8&theme=tokyonight&hide_border=true&bg_color=0d1117"/>
+</p>
 
-<!-- Language Distribution Cards -->
-<div align="center">
+<!-- Contribution Graph -->
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=mohammadumar-dev&custom_title=Contribution%20Graph&bg_color=0d1117&color=6366f1&line=8b5cf6&point=ffffff&area_color=8b5cf6&area=true&hide_border=true" width="100%"/>
 
+<!-- Streak Stats -->
+<img src="https://github-readme-streak-stats.herokuapp.com?user=mohammadumar-dev&theme=tokyonight&hide_border=true&background=0D1117&ring=6366F1&fire=8B5CF6&currStreakLabel=8B5CF6" width="100%"/>
+
+<!-- Trophy -->
+<img src="https://github-profile-trophy.vercel.app/?username=mohammadumar-dev&theme=tokyonight&no-frame=true&no-bg=true&row=1&column=7" width="100%"/>
+
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
+
+## <img src="https://media.giphy.com/media/LnQjpWaON8nhr21vNW/giphy.gif" width="30px"> Let's Connect & Collaborate
+
+<!-- Connection Cards -->
 <table>
   <tr>
-    <td align="center" width="33%">
-      <img
-        src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=mohammadumar-dev&theme=tokyonight"
-        alt="Repositories Per Language"
-      />
+    <td align="center" width="50%">
+      <h3>💬 Get in Touch</h3>
+      <p>
+        <a href="mailto:mohammadumar.dev@gmail.com">
+          <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
+        </a>
+        <a href="https://linkedin.com/in/shaikh-mohammad-umar">
+          <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
+        </a>
+      </p>
     </td>
-    <td align="center" width="33%">
-      <img
-        src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=mohammadumar-dev&theme=tokyonight&utcOffset=5"
-        alt="Productive Time"
-      />
-    </td>
-    <td align="center" width="33%">
-      <img
-        src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=mohammadumar-dev&theme=tokyonight"
-        alt="Most Commit Language"
-      />
+    <td align="center" width="50%">
+      <h3>🌐 Explore My Work</h3>
+      <p>
+        <a href="https://mohammadumar-dev.netlify.app">
+          <img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+        </a>
+        <a href="https://github.com/mohammadumar-dev">
+          <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+        </a>
+      </p>
     </td>
   </tr>
 </table>
 
-</div>
-
-<br/>
-
-<!-- Contribution Streak -->
-<div align="center">
-
-<img
-  src="https://github-readme-streak-stats.herokuapp.com?user=mohammadumar-dev&theme=tokyonight&hide_border=true"
-  alt="GitHub Contribution Streak"
-/>
-
-</div>
-
----
-
-## 🎯 Current Focus & Expertise
-
-> A living snapshot of the technologies, architectures, and problem spaces I am actively building and exploring.
-
-<div align="left">
-
-```ts
-/**
- * Current technical focus areas
- * Updated as skills and interests evolve
- */
-const currentFocus = {
-  aiIntegration: {
-    multiAgentSystems: "Collaborative AI agent workflows & orchestration",
-    rag: "Retrieval-Augmented Generation for context-aware applications",
-    localLLMs: "Privacy-first local LLMs using Ollama",
-    cloudAI: "OpenAI, Gemini, Claude API integration & routing"
-  },
-
-  webDevelopment: {
-    frontend: "Next.js 15, React 19, TypeScript",
-    backend: "Spring Boot microservices, FastAPI for AI services",
-    databases: "PostgreSQL, MongoDB, Supabase",
-    deployment: "Docker, AWS, Vercel, Render"
-  },
-
-  specializations: [
-    "Browser UX innovation & Chrome extensions",
-    "Multi-tenant SaaS architectures",
-    "Zero-knowledge & security-first design patterns",
-    "Prompt engineering & model interoperability",
-    "WebGL, modern CSS, and animation systems"
-  ],
-
-  exploring: {
-    aiSystems: "RAG pipelines, vector databases, agentic workflows",
-    frontend: "Shadcn UI v2, Next.js App Router patterns",
-    backend: "Event-driven systems, CQRS, async messaging"
-  }
-};
-
-```
-
-</div>
-
----
-
-## 🏆 Key Strengths
-
-<div align="center">
-
-| 🎨 Frontend | ⚙️ Backend | 🤖 AI/ML | 🔐 Security |
-|------------|-----------|---------|------------|
-| React/Next.js | Spring Boot | Multi-Agent Systems | Zero-Knowledge |
-| TypeScript | FastAPI | RAG Pipelines | OAuth/JWT |
-| Tailwind CSS | RESTful APIs | Ollama/OpenAI | Encryption |
-| Chrome Extensions | Microservices | Prompt Engineering | Privacy-First |
-| WebGL/Animations | Multi-Tenant | Model Integration | OWASP Top 10 |
-
-</div>
-
----
-
-## 📫 Let's Connect
-
-<div align="center">
-
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohammadumar-dev)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/shaikh-mohammad-umar)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mohammadumar.dev@gmail.com)
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mohammadumar-dev.netlify.app)
-
-</div>
-
-### 🤝 Open to Collaboration On
-
-<div align="left">
-  
-```yaml
-interests:
-  - AI-powered full-stack applications
-  - Multi-agent systems & RAG pipelines
-  - Cybersecurity, privacy-first tools & secure architectures
-  - Browser extensions & developer productivity tools
-  - Enterprise Java backends & microservices
-  - Security-focused utilities & zero-trust patterns
-  - Open-source TypeScript & React ecosystems
-```
-
-</div>
-
----
-
-<div align="center">
-
-### 💡 "Building intelligent systems that respect user privacy and deliver exceptional experiences"
-
-![Profile Views](https://komarev.com/ghpvc/?username=mohammadumar-dev&color=blueviolet&style=for-the-badge)
-![GitHub Followers](https://img.shields.io/github/followers/mohammadumar-dev?style=for-the-badge&color=blue)
-![GitHub Stars](https://img.shields.io/github/stars/mohammadumar-dev?style=for-the-badge&color=yellow)
-
----
-
-### 📌 Featured Repositories
+### 🤝 Open to Collaborate On
 
 <table>
   <tr>
-    <td width="50%" valign="top">
-
-#### 🧩 DWUI – New Tab Experience
-**A modern, customizable browser new-tab UI focused on productivity and aesthetics.**
-
-- ⚡ Custom Chrome New Tab
-- 🎨 Modern UI / UX patterns
-- 🧠 Performance-focused frontend
-
-[![Repo](https://img.shields.io/badge/View_Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohammadumar-dev/dwui-new-tab)
-
-</td>
-<td width="50%" valign="top">
-
-#### 🤖 Resume Agent
-**An AI-powered resume analysis and optimization agent.**
-
-- 🧠 LLM-driven evaluation
-- 📄 Resume parsing & insights
-- 🔐 Privacy-aware AI workflows
-
-[![Repo](https://img.shields.io/badge/View_Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohammadumar-dev/resume-agent)
-
-</td>
+    <td>🤖 AI-Powered Full-Stack Applications</td>
+    <td>🔐 Privacy-First & Security Tools</td>
+  </tr>
+  <tr>
+    <td>🧩 Browser Extensions & Dev Tools</td>
+    <td>☁️ Enterprise Microservices</td>
+  </tr>
+  <tr>
+    <td>🎨 Modern Web Experiences</td>
+    <td>🌐 Open-Source TypeScript Projects</td>
   </tr>
 </table>
 
+<!-- Quote -->
+<br/>
+
+### 💡 Philosophy
+
+<img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight&quote=Building%20intelligent%20systems%20that%20respect%20user%20privacy%20and%20deliver%20exceptional%20experiences&author=Mohammad%20Umar" width="100%"/>
+
+<!-- Footer Wave -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer" width="100%"/>
+
 ---
 
-
-⭐️ **If you find my work interesting, consider following or starring the repositories!**
-
-<sub>Last updated: December 2025 • Made with ❤️ and lots of ☕</sub>
+<sub>⭐ If you find my work interesting, consider starring my repositories!</sub>
+<br/>
+<sub>Made with ❤️ and lots of ☕ • Last updated: December 2025</sub>
 
 </div>

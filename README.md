@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Animated Header -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Mohammad%20Umar&fontSize=42&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Software%20Engineer%20%7C%20AI%20Integration%&descAlignY=51&descAlign=50" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=180&section=header&text=Mohammad%20Umar&fontSize=42&fontColor=fff&animation=twinkling&fontAlignY=32&desc=Software%20Engineer%20%7C%20AI%20Integration&descAlignY=51&descAlign=50" width="100%"/>
 
 <!-- Typing Animation -->
 <a href="https://git.io/typing-svg">
@@ -47,7 +47,7 @@
 
 ```typescript
 const mohammadumar = {
-    role: "Full-Stack Engineer & AI Integration Specialist",
+    role: "Software Engineer & AI Integration ",
     location: "Pune, Maharashtra, IN",
     
     expertise: {
@@ -215,39 +215,52 @@ const mohammadumar = {
 </details>
 
 <details>
-<summary><b>🤖 Resume-Agent — AI Resume Optimizer</b> <i>(Click to expand)</i></summary>
+<summary><b>🤖 ResumeAgent — AI-Driven Resume Optimization Platform</b> <i>(Click to expand)</i></summary>
 <br/>
 
-### 🎯 Local-First AI Resume Optimization
+### 🎯 Production-Grade AI Resume Optimizer
 
-**Privacy-focused resume optimizer powered by local LLMs**
+**Full-stack web application transforming master resumes into ATS-optimized, job-specific versions**
 
-#### 🔥 Core Capabilities
-- 🔒 **Privacy-First** - All processing stays on your machine
-- 🤖 **Multi-Model Support** - LLaMA 3.2, Phi-3, DeepSeek-R1
-- 📄 **ATS Optimization** - Single-page, clean formatting
-- ⚡ **Streaming Responses** - Real-time NDJSON processing
-- 🎨 **Role Tailoring** - Customized for target jobs
+#### 🔥 Core Features
+- 🧠 **Multi-Agent AI Architecture** - Specialized agents for parsing, matching, rewriting, and optimization
+- 📄 **ATS-Compliant Output** - Professional DOCX resumes with editable templates
+- 🎯 **Job-Specific Tailoring** - Keyword alignment and role-based customization
+- 🔒 **Factual Accuracy** - Zero hallucinations, maintains all original information
+- 💰 **Cost-Efficient AI** - Optimized token usage with structured JSON outputs
 
 #### 🏗️ Architecture
 ```
-FastAPI Layer → Resume Generator → AI Client (Ollama) → Local LLM
+Next.js Frontend → Spring Boot API → Multi-Agent Pipeline → Template Engine → DOCX
+                                    ↓
+                              OpenRouter (OpenAI, Gemini, Claude)
+                                    ↓
+                              PostgreSQL + FlywayDB
 ```
 
-#### 🔮 Future Roadmap
-- Multi-Agent Architecture with specialized agents
-- Cloud AI Integration (OpenAI, Gemini, Claude)
-- RAG Implementation for context-aware optimization
-- Next.js Frontend with real-time streaming UI
-- Cover letters, skill-gap analysis, PDF export
+#### 🎨 Key Components
+- **Resume Parser Agent** - Extracts structured data from master resume
+- **Job Analyzer Agent** - Identifies requirements and keywords
+- **Matching Agent** - AI-powered semantic alignment
+- **Rewrite Agent** - Role-specific content optimization
+- **ATS Optimizer Agent** - Ensures parsing compatibility
+
+#### 🔮 Features
+- Multi-tenant user management with JWT authentication
+- Resume versioning and audit trails
+- Subscription-based usage limits (5 free generations/month)
+- Professional PDF invoice generation
+- Email notifications and verification
 
 #### 🛠️ Built With
-![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
-![Ollama](https://img.shields.io/badge/-Ollama-000000?style=flat-square)
+![Java](https://img.shields.io/badge/-Java_21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/-Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![Next.js](https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 
 <p align="center">
-  <a href="https://github.com/mohammadumar-dev/resume-agent">
+  <a href="https://github.com/mohammadumar-dev/resumeagent">
     <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
   </a>
 </p>
@@ -255,29 +268,50 @@ FastAPI Layer → Resume Generator → AI Client (Ollama) → Local LLM
 </details>
 
 <details>
-<summary><b>🏢 Carventory Multi-Tenant</b> <i>(Click to expand)</i></summary>
+<summary><b>🚗 Carventory — Automobile Inventory Management Platform</b> <i>(Click to expand)</i></summary>
 <br/>
 
-### 🎯 Enterprise Vehicle Inventory System
+### 🎯 Professional Dealership Management Solution
 
-**Multi-tenant architecture with complete data isolation**
+**Comprehensive full-stack platform streamlining car sales, inventory, and financial analytics**
 
-#### 🔥 Key Features
-- 🏗️ **Multi-Tenant Architecture** - Complete data isolation
-- 🔐 **Role-Based Access Control** - Granular permissions
-- 🐳 **Containerized Deployment** - Docker-ready
-- 📊 **RESTful API Design** - Swagger documentation
-- 🔄 **Microservices-Ready** - Scalable architecture
-- 💾 **Optimized PostgreSQL** - Performance-tuned queries
+#### 🔥 Core Features
+- 🚙 **Comprehensive Inventory Management** - Up to 15 images per vehicle, documents, maintenance history
+- 📊 **Financial Analytics Dashboard** - Real-time profit/loss, sales trends, inventory status
+- 🏢 **Multi-Dealership Support** - Independent branding and data isolation
+- 👥 **User & Access Management** - Role-based permissions (Admin, Staff, Sales)
+- 💼 **Customer Inquiry System** - Budget matching and automated suggestions
+- 📋 **Booking & Sales Pipeline** - Advance payments, invoice generation
+- 🌐 **Public Marketplace** - Customer-facing portal with advanced filtering
+- 🎨 **Modern UI/UX** - Dark/light themes, responsive design, Chart.js analytics
+
+#### 🏗️ Monorepo Architecture
+```
+Backend (Spring Boot) ←→ Dashboard (React + TS) ←→ Marketplace (Next.js)
+         ↓                                              ↓
+   PostgreSQL                                    Public Customers
+         ↓
+   Cloudinary (Media Storage)
+```
+
+#### 💡 Key Capabilities
+- Soft delete for historical data preservation
+- Professional PDF invoice generation (OpenPDF)
+- Cloudinary integration for media management
+- Email notifications with Spring Mail
+- Scheduled tasks for automated maintenance
+- Caffeine caching for performance optimization
 
 #### 🛠️ Built With
-![Java](https://img.shields.io/badge/-Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/-Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
-![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Java](https://img.shields.io/badge/-Java_21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/-Spring_Boot_3.4-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![React](https://img.shields.io/badge/-React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Next.js](https://img.shields.io/badge/-Next.js_15-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
 
 <p align="center">
-  <a href="https://github.com/mohammadumar-dev/Carventory-Multi-Teanant">
+  <a href="https://github.com/mohammadumar-dev/carventory">
     <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
   </a>
 </p>
@@ -285,12 +319,116 @@ FastAPI Layer → Resume Generator → AI Client (Ollama) → Local LLM
 </details>
 
 <details>
-<summary><b>🔐 SecureVault — Zero-Knowledge Encrypted Vault</b> <i>(Click to expand)</i></summary>
+<summary><b>🏥 PathLab — Pathology Laboratory Management System</b> <i>(Click to expand)</i></summary>
 <br/>
 
+### 🎯 Enterprise-Grade Laboratory Information System
+
+**End-to-end workflow automation for pathology laboratories**
+
+#### 🔥 Core Features
+- 👥 **Patient Portal** - Online booking, digital reports, payment tracking
+- 🔬 **Sample Lifecycle Management** - Multi-status tracking from collection to disposal
+- 📊 **Test Results Recording** - Parametric data entry with quality control
+- 📄 **PDF Report Generation** - Freemarker templates with customizable layouts
+- 💰 **Payment Processing** - Invoice generation and transaction history
+- 📈 **Admin Dashboard** - Business analytics, user management, audit trails
+- 🔐 **Security** - JWT authentication, role-based access (Admin, Lab Tech, Doctor, Patient)
+- 📧 **Notifications** - Email alerts for verification, results, and appointments
+
+#### 🏗️ Architecture
+```
+React Frontend (TypeScript + Vite) ←→ Spring Boot Backend
+                                              ↓
+                                        PostgreSQL
+                                              ↓
+                                   Cloudinary + Email Service
+```
+
+#### 💡 Key Capabilities
+- Multi-status sample tracking workflow
+- Barcode generation for sample identification
+- Comprehensive test catalog with parameters
+- Real-time booking trends and analytics
+- Flyway database migrations
+- Caffeine caching for performance
+- OpenHTML2PDF for report generation
+
+#### 🛠️ Built With
+![Java](https://img.shields.io/badge/-Java_21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/-Spring_Boot_3.5-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![React](https://img.shields.io/badge/-React_18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+![Radix UI](https://img.shields.io/badge/-Radix_UI-000000?style=flat-square&logo=radix-ui&logoColor=white)
+
+<p align="center">
+  <a href="https://github.com/mohammadumar-dev/pathlab">
+    <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
+
+</details>
+
+<details>
+<summary><b>🔐 Passkeys CLI — Secure Password Manager</b> <i>(Click to expand)</i></summary>
+<br/>
+
+### 🎯 Production-Ready Terminal Password Manager
+
+**Encrypted password vault with cryptographically secure storage**
+
+#### 🔥 Core Features
+- 🔐 **AES-GCM Encryption** - Military-grade encryption for all secrets
+- 🔑 **Scrypt Key Derivation** - Secure key generation (n=2^14, r=8, p=1)
+- 🛡️ **Argon2 Master Password** - Industry-standard password hashing
+- ✅ **Input Validation** - Comprehensive validation for all user inputs
+- 🎨 **Enhanced CLI** - Colorized terminal interface with formatted tables
+- 🎲 **Password Generator** - Cryptographically secure random passwords
+- 🔒 **Zero Trust Architecture** - Client-side encryption, server never sees plaintext
+
+#### 🏗️ Architecture
+```
+CLI Interface → Auth Module → Crypto Layer → PostgreSQL
+                                  ↓
+                          AES-GCM + Argon2
+```
+
+#### 💡 Key Capabilities
+- Master password with confirmation
+- Service-username-password vault storage
+- Transaction management with rollback
+- UUID-based entry identification
+- Password history and updates
+- Secure deletion with confirmations
+
+#### 🔒 Security Features
+- Input sanitization and validation
+- Secure random password generation
+- Database transaction integrity
+- Clear error messages without leaking sensitive info
+- Password confirmation for critical operations
+
+#### 🛠️ Built With
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+![Cryptography](https://img.shields.io/badge/-Cryptography-000000?style=flat-square&logo=letsencrypt&logoColor=white)
+
+<p align="center">
+  <a href="https://github.com/mohammadumar-dev/passkeys-cli">
+    <img src="https://img.shields.io/badge/View-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
+
+</details>
+
+<details>
+<summary><b>🔐 Secure Passkeys - Secure Password Manager</b> <i>(Click to expand)</i></summary>
+<br/>
+  
 ### 🎯 Privacy-First Data Vault
 
-**Client-side encryption for sensitive web workflows**
+**Browser-based zero-knowledge encryption for sensitive web workflows**
 
 #### 🔥 Key Features
 - 🛡️ **Client-Side Encryption** - Never trust the server
@@ -302,7 +440,7 @@ FastAPI Layer → Resume Generator → AI Client (Ollama) → Local LLM
 #### 🛠️ Built With
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Web Crypto](https://img.shields.io/badge/-Web_Crypto_API-646CFF?style=flat-square)
+![Web Crypto API](https://img.shields.io/badge/-Web_Crypto_API-646CFF?style=flat-square)
 
 <p align="center">
   <a href="https://github.com/mohammadumar-dev/SecureVault">
@@ -311,7 +449,6 @@ FastAPI Layer → Resume Generator → AI Client (Ollama) → Local LLM
 </p>
 
 </details>
-
 <div align="center">
 
 <!-- Animated Divider -->

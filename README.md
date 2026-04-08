@@ -19,50 +19,44 @@ Building scalable web applications and API-driven systems with Java, Spring Boot
 ### Stack
 
 <table>
-<tr>
-<td valign="top" width="50%">
-
-**Languages**
-
-![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat&logo=postgresql&logoColor=white)
-
-**Backend**
-
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=spring-boot&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
-
-**AI / ML**
-
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=flat&logo=langchain&logoColor=white)
-
-</td>
-<td valign="top" width="50%">
-
-**Frontend**
-
-![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
-
-**Database**
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
-
-**Tools**
-
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-web-services&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
-
-</td>
-</tr>
+  <tr>
+    <td align="center" width="96"><sub><b>Languages</b></sub></td>
+    <td>
+      <img src="https://skillicons.dev/icons?i=java,ts,python,cpp&theme=dark" height="36"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="96"><sub><b>Backend</b></sub></td>
+    <td>
+      <img src="https://skillicons.dev/icons?i=spring,nodejs,fastapi,express&theme=dark" height="36"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="96"><sub><b>Frontend</b></sub></td>
+    <td>
+      <img src="https://skillicons.dev/icons?i=react,nextjs,tailwind,vite&theme=dark" height="36"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="96"><sub><b>Database</b></sub></td>
+    <td>
+      <img src="https://skillicons.dev/icons?i=postgres,mongodb&theme=dark" height="36"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="96"><sub><b>AI / ML</b></sub></td>
+    <td>
+      <img src="https://skillicons.dev/icons?i=openai&theme=dark" height="36"/>
+      &nbsp;<img src="https://img.shields.io/badge/LangChain-1C3C3C?style=flat-square&logo=langchain&logoColor=white&labelColor=1C3C3C" height="36"/>
+      &nbsp;<img src="https://img.shields.io/badge/Ollama-000000?style=flat-square&logoColor=white" height="36"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="96"><sub><b>Tools</b></sub></td>
+    <td>
+      <img src="https://skillicons.dev/icons?i=docker,aws,git,linux,postman&theme=dark" height="36"/>
+    </td>
+  </tr>
 </table>
 
 ---

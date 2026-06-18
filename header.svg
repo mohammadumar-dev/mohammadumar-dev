@@ -1,0 +1,65 @@
+<svg width="860" height="130" viewBox="0 0 860 130" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="topLine" x1="0" y1="0" x2="860" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#6366f1" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#6366f1"/>
+      <stop offset="50%"  stop-color="#a78bfa"/>
+      <stop offset="80%"  stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="nameGrad" x1="180" y1="0" x2="680" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#e2e8f0"/>
+      <stop offset="45%"  stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="40%">
+      <stop offset="0%"   stop-color="#6366f1" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" x="10" y="10" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="0" cy="0" r="0.7" fill="#161b22"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="130" fill="#0d1117" rx="6"/>
+  <!-- Border -->
+  <rect x="0.5" y="0.5" width="859" height="129" rx="5.5" stroke="#21262d" stroke-width="1" fill="none"/>
+  <!-- Dot texture -->
+  <rect width="860" height="130" fill="url(#dots)"/>
+  <!-- Ambient glow -->
+  <ellipse cx="430" cy="62" rx="340" ry="70" fill="url(#glow)"/>
+  <!-- Top accent line -->
+  <rect width="860" height="2.5" fill="url(#topLine)" rx="1.25"/>
+
+  <!-- Name -->
+  <text
+    x="430" y="61"
+    text-anchor="middle"
+    font-family="'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+    font-size="30"
+    font-weight="700"
+    fill="url(#nameGrad)"
+    letter-spacing="0.5">
+    Mohammad Umar Shaikh
+  </text>
+
+  <!-- Title + Location -->
+  <text
+    x="430" y="87"
+    text-anchor="middle"
+    font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+    font-size="11"
+    font-weight="400"
+    fill="#484f58"
+    letter-spacing="5">
+    SOFTWARE DEVELOPER  ·  PUNE, INDIA
+  </text>
+
+  <!-- Accent dots -->
+  <circle cx="408" cy="110" r="1.5" fill="#30363d"/>
+  <circle cx="419" cy="110" r="1.5" fill="#6366f1" opacity="0.45"/>
+  <circle cx="430" cy="110" r="2.2"  fill="#a78bfa" opacity="0.65"/>
+  <circle cx="441" cy="110" r="1.5" fill="#22d3ee"  opacity="0.45"/>
+  <circle cx="452" cy="110" r="1.5" fill="#30363d"/>
+</svg>

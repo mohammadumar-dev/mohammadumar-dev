@@ -3,7 +3,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.svg">
-  <img alt="Mohammad Umar Shaikh — backend engineer. Java and Spring Boot systems that stay up under load, plus production LLM tooling." src="assets/hero-dark.svg" width="100%">
+  <img alt="Mohammad Umar Shaikh — software engineer. Java and Spring Boot systems that stay up under load, plus production LLM tooling." src="assets/hero-dark.svg" width="100%">
 </picture>
 
 <br><br>

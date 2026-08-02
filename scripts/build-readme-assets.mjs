@@ -21,6 +21,7 @@ import { dirname, join } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { tmpdir } from 'node:os';
+import { createHash } from 'node:crypto';
 
 const run = promisify(execFile);
 
@@ -28,6 +29,7 @@ const LOGIN = 'mohammadumar-dev';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ASSETS = join(ROOT, 'assets');
 const FONTS = join(ASSETS, 'fonts');
+const README = join(ROOT, 'README.md');
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 
 const nf = new Intl.NumberFormat('en-US');
@@ -36,7 +38,7 @@ const nf = new Intl.NumberFormat('en-US');
 // The only prose on the profile. Everything else on the page is a number.
 
 const NAME = ['Mohammad', 'Umar Shaikh'];
-const BIO = 'Backend engineer. Java and Spring Boot systems that stay up under load, plus production LLM tooling.';
+const BIO = 'Software engineer. Java and Spring Boot systems that stay up under load, plus production LLM tooling.';
 const META = ['Pune, India', 'Data Innovation Technologies', 'B.Sc. CS 2026'];
 
 const STACK = [
@@ -813,6 +815,48 @@ async function buildFaces() {
 
 const css = (faces, names) => names.map((n) => faces[n] || '').filter(Boolean).join('\n');
 
+// ------------------------------------------------------------------- readme
+/**
+ * Rewrites the README's asset references as `assets/name.svg?v=<hash>`.
+ *
+ * A committed SVG changing is not enough to make the profile show it. GitHub
+ * serves README images through a cache keyed on the URL, and that URL is
+ * identical before and after a refresh — so the panel keeps rendering yesterday's
+ * numbers until the cache happens to expire. Appending a hash of the file's own
+ * bytes gives the cache a new key at exactly the moment the panel changes, and
+ * never otherwise: a rebuild that produces identical SVGs leaves the README
+ * untouched, so this does not manufacture a commit every night.
+ */
+async function stampReadme(names) {
+  let md;
+  try {
+    md = await readFile(README, 'utf8');
+  } catch (err) {
+    console.warn(`readme: not stamped (${err.message})`);
+    return;
+  }
+
+  const versions = new Map();
+  await Promise.all(
+    [...new Set(names)].map(async (name) => {
+      const bytes = await readFile(join(ASSETS, `${name}.svg`));
+      versions.set(name, createHash('sha256').update(bytes).digest('hex').slice(0, 10));
+    }),
+  );
+
+  // Matches both a bare reference and one this script stamped on a previous run.
+  const next = md.replace(/(assets\/)([a-z0-9-]+)(\.svg)(?:\?v=[0-9a-f]+)?/g, (whole, dir, name, ext) =>
+    versions.has(name) ? `${dir}${name}${ext}?v=${versions.get(name)}` : whole,
+  );
+
+  if (next === md) {
+    console.log('readme: cache keys already current');
+    return;
+  }
+  await writeFile(README, next, 'utf8');
+  console.log(`readme: restamped ${versions.size} asset references`);
+}
+
 // -------------------------------------------------------------------- main
 
 async function main() {
@@ -857,6 +901,9 @@ async function main() {
 
   if (!contributions || !repoData) {
     console.warn('live data unavailable — keeping the committed pulse/langs panels');
+    // Stamp every panel the README points at, not just the ones rewritten this
+    // run: the untouched ones keep the hash they already have.
+    await stampReadme([...written, 'pulse-dark', 'pulse-light', 'langs-dark', 'langs-light']);
     console.log(`wrote ${written.length} panels`);
     return;
   }
@@ -885,6 +932,8 @@ async function main() {
     await writeFile(join(ASSETS, `langs-${name}.svg`), langsSVG(theme, css(faces, ['mono400']), data), 'utf8');
     written.push(`pulse-${name}`, `langs-${name}`);
   }
+
+  await stampReadme(written);
 
   console.log(
     `wrote ${written.length} panels — ${nf.format(data.contributions.total)} contributions, ` +

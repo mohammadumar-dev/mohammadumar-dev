@@ -74,9 +74,11 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          # Scoped to assets/ so a compromised render step cannot smuggle a
-          # change to scripts/ or the workflow itself into the commit.
-          git add assets
+          # Scoped so a compromised render step cannot smuggle a change to
+          # scripts/ or the workflow itself into the commit. README.md is in
+          # scope because the render restamps the ?v= cache keys on the panel
+          # URLs — without that commit the profile keeps showing stale images.
+          git add assets README.md
           if git diff --cached --quiet; then
             echo 'panels unchanged'
             exit 0

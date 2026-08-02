@@ -41,7 +41,12 @@ def parse_pins(pins):
 def main(src, out, pins):
     wanted = parse_pins(pins)
 
-    font = TTFont(src)
+    # recalcTimestamp defaults to True, which rewrites head.modified to "now" on
+    # every save. That makes the subset — and so the base64 in every panel that
+    # embeds it — different on each run even when nothing about the font or the
+    # data changed. The nightly job then commits ten identical-looking SVGs, and
+    # the README's cache keys churn along with them. Keep the source timestamp.
+    font = TTFont(src, recalcTimestamp=False)
 
     options = subset.Options()
     options.layout_features = ["kern", "liga", "calt"]

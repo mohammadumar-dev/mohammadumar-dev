@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+"""Cut a Mona Sans variable font down to one static instance of one glyph set.
+
+Panels inline their fonts as data URIs, so size is the whole game. Subsetting
+alone is not enough: Mona Sans carries three variable axes (wdth, wght, opsz)
+and the gvar deltas survive glyph subsetting — 308 KB becomes 95 KB, which is
+still far too heavy to repeat in four images. Pinning every axis afterwards
+drops fvar/gvar/avar entirely and lands around 10 KB.
+
+    subset-font.py <src.woff2> <out.woff2> wght=800,wdth=112,opsz=32
+
+Axes the source does not declare are ignored, so the same pin string works for
+both the proportional and the monospace face.
+"""
+
+import sys
+
+from fontTools import subset
+from fontTools.ttLib import TTFont
+from fontTools.varLib import instancer
+
+# Printable ASCII plus the middot, dashes and non-breaking space the panels draw.
+UNICODES = "U+0020-007E,U+00A0,U+00B7,U+2013,U+2014"
+
+
+def parse_pins(pins):
+    """wght=800,wdth=112 -> {"wght": 800.0, "wdth": 112.0}, rejecting anything else."""
+    wanted = {}
+    for pin in filter(None, pins.split(",")):
+        tag, _, raw = pin.partition("=")
+        tag = tag.strip()
+        if len(tag) != 4 or not tag.isalnum():
+            raise ValueError(f"not an axis tag: {tag!r}")
+        try:
+            wanted[tag] = float(raw)
+        except ValueError:
+            raise ValueError(f"axis {tag} has a non-numeric value: {raw!r}") from None
+    return wanted
+
+
+def main(src, out, pins):
+    wanted = parse_pins(pins)
+
+    font = TTFont(src)
+
+    options = subset.Options()
+    options.layout_features = ["kern", "liga", "calt"]
+    options.name_IDs = ["*"]
+    options.drop_tables += ["DSIG"]
+    subsetter = subset.Subsetter(options=options)
+    subsetter.populate(unicodes=subset.parse_unicodes(UNICODES))
+    subsetter.subset(font)
+
+    if "fvar" in font:
+        declared = {axis.axisTag for axis in font["fvar"].axes}
+        pinned = {tag: value for tag, value in wanted.items() if tag in declared}
+        if pinned:
+            font = instancer.instantiateVariableFont(font, pinned, inplace=True)
+
+    font.flavor = "woff2"
+    font.save(out)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        sys.exit(f"usage: {sys.argv[0]} <src.woff2> <out.woff2> <axis=value,...>")
+    main(sys.argv[1], sys.argv[2], sys.argv[3])

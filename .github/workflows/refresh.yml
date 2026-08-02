@@ -1,0 +1,86 @@
+name: Refresh profile panels
+
+on:
+  push:
+    branches: [main]
+    # Only the inputs to the render need to trigger a rebuild. Without this the
+    # bot's own commit to assets/ would re-enter the workflow.
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/refresh.yml'
+      - 'assets/fonts/**'
+  # Rebuild once a day so the calendar and counters stay current.
+  schedule:
+    - cron: '15 5 * * *'
+  workflow_dispatch:
+
+# Least privilege by default. The single job that needs to commit widens this
+# for itself; every other step runs read-only.
+permissions:
+  contents: read
+
+# The job commits, so two runs overlapping would race each other.
+concurrency:
+  group: panels
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # A fork inherits the schedule but not the profile it describes, so the run
+    # would burn minutes to render someone else's name.
+    if: github.repository == 'mohammadumar-dev/mohammadumar-dev'
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      # Actions are pinned to commit SHAs: a tag like @v4 is mutable, and this
+      # job holds a token that can write to the default branch.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Do not leave the token in .git/config. The render step talks to a
+          # third-party API, and a persisted credential is one bad dependency
+          # away from being exfiltrated. The push step supplies it explicitly.
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      # fonttools subsets Mona Sans down to the glyphs the panels draw so it can
+      # be inlined as a data URI. Without it the panels fall back to the system
+      # font stack rather than failing.
+      - name: Install fonttools
+        run: |
+          pip install --disable-pip-version-check --require-hashes \
+            --no-deps --only-binary=:all: -r scripts/requirements.txt
+
+      - name: Render panels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/build-readme-assets.mjs
+
+      - name: Commit if anything changed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Scoped to assets/ so a compromised render step cannot smuggle a
+          # change to scripts/ or the workflow itself into the commit.
+          git add assets
+          if git diff --cached --quiet; then
+            echo 'panels unchanged'
+            exit 0
+          fi
+          git commit -m 'chore: refresh profile panels [skip ci]'
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "HEAD:${GITHUB_REF_NAME}"

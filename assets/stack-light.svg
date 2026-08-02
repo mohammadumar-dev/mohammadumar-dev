@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="328" viewBox="0 0 1000 328" role="img" aria-label="Stack: Languages — Java, Go, Python, TypeScript, JavaScript, SQL; Backend — Spring Boot, Node.js, FastAPI, REST, Microservices, Hibernate; Frontend — React, Next.js, Tailwind, shadcn/ui, Angular; Data — PostgreSQL, Redis, MongoDB, Prisma, Elasticsearch, Flyway; DevOps — Docker, AWS, Linux, Nginx, Kubernetes, GitHub Actions; AI — Spring AI, Claude, OpenAI, Groq, RAG, MCP" font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
+  <title>Stack: Languages — Java, Go, Python, TypeScript, JavaScript, SQL; Backend — Spring Boot, Node.js, FastAPI, REST, Microservices, Hibernate; Frontend — React, Next.js, Tailwind, shadcn/ui, Angular; Data — PostgreSQL, Redis, MongoDB, Prisma, Elasticsearch, Flyway; DevOps — Docker, AWS, Linux, Nginx, Kubernetes, GitHub Actions; AI — Spring AI, Claude, OpenAI, Groq, RAG, MCP</title>
+  <defs>
+    <linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f6f8fa"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="rgba(31,35,40,.05)" stop-opacity="0"/>
+      <stop offset=".5" stop-color="rgba(31,35,40,.05)"/>
+      <stop offset="1" stop-color="rgba(31,35,40,.05)" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d1d9e0"/>
+      <stop offset="1" stop-color="#d1d9e0" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="bloom0">
+      <stop offset="0" stop-color="#54aeff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#54aeff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bloom1">
+      <stop offset="0" stop-color="#c297ff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#c297ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bloom2">
+      <stop offset="0" stop-color="#ff9bce" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#ff9bce" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="pane"><rect x="1" y="1" width="998" height="326" rx="20"/></clipPath>
+  </defs>
+  <style>
+    @font-face{font-family:'Mona Sans Mono';font-weight:400;font-style:normal;font-display:block;src:url(data:font/woff2;base64,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) format('woff2')}
+    text{white-space:pre}
+    .sweep{animation:sweep 9s ease-in-out infinite}
+    @keyframes sweep{
+      0%,100%{transform:translateX(0);opacity:0}
+      45%{opacity:1}
+      100%{transform:translateX(1600px)}
+    }
+    .cell{transform-box:fill-box;transform-origin:center}
+    .live .cell{animation:cell-in .5s cubic-bezier(.22,.8,.3,1) both}
+    @keyframes cell-in{from{opacity:0;transform:scale(.35) translateY(4px)}to{opacity:1;transform:none}}
+    .bar{transform-box:fill-box;transform-origin:left center;animation:bar-in .9s cubic-bezier(.22,.8,.3,1) both}
+    @keyframes bar-in{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    @media (prefers-reduced-motion:reduce){
+      .sweep{animation:none;opacity:0}
+      .live .cell,.bar{animation:none}
+    }
+  </style>
+  <rect x="1" y="1" width="998" height="326" rx="20" fill="url(#surface)"/>
+  <g clip-path="url(#pane)">
+    <ellipse cx="140" cy="33" rx="420" ry="260" fill="url(#bloom0)"/><ellipse cx="780" cy="203" rx="360" ry="223" fill="url(#bloom1)"/><ellipse cx="450" cy="344" rx="340" ry="211" fill="url(#bloom2)"/>
+    <rect class="sweep" x="-500" y="0" width="500" height="328" fill="url(#sweep)"/>
+  </g>
+  <rect x="1.5" y="1.5" width="997" height="325" rx="19.5" fill="none" stroke="rgba(31,35,40,.14)"/>
+  <path d="M 20 2 H 980" stroke="rgba(255,255,255,.9)" stroke-width="1" fill="none" opacity=".5"/>
+  <text x="40" y="48" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.5" fill="#818b98">STACK</text>
+  <rect x="40" y="60" width="920" height="1" fill="url(#rule)"/>
+  <text x="40" y="81" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.2" fill="#818b98">LANGUAGES</text>
+  <rect x="148.0" y="65" width="50.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="173.4" y="81" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Java</text>
+  <rect x="206.8" y="65" width="36.4" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="225.0" y="81" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Go</text>
+  <rect x="251.2" y="65" width="65.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="283.8" y="81" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Python</text>
+  <rect x="324.4" y="65" width="94.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="371.4" y="81" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">TypeScript</text>
+  <rect x="426.4" y="65" width="94.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="473.4" y="81" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">JavaScript</text>
+  <rect x="528.4" y="65" width="43.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="550.2" y="81" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">SQL</text>
+  <text x="40" y="123" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.2" fill="#818b98">BACKEND</text>
+  <rect x="148.0" y="107" width="101.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="198.6" y="123" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Spring Boot</text>
+  <rect x="257.2" y="107" width="72.4" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="293.4" y="123" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Node.js</text>
+  <rect x="337.6" y="107" width="72.4" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="373.8" y="123" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">FastAPI</text>
+  <rect x="418.0" y="107" width="50.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="443.4" y="123" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">REST</text>
+  <rect x="476.8" y="107" width="115.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="534.6" y="123" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Microservices</text>
+  <rect x="600.4" y="107" width="86.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="643.8" y="123" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Hibernate</text>
+  <text x="40" y="165" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.2" fill="#818b98">FRONTEND</text>
+  <rect x="148.0" y="149" width="58.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="177.0" y="165" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">React</text>
+  <rect x="214.0" y="149" width="72.4" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="250.2" y="165" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Next.js</text>
+  <rect x="294.4" y="149" width="79.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="334.2" y="165" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Tailwind</text>
+  <rect x="382.0" y="149" width="86.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="425.4" y="165" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">shadcn/ui</text>
+  <rect x="476.8" y="149" width="72.4" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="513.0" y="165" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Angular</text>
+  <text x="40" y="207" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.2" fill="#818b98">DATA</text>
+  <rect x="148.0" y="191" width="94.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="195.0" y="207" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">PostgreSQL</text>
+  <rect x="250.0" y="191" width="58.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="279.0" y="207" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Redis</text>
+  <rect x="316.0" y="191" width="72.4" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="352.2" y="207" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">MongoDB</text>
+  <rect x="396.4" y="191" width="65.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="429.0" y="207" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Prisma</text>
+  <rect x="469.6" y="191" width="115.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="527.4" y="207" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Elasticsearch</text>
+  <rect x="593.2" y="191" width="65.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="625.8" y="207" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Flyway</text>
+  <text x="40" y="249" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.2" fill="#818b98">DEVOPS</text>
+  <rect x="148.0" y="233" width="65.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="180.6" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Docker</text>
+  <rect x="221.2" y="233" width="43.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="243.0" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">AWS</text>
+  <rect x="272.8" y="233" width="58.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="301.8" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Linux</text>
+  <rect x="338.8" y="233" width="58.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="367.8" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Nginx</text>
+  <rect x="404.8" y="233" width="94.0" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="451.8" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Kubernetes</text>
+  <rect x="506.8" y="233" width="122.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="568.2" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">GitHub Actions</text>
+  <text x="40" y="291" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.2" fill="#818b98">AI</text>
+  <rect x="148.0" y="275" width="86.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="191.4" y="291" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Spring AI</text>
+  <rect x="242.8" y="275" width="65.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="275.4" y="291" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Claude</text>
+  <rect x="316.0" y="275" width="65.2" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="348.6" y="291" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">OpenAI</text>
+  <rect x="389.2" y="275" width="50.8" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="414.6" y="291" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">Groq</text>
+  <rect x="448.0" y="275" width="43.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="469.8" y="291" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">RAG</text>
+  <rect x="499.6" y="275" width="43.6" height="24" rx="12" fill="rgba(9,105,218,.07)" stroke="rgba(9,105,218,.16)"/>
+  <text x="521.4" y="291" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#0a58ba">MCP</text>
+</svg>

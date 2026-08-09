@@ -21,9 +21,9 @@
 <br>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/pulse-dark.svg?v=89664b1481">
-  <source media="(prefers-color-scheme: light)" srcset="assets/pulse-light.svg?v=30da01dd1f">
-  <img alt="Contribution calendar for the last year, with totals for contributions, active days, longest streak, public repos and stars earned." src="assets/pulse-dark.svg?v=89664b1481" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/pulse-dark.svg?v=667ae05657">
+  <source media="(prefers-color-scheme: light)" srcset="assets/pulse-light.svg?v=deeee81c48">
+  <img alt="Contribution calendar for the last year, with totals for contributions, active days, longest streak, public repos and stars earned." src="assets/pulse-dark.svg?v=667ae05657" width="100%">
 </picture>
 
 <picture>

@@ -13,6 +13,8 @@ Axes the source does not declare are ignored, so the same pin string works for
 both the proportional and the monospace face.
 """
 
+import math
+import re
 import sys
 
 from fontTools import subset
@@ -22,19 +24,34 @@ from fontTools.varLib import instancer
 # Printable ASCII plus the middot, dashes and non-breaking space the panels draw.
 UNICODES = "U+0020-007E,U+00A0,U+00B7,U+2013,U+2014"
 
+# An OpenType axis tag is four printable ASCII characters. str.isalnum() is true
+# for '١٢٣٤' and other non-ASCII digits, so it does not say what it looks like it
+# says; spell the alphabet out.
+AXIS_TAG = re.compile(r"\A[A-Za-z0-9]{4}\Z")
+
+# Axis values live in a small, well-known numeric range. float() otherwise
+# accepts 'inf' and 'nan', which reach instantiateVariableFont and come back out
+# as garbage deltas rather than an error.
+AXIS_MIN, AXIS_MAX = -10_000.0, 10_000.0
+
 
 def parse_pins(pins):
     """wght=800,wdth=112 -> {"wght": 800.0, "wdth": 112.0}, rejecting anything else."""
     wanted = {}
     for pin in filter(None, pins.split(",")):
-        tag, _, raw = pin.partition("=")
+        tag, sep, raw = pin.partition("=")
         tag = tag.strip()
-        if len(tag) != 4 or not tag.isalnum():
+        if not sep:
+            raise ValueError(f"axis {tag!r} has no value")
+        if not AXIS_TAG.match(tag):
             raise ValueError(f"not an axis tag: {tag!r}")
         try:
-            wanted[tag] = float(raw)
+            value = float(raw)
         except ValueError:
             raise ValueError(f"axis {tag} has a non-numeric value: {raw!r}") from None
+        if not math.isfinite(value) or not AXIS_MIN <= value <= AXIS_MAX:
+            raise ValueError(f"axis {tag} value out of range: {raw!r}")
+        wanted[tag] = value
     return wanted
 
 

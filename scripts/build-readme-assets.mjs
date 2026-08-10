@@ -68,7 +68,6 @@ const LANGUAGE_COLORS = {
   Batchfile: '#C1F12E',
   PLpgSQL: '#336790',
 };
-const FALLBACK_COLOR = '#8b949e';
 
 // ------------------------------------------------------------------ network
 // One choke point for every outbound request, because two of the three data
@@ -133,6 +132,19 @@ const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 const MAX_DAYS = 400; // a year plus slack; anything larger is not a calendar
 const MAX_COUNT = 100_000;
 
+/**
+ * The shape check is not enough on its own: '2024-99-99' matches ISO_DAY, and
+ * the calendar then lays out from `new Date(...)` of it. That is an Invalid
+ * Date, whose getUTCMonth() is NaN — MONTHS[NaN] is undefined, so a malformed
+ * day from the mirror would print "undefined NaN, NaN" into the panel's title
+ * and range. Round-tripping through Date rejects the impossible ones.
+ */
+const isRealDay = (iso) => {
+  if (typeof iso !== 'string' || !ISO_DAY.test(iso)) return false;
+  const d = new Date(`${iso}T00:00:00Z`);
+  return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === iso;
+};
+
 const clampInt = (value, lo, hi, fallback = 0) => {
   const n = Number(value);
   return Number.isFinite(n) ? Math.min(Math.max(Math.trunc(n), lo), hi) : fallback;
@@ -143,7 +155,7 @@ function normalizeDays(raw, source) {
   if (raw.length > MAX_DAYS) throw new Error(`${source} returned ${raw.length} days, expected <= ${MAX_DAYS}`);
   return raw.map((d, i) => {
     const date = d?.date;
-    if (typeof date !== 'string' || !ISO_DAY.test(date)) {
+    if (!isRealDay(date)) {
       throw new Error(`${source} day ${i} has no usable date`);
     }
     return {
@@ -216,6 +228,37 @@ const totalOf = (reported, days) => {
   return Number.isFinite(n) && n >= 0 ? Math.trunc(n) : sum;
 };
 
+/**
+ * Re-levels the calendar by rank among active days rather than by GitHub's own
+ * bucketing.
+ *
+ * GitHub scales its levels against your single busiest day, so one outlier
+ * flattens everything under it — a 76-contribution day put 97% of this grid
+ * into levels 0 and 1, which is why the heatmap read as two tones no matter how
+ * the ramp was tuned. Ranking instead gives each level roughly a quarter of the
+ * active days, so the whole ramp gets used and no single day can compress the
+ * rest. It matters more here than on the site: a monochrome ramp has less to
+ * separate its steps with than a green one does.
+ */
+function rebucket(days) {
+  const active = days
+    .filter((d) => d.count > 0)
+    .map((d) => d.count)
+    .sort((a, b) => a - b);
+  // Nothing to rank: keep whatever the API said.
+  if (!active.length) return days;
+
+  const at = (p) => active[Math.floor(p * (active.length - 1))];
+  const [t1, t2, t3] = [at(0.25), at(0.5), at(0.75)];
+
+  return days.map((d) => {
+    if (!Number.isFinite(d.count)) return d; // fall back to the API's level
+    if (d.count <= 0) return { ...d, level: 0 };
+    const level = d.count <= t1 ? 1 : d.count <= t2 ? 2 : d.count <= t3 ? 3 : 4;
+    return { ...d, level };
+  });
+}
+
 function summarize(days) {
   let best = { date: days[0]?.date ?? null, count: 0 };
   let longest = 0;
@@ -272,24 +315,137 @@ async function fetchRepos() {
     }
   }
 
-  const grand = [...byteTotals.values()].reduce((a, b) => a + b, 0) || 1;
-  const languages = [...byteTotals.entries()]
-    .map(([name, bytes]) => ({
-      name,
-      bytes,
-      pct: +((bytes / grand) * 100).toFixed(2),
-      color: colorFor(name),
-    }))
-    .filter((l) => l.pct >= 0.4)
-    .sort((a, b) => b.bytes - a.bytes);
-
   return {
-    languages,
+    languages: summarizeLanguages(byteTotals),
+    languageCount: byteTotals.size,
     totals: {
       stars: raw.reduce((a, r) => a + (r?.fork ? 0 : clampInt(r?.stargazers_count, 0, MAX_COUNT)), 0),
       repos: owned.length,
     },
   };
+}
+
+// ------------------------------------------------------------------ languages
+
+const TOP_N = 5;
+const OTHER = 'Other';
+
+/**
+ * Editorial ceilings, applied after the top-N slice.
+ *
+ * One generated project can leave a single language holding three quarters of
+ * the account, which says more about how a framework scaffolds a repo than
+ * about what actually gets written. Capping trims the leader and hands back
+ * what it shaved — in proportion, so the ordering underneath is untouched and
+ * the bar still sums to 100.
+ */
+const CAPS = { TypeScript: 25 };
+
+/**
+ * Redistributes everything above each cap across the languages that have none.
+ *
+ * Each uncapped language receives a share of the excess proportional to how big
+ * it already was, which is the same as multiplying it by 1 + excess/othersTotal.
+ * Capped languages are held fixed while that happens, so a second cap cannot
+ * push the first back over its ceiling — with one cap this settles in a single
+ * pass, and the loop is what keeps that true if another is ever added.
+ */
+function applyCaps(langs) {
+  for (let pass = 0; pass < 8; pass += 1) {
+    const over = langs.filter((l) => Object.hasOwn(CAPS, l.name) && l.pct > CAPS[l.name]);
+    if (!over.length) return langs;
+
+    for (const lang of over) {
+      const others = langs.filter((l) => l !== lang && !Object.hasOwn(CAPS, l.name));
+      const othersTotal = others.reduce((a, l) => a + l.pct, 0);
+      // Nothing to hand the excess to, so there is no cap to apply: trimming
+      // anyway would drop the difference on the floor and draw a bar that stops
+      // a quarter of the way across. A cap is a statement about proportion
+      // between languages, and with only one language there is no proportion.
+      if (othersTotal <= 0) continue;
+
+      const excess = lang.pct - CAPS[lang.name];
+      lang.pct = CAPS[lang.name];
+      for (const o of others) o.pct += excess * (o.pct / othersTotal);
+    }
+  }
+  return langs;
+}
+
+/**
+ * Picks the one-decimal numbers the panel prints, so that they sum to exactly
+ * 100.0 rather than to whatever independent rounding lands on.
+ *
+ * Rounding each share on its own is what makes a chart print 25.0 + 55.0 + 7.4
+ * + 5.7 + 4.4 + 2.6 = 100.1 and invite the reader to notice. Largest-remainder
+ * hands the leftover tenths to the shares that were cut hardest, so every label
+ * stays within a tenth of its true value and the column adds up.
+ *
+ * `pct` keeps full precision and is what the bar is drawn from; `label` is only
+ * ever printed.
+ */
+function labelPercents(langs) {
+  if (!langs.length) return langs;
+
+  // Only meaningful for a set that genuinely covers the whole account. If a cap
+  // could not be redistributed the shares will not total 100, and forcing them
+  // to would be inventing data — round each on its own instead.
+  const total = langs.reduce((a, l) => a + l.pct, 0);
+  if (Math.abs(total - 100) > 0.001) {
+    for (const l of langs) l.label = +l.pct.toFixed(1);
+    return langs;
+  }
+
+  const tenths = langs.map((l) => l.pct * 10);
+  const floors = tenths.map(Math.floor);
+  const leftover = Math.round(1000 - floors.reduce((a, b) => a + b, 0));
+
+  const byRemainder = tenths
+    .map((v, i) => ({ i, frac: v - floors[i] }))
+    .sort((a, b) => b.frac - a.frac);
+
+  const out = floors.slice();
+  for (let k = 0; k < leftover && k < byRemainder.length; k += 1) out[byRemainder[k].i] += 1;
+
+  langs.forEach((l, i) => {
+    l.label = out[i] / 10;
+  });
+  return langs;
+}
+
+/**
+ * Byte totals -> the segments the bar draws.
+ *
+ * Everything outside the top five collapses into one "Other" slice rather than
+ * being dropped. The previous cut here discarded anything under 0.4%, so the
+ * segments quietly summed to less than 100 and a slice of the account went
+ * missing from its own chart.
+ *
+ * Percentages stay at full precision the whole way through; the panel rounds
+ * once, when it prints them. Rounding inside the pipeline — as this did — and
+ * then redistributing on top of the rounded values is what makes a bar add up
+ * to 99.8.
+ */
+function summarizeLanguages(byteTotals) {
+  const grand = [...byteTotals.values()].reduce((a, b) => a + b, 0);
+  if (grand <= 0) return [];
+
+  const sorted = [...byteTotals.entries()].sort((a, b) => b[1] - a[1]);
+  const languages = sorted.slice(0, TOP_N).map(([name, bytes]) => ({
+    name,
+    bytes,
+    pct: (bytes / grand) * 100,
+    color: colorFor(name),
+  }));
+
+  const restBytes = sorted.slice(TOP_N).reduce((a, [, bytes]) => a + bytes, 0);
+  if (restBytes > 0) {
+    // Not a language, so it gets no Linguist colour: the panel resolves a null
+    // colour to the theme's dimmest neutral rather than to a language's hex.
+    languages.push({ name: OTHER, bytes: restBytes, pct: (restBytes / grand) * 100, color: null });
+  }
+
+  return labelPercents(applyCaps(languages).sort((a, b) => b.pct - a.pct));
 }
 
 /**
@@ -301,60 +457,90 @@ async function fetchRepos() {
  */
 function colorFor(name) {
   const hit = Object.hasOwn(LANGUAGE_COLORS, name) ? LANGUAGE_COLORS[name] : null;
-  return typeof hit === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(hit) ? hit : FALLBACK_COLOR;
+  // null, never a fallback hex: a language this map has never heard of resolves
+  // to the theme's own neutral at render time, which keeps the palette in one
+  // place instead of leaving a stray grey from another design in the middle of
+  // this one.
+  return typeof hit === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(hit) ? hit : null;
 }
 
 // --------------------------------------------------------------------- themes
-// Tokens lifted from portfolio.html so the profile and the site read as one
-// system. The light column is GitHub's own light palette rather than an
-// inversion of the dark one — an inverted contribution ramp looks radioactive.
+// Monochrome graphite, lifted from portfolio.html so the profile and the site
+// read as one system. Every distinction these panels make — hierarchy, state,
+// emphasis — is carried by luminance and weight rather than by hue, which is
+// why the steps below are wider apart than they would need to be if a colour
+// were helping. The one exception is the language bar, which wears each
+// language's own Linguist hex: that is borrowed identity, not decoration, and
+// being the only saturated thing here is what makes it read as information.
 
 const THEMES = {
   dark: {
-    surfaceTop: '#12181f',
-    surfaceBottom: '#0d1117',
-    stroke: 'rgba(255,255,255,.09)',
-    innerLight: 'rgba(255,255,255,.10)',
-    well: '#010409',
-    wellStroke: 'rgba(255,255,255,.05)',
-    fg: '#e6edf3',
-    body: '#c9d1d9',
-    muted: '#8b949e',
-    dim: '#6e7681',
-    accent: '#58a6ff',
-    hairline: '#30363d',
-    chipFill: 'rgba(88,166,255,.10)',
-    chipStroke: 'rgba(88,166,255,.18)',
-    chipText: '#a5c9f5',
-    bloom: ['#58a6ff', '#a371f7', '#f778ba'],
-    // Kept low on purpose, as in portfolio.html: the bloom is there to give the
-    // glass something to bend, not to tint the pane off GitHub's near-black.
-    bloomOpacity: [0.11, 0.09, 0.06],
-    sweep: 'rgba(255,255,255,.07)',
-    ramp: ['#151b23', '#033a16', '#196c2e', '#2ea043', '#56d364'],
-    cellStroke: 'rgba(255,255,255,.04)',
+    canvas: '#0a0a0c',
+    // The pane is a translucent sheet over the canvas rather than an opaque
+    // fill, which is what lets the bloom underneath show through it.
+    glassTop: 'rgba(255,255,255,.075)',
+    glassBottom: 'rgba(255,255,255,.022)',
+    rim: 'rgba(255,255,255,.09)',
+    rimLit: 'rgba(255,255,255,.34)',
+    specular: 'rgba(255,255,255,.10)',
+    shadow: '#000000',
+    shadowOpacity: 0.85,
+    well: 'rgba(0,0,0,.45)',
+    wellRim: 'rgba(255,255,255,.05)',
+    fg: '#f2f2f7',
+    body: '#d0d0d6',
+    muted: '#a1a1a8',
+    dim: '#75757c',
+    hairline: '#2c2c30',
+    fill: 'rgba(255,255,255,.05)',
+    fillRim: 'rgba(255,255,255,.09)',
+    // Neutral luminance only. The bloom exists to give the glass something to
+    // bend and to keep large flat areas from going dead — never to tint.
+    // Screen lifts on a near-black canvas; multiply would only muddy it.
+    bloom: ['rgba(235,235,245,.10)', 'rgba(210,210,225,.075)', 'rgba(190,190,205,.05)'],
+    bloomBlend: 'screen',
+    grain: 0.032,
+    grainBlend: 'overlay',
+    sweep: 'rgba(255,255,255,.06)',
+    // Even steps in CIE L*, ~17 apart, not eyeballed hex. Contrast ratio is the
+    // wrong metric for small adjacent patches — it is dominated by the bright
+    // end, which is how a ramp can measure fine while the bottom two steps,
+    // where most days actually sit, are half the size of the top one.
+    ramp: ['#202225', '#4a4b4f', '#75777b', '#a4a6aa', '#dbdde1'],
+    cellRim: 'rgba(255,255,255,.035)',
+    // Language hexes are fixed and cannot adapt to the canvas. The light theme's
+    // problem is pale fills dissolving into it, the dark theme's is dark ones —
+    // so each gets the opposite ring.
+    swatchRim: 'rgba(255,255,255,.16)',
   },
   light: {
-    surfaceTop: '#ffffff',
-    surfaceBottom: '#f6f8fa',
-    stroke: 'rgba(31,35,40,.14)',
-    innerLight: 'rgba(255,255,255,.9)',
-    well: '#ffffff',
-    wellStroke: 'rgba(31,35,40,.09)',
-    fg: '#1f2328',
-    body: '#32383f',
-    muted: '#59636e',
-    dim: '#818b98',
-    accent: '#0969da',
-    hairline: '#d1d9e0',
-    chipFill: 'rgba(9,105,218,.07)',
-    chipStroke: 'rgba(9,105,218,.16)',
-    chipText: '#0a58ba',
-    bloom: ['#54aeff', '#c297ff', '#ff9bce'],
-    bloomOpacity: [0.14, 0.12, 0.08],
+    canvas: '#fbfbfd',
+    glassTop: 'rgba(255,255,255,.72)',
+    glassBottom: 'rgba(255,255,255,.44)',
+    // In light mode a pane reads as glass through its rim and shadow, not its
+    // fill — white on white is invisible, so the rim has to carry it.
+    rim: 'rgba(0,0,0,.13)',
+    rimLit: 'rgba(255,255,255,.95)',
+    specular: 'rgba(255,255,255,.85)',
+    shadow: '#3c3c43',
+    shadowOpacity: 0.22,
+    well: 'rgba(0,0,0,.035)',
+    wellRim: 'rgba(0,0,0,.05)',
+    fg: '#1d1d1f',
+    body: '#3a3a3e',
+    muted: '#6e6e73',
+    dim: '#8e8e93',
+    hairline: '#d8d8de',
+    fill: 'rgba(0,0,0,.045)',
+    fillRim: 'rgba(0,0,0,.08)',
+    bloom: ['rgba(60,60,67,.10)', 'rgba(60,60,67,.07)', 'rgba(60,60,67,.05)'],
+    bloomBlend: 'multiply',
+    grain: 0.018,
+    grainBlend: 'multiply',
     sweep: 'rgba(31,35,40,.05)',
-    ramp: ['#ebedf0', '#aceebb', '#4ac26b', '#2da44e', '#116329'],
-    cellStroke: 'rgba(31,35,40,.05)',
+    ramp: ['#e3e5e9', '#b7b9bd', '#8a8c8f', '#5d5e62', '#333538'],
+    cellRim: 'rgba(0,0,0,.06)',
+    swatchRim: 'rgba(0,0,0,.20)',
   },
 };
 
@@ -364,9 +550,13 @@ const SANS_STACK = "'Mona Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe
 const MONO_STACK = "'Mona Sans Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 // Applied to every value that reaches markup. Quotes are escaped in both
-// flavours so the same helper is safe in text nodes and in attributes.
+// flavours so the same helper is safe in text nodes and in attributes. Control
+// characters are dropped first: XML 1.0 has no way to represent them, escaped or
+// not, so one arriving in an API-supplied language name would leave behind an
+// SVG no renderer will parse.
 const esc = (s) =>
   String(s)
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -381,9 +571,30 @@ const sw = (text, size) => text.length * size * 0.53;
 const W = 1000;
 const PAD = 40;
 
-/** The glass pane every panel sits in: surface gradient, hairline, clipped bloom. */
+// Concentric radii, following Apple's rule that an inner corner equals its
+// parent's minus the padding between them, so nested rounds stay optically
+// parallel. Panels use R_LG; wells recessed into them use R_SM.
+const R_LG = 22;
+const R_SM = 10;
+
+// Bleed room outside the pane so it can cast a real shadow. A card that sits
+// flush to the edge of its own image cannot float, and floating is most of what
+// separates this material from a rectangle with a border drawn on it. Panel
+// layout is unchanged: doc() grows the viewBox and translates the whole body,
+// so every coordinate below is still measured against the pane, not the image.
+const MARGIN = 24;
+
+/**
+ * The liquid-glass pane every panel sits in.
+ *
+ * backdrop-filter is meaningless here — an SVG rendered as an <img> has no
+ * backdrop to blur — so the material is built in layers instead: bloom beneath
+ * a translucent sheet, a specular bloom where the light lands, grain over the
+ * whole thing, and a gradient rim. The rim is the detail that matters most: a
+ * flat 1px stroke reads as a drawn outline, while a real edge catches light
+ * unevenly, so it is a gradient running from lit through base to nothing.
+ */
 function pane(t, h, { bloom = true } = {}) {
-  const r = 20;
   const blooms = bloom
     ? t.bloom
         .map((c, i) => {
@@ -392,14 +603,16 @@ function pane(t, h, { bloom = true } = {}) {
           const rx = [0.42, 0.36, 0.34][i] * W;
           return `<ellipse cx="${cx.toFixed(0)}" cy="${cy.toFixed(0)}" rx="${rx.toFixed(0)}" ry="${(rx * 0.62).toFixed(0)}" fill="url(#bloom${i})"/>`;
         })
-        .join('')
+        .join('\n      ')
     : '';
 
+  // A radial gradient is already a perfect falloff, so these need no blur
+  // filter — only the per-theme blend that keeps them luminance, not tint.
   const bloomDefs = bloom
     ? t.bloom
         .map(
           (c, i) => `<radialGradient id="bloom${i}">
-      <stop offset="0" stop-color="${c}" stop-opacity="${t.bloomOpacity[i]}"/>
+      <stop offset="0" stop-color="${c}"/>
       <stop offset="1" stop-color="${c}" stop-opacity="0"/>
     </radialGradient>`,
         )
@@ -408,9 +621,18 @@ function pane(t, h, { bloom = true } = {}) {
 
   return {
     defs: `<linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="${t.surfaceTop}"/>
-      <stop offset="1" stop-color="${t.surfaceBottom}"/>
+      <stop offset="0" stop-color="${t.glassTop}"/>
+      <stop offset="1" stop-color="${t.glassBottom}"/>
     </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2=".55" y2="1">
+      <stop offset="0" stop-color="${t.rimLit}"/>
+      <stop offset=".38" stop-color="${t.rim}"/>
+      <stop offset=".72" stop-color="${t.rim}" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="specular" cx=".18" cy="0" r=".8">
+      <stop offset="0" stop-color="${t.specular}"/>
+      <stop offset="1" stop-color="${t.specular}" stop-opacity="0"/>
+    </radialGradient>
     <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="${t.sweep}" stop-opacity="0"/>
       <stop offset=".5" stop-color="${t.sweep}"/>
@@ -421,20 +643,40 @@ function pane(t, h, { bloom = true } = {}) {
       <stop offset="1" stop-color="${t.hairline}" stop-opacity="0"/>
     </linearGradient>
     ${bloomDefs}
-    <clipPath id="pane"><rect x="1" y="1" width="${W - 2}" height="${h - 2}" rx="${r}"/></clipPath>`,
-    body: `<rect x="1" y="1" width="${W - 2}" height="${h - 2}" rx="${r}" fill="url(#surface)"/>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="${t.shadow}" flood-opacity="${t.shadowOpacity}"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/>
+    </filter>
+    <clipPath id="pane"><rect x="0" y="0" width="${W}" height="${h}" rx="${R_LG}"/></clipPath>`,
+    // The canvas rect carries the shadow and is opaque; everything above it is
+    // translucent and stacks into the material.
+    body: `<rect x="0" y="0" width="${W}" height="${h}" rx="${R_LG}" fill="${t.canvas}" filter="url(#lift)"/>
   <g clip-path="url(#pane)">
-    ${blooms}
+    <g style="mix-blend-mode:${t.bloomBlend}">
+      ${blooms}
+    </g>
+    <rect x="0" y="0" width="${W}" height="${h}" fill="url(#surface)"/>
+    <rect x="0" y="0" width="${W}" height="${(h * 0.62).toFixed(0)}" fill="url(#specular)" opacity=".5"/>
     <rect class="sweep" x="-${W * 0.5}" y="0" width="${W * 0.5}" height="${h}" fill="url(#sweep)"/>
+    <rect x="0" y="0" width="${W}" height="${h}" filter="url(#grain)" opacity="${t.grain}" style="mix-blend-mode:${t.grainBlend}"/>
   </g>
-  <rect x="1.5" y="1.5" width="${W - 3}" height="${h - 3}" rx="${r - 0.5}" fill="none" stroke="${t.stroke}"/>
-  <path d="M ${r} 2 H ${W - r}" stroke="${t.innerLight}" stroke-width="1" fill="none" opacity=".5"/>`,
+  <rect x=".5" y=".5" width="${W - 1}" height="${h - 1}" rx="${R_LG - 0.5}" fill="none" stroke="url(#rim)"/>`,
   };
 }
 
-/** Wraps a panel body into a finished document. */
+/**
+ * Wraps a panel body into a finished document.
+ *
+ * The viewBox is MARGIN larger than the pane on every side and the body is
+ * translated into it, which is what gives the drop shadow somewhere to land.
+ * Panel code never sees this: it lays out against 0,0 → W,h as before.
+ */
 function doc(t, h, fontCss, defs, body, title) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${h}" viewBox="0 0 ${W} ${h}" role="img" aria-label="${esc(title)}" font-family="${esc(SANS_STACK)}">
+  const vw = W + MARGIN * 2;
+  const vh = h + MARGIN * 2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${vw}" height="${vh}" viewBox="0 0 ${vw} ${vh}" role="img" aria-label="${esc(title)}" font-family="${esc(SANS_STACK)}">
   <title>${esc(title)}</title>
   <defs>
     ${defs}
@@ -458,13 +700,27 @@ ${fontCss}
       .live .cell,.bar{animation:none}
     }
   </style>
+  <g transform="translate(${MARGIN},${MARGIN})">
 ${body}
+  </g>
 </svg>
 `;
 }
 
 const label = (t, x, y, text) =>
-  `<text x="${x}" y="${y}" font-family="${esc(MONO_STACK)}" font-size="11" letter-spacing="1.5" fill="${t.dim}">${esc(text.toUpperCase())}</text>`;
+  `<text x="${x}" y="${y}" font-family="${esc(MONO_STACK)}" font-size="11" letter-spacing="1.6" fill="${t.dim}">${esc(text.toUpperCase())}</text>`;
+
+/**
+ * A recessed well: the surface things sit *in* rather than *on*.
+ *
+ * SVG has no inset box-shadow, so the depth is drawn — a darker fill, a rim,
+ * and a one-pixel light catching the top inner edge, which is the cue that
+ * reads as "below the surface" rather than "a darker rectangle".
+ */
+const well = (t, x, y, w, h, r) =>
+  `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${t.well}"/>
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="none" stroke="${t.wellRim}"/>
+  <path d="M ${x + r} ${y + 1} H ${x + w - r}" stroke="${t.rimLit}" stroke-width="1" fill="none" opacity=".28"/>`;
 
 // ------------------------------------------------------------------ hero
 
@@ -485,7 +741,7 @@ function heroSVG(t, fontCss) {
       return `<rect class="cell" x="${x}" y="${y}" width="12" height="12" rx="3" fill="${t.ramp[lvl]}" style="animation-delay:${i * 45}ms"/>`;
     })
     .join('');
-  const mark = `<rect x="${MARK_X}" y="${MARK_Y}" width="60" height="60" rx="14" fill="${t.well}" stroke="${t.wellStroke}"/>
+  const mark = `${well(t, MARK_X, MARK_Y, 60, 60, 14)}
   <g class="live">${cells}</g>`;
 
   // Meta stacks up the right so the pane has weight on both sides instead of a
@@ -497,12 +753,12 @@ function heroSVG(t, fontCss) {
 
   const body = `  ${p.body}
   ${mark}
-  <text x="${PAD + 78}" y="66" font-size="33" font-weight="800" letter-spacing="-.6" fill="${t.fg}">${esc(NAME[0])}</text>
-  <text x="${PAD + 78}" y="101" font-size="33" font-weight="800" letter-spacing="-.6" fill="${t.fg}">${esc(NAME[1])}</text>
-  <text x="${PAD + 79}" y="126" font-family="${esc(MONO_STACK)}" font-size="13" fill="${t.accent}">@${esc(LOGIN)}</text>
+  <text x="${PAD + 78}" y="66" font-size="33" font-weight="800" letter-spacing="-1.05" fill="${t.fg}">${esc(NAME[0])}</text>
+  <text x="${PAD + 78}" y="101" font-size="33" font-weight="800" letter-spacing="-1.05" fill="${t.fg}">${esc(NAME[1])}</text>
+  <text x="${PAD + 79}" y="126" font-family="${esc(MONO_STACK)}" font-size="13" fill="${t.muted}">@${esc(LOGIN)}</text>
   ${meta}
   <rect x="${PAD}" y="150" width="${W - PAD * 2}" height="1" fill="url(#rule)"/>
-  <rect x="${PAD}" y="168" width="3" height="18" rx="1.5" fill="${t.accent}" opacity=".85"/>
+  <rect x="${PAD}" y="168" width="3" height="18" rx="1.5" fill="${t.fg}" opacity=".55"/>
   <text x="${PAD + 14}" y="182" font-size="15.5" fill="${t.body}">${esc(BIO)}</text>`;
 
   return doc(t, H, fontCss, p.defs, body, `${NAME.join(' ')} — ${BIO}`);
@@ -552,7 +808,7 @@ function pulseSVG(t, fontCss, data) {
       const row = idx % 7;
       const x = (gridX + week * (CELL + GAP)).toFixed(2);
       const y = (gridY + row * (CELL + GAP)).toFixed(2);
-      return `<rect class="cell" x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="3" fill="${t.ramp[day.level]}" stroke="${t.cellStroke}" style="animation-delay:${week * 12}ms"/>`;
+      return `<rect class="cell" x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2.5" fill="${t.ramp[day.level]}" stroke="${t.cellRim}" style="animation-delay:${week * 12}ms"/>`;
     })
     .join('\n    ');
 
@@ -623,7 +879,7 @@ function pulseSVG(t, fontCss, data) {
   ${t.ramp
     .map(
       (fill, i) =>
-        `<rect x="${(keyX + i * (KEY + 3)).toFixed(1)}" y="${WELL_Y - 17}" width="${KEY}" height="${KEY}" rx="2.5" fill="${fill}" stroke="${t.cellStroke}"/>`,
+        `<rect x="${(keyX + i * (KEY + 3)).toFixed(1)}" y="${WELL_Y - 17}" width="${KEY}" height="${KEY}" rx="2.5" fill="${fill}" stroke="${t.cellRim}"/>`,
     )
     .join('\n  ')}
   <text x="${keyRight}" y="${WELL_Y - 8}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="10" fill="${t.dim}">More</text>`;
@@ -637,7 +893,7 @@ function pulseSVG(t, fontCss, data) {
   ${months}
   ${legend}
   ${weekdays}
-  <rect x="${PAD + WD}" y="${WELL_Y}" width="${wellW}" height="${wellH.toFixed(2)}" rx="12" fill="${t.well}" stroke="${t.wellStroke}"/>
+  ${well(t, PAD + WD, WELL_Y, wellW, +wellH.toFixed(2), R_SM)}
   <g class="live">
     ${cells}
   </g>
@@ -659,8 +915,17 @@ function pulseSVG(t, fontCss, data) {
 function langsSVG(t, fontCss, data) {
   const H = 166;
   const p = pane(t, H);
-  const langs = data.languages.slice(0, 8);
+  const langs = data.languages;
+  // The segments already sum to 100 by construction; this only guards a bar
+  // built from an empty or degenerate set.
   const shown = langs.reduce((a, l) => a + l.pct, 0) || 1;
+
+  // Geometry uses l.pct at full precision; only l.label is ever printed. See
+  // labelPercents() for why those are two different numbers.
+  const pct = (l) => (l.label ?? l.pct ?? 0).toFixed(1);
+  // "Other" is a bucket, not a language, so it gets the dimmest neutral rather
+  // than borrowing some language's identity.
+  const fillOf = (l) => l.color || t.dim;
 
   const barY = 100;
   const barW = W - PAD * 2;
@@ -670,7 +935,14 @@ function langsSVG(t, fontCss, data) {
   const segments = langs
     .map((l, i) => {
       const w = (l.pct / shown) * barW;
-      const seg = `<rect x="${x.toFixed(2)}" y="${barY}" width="${Math.max(w, 1).toFixed(2)}" height="${barH}" fill="${l.color}"/>`;
+      // Every segment gets a rim, and every segment after the first a leading
+      // edge in the canvas colour: Linguist hexes are fixed and two adjacent
+      // languages can land close enough to read as one block without it.
+      const edge =
+        i > 0
+          ? `\n    <rect x="${x.toFixed(2)}" y="${barY}" width="1" height="${barH}" fill="${t.canvas}" opacity=".55"/>`
+          : '';
+      const seg = `<rect x="${x.toFixed(2)}" y="${barY}" width="${Math.max(w, 1).toFixed(2)}" height="${barH}" fill="${fillOf(l)}"/>${edge}`;
       x += w;
       return seg;
     })
@@ -681,8 +953,8 @@ function langsSVG(t, fontCss, data) {
   let kx = PAD;
   const key = langs
     .map((l) => {
-      const text = `${l.name} ${l.pct.toFixed(1)}%`;
-      const item = `<circle cx="${(kx + 4).toFixed(1)}" cy="${keyY - 4}" r="4" fill="${l.color}"/>
+      const text = `${l.name} ${pct(l)}%`;
+      const item = `<circle cx="${(kx + 4).toFixed(1)}" cy="${keyY - 4}" r="4" fill="${fillOf(l)}" stroke="${t.swatchRim}" stroke-width=".75"/>
   <text x="${(kx + 14).toFixed(1)}" y="${keyY}" font-family="${esc(MONO_STACK)}" font-size="11.5" fill="${t.muted}">${esc(text)}</text>`;
       kx += 14 + mw(text, 11.5) + 20;
       return item;
@@ -690,22 +962,26 @@ function langsSVG(t, fontCss, data) {
     .join('\n  ');
 
   // The bar answers "what is the mix"; it does not answer "what does he write".
-  // The lead language gets stated outright above it.
+  // The lead language gets stated outright above it. The count is every distinct
+  // language in the account, not the number of segments — five of those are
+  // languages and the sixth is a bucket holding all the rest.
   const lead = langs[0];
+  const note = `${pct(lead ?? { pct: 0 })}% of ${data.languageCount ?? langs.length} languages`;
   const headline = lead
-    ? `<circle cx="${PAD + 6}" cy="${barY - 26}" r="6" fill="${lead.color}"/>
-  <text x="${PAD + 20}" y="${barY - 21}" font-size="21" font-weight="800" letter-spacing="-.3" fill="${t.fg}">${esc(lead.name)}</text>
-  <text x="${(PAD + 30 + sw(lead.name, 21)).toFixed(1)}" y="${barY - 21}" font-family="${esc(MONO_STACK)}" font-size="13" fill="${t.muted}">${esc(`${lead.pct.toFixed(1)}% of ${langs.length} languages`)}</text>`
+    ? `<circle cx="${PAD + 6}" cy="${barY - 26}" r="6" fill="${fillOf(lead)}" stroke="${t.swatchRim}" stroke-width=".75"/>
+  <text x="${PAD + 20}" y="${barY - 21}" font-size="21" font-weight="800" letter-spacing="-.5" fill="${t.fg}">${esc(lead.name)}</text>
+  <text x="${(PAD + 30 + sw(lead.name, 21)).toFixed(1)}" y="${barY - 21}" font-family="${esc(MONO_STACK)}" font-size="13" fill="${t.muted}">${esc(note)}</text>`
     : '';
 
   const body = `  ${p.body}
   ${label(t, PAD, 46, 'Languages')}
   <text x="${W - PAD}" y="46" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="11" fill="${t.dim}">by bytes across public repos</text>
   ${headline}
-  <rect x="${PAD}" y="${barY}" width="${barW}" height="${barH}" rx="6" fill="${t.well}" stroke="${t.wellStroke}"/>
+  ${well(t, PAD, barY, barW, barH, 6)}
   <g class="bar" clip-path="url(#barclip)">
     ${segments}
-  </g>`;
+  </g>
+  <rect x="${PAD}" y="${barY}" width="${barW}" height="${barH}" rx="6" fill="none" stroke="${t.swatchRim}"/>`;
 
   const defs = `${p.defs}
     <clipPath id="barclip"><rect x="${PAD}" y="${barY}" width="${barW}" height="${barH}" rx="6"/></clipPath>`;
@@ -716,7 +992,7 @@ function langsSVG(t, fontCss, data) {
     fontCss,
     defs,
     `${body}\n  ${key}`,
-    `Language breakdown by bytes: ${langs.map((l) => `${l.name} ${l.pct} percent`).join(', ')}`,
+    `Language breakdown by bytes: ${langs.map((l) => `${l.name} ${pct(l)} percent`).join(', ')}`,
   );
 }
 
@@ -735,8 +1011,8 @@ function stackSVG(t, fontCss) {
     const chips = items
       .map((item) => {
         const w = mw(item, 12) + 22;
-        const chip = `<rect x="${x.toFixed(1)}" y="${y - 15}" width="${w.toFixed(1)}" height="24" rx="12" fill="${t.chipFill}" stroke="${t.chipStroke}"/>
-  <text x="${(x + w / 2).toFixed(1)}" y="${y + 1}" text-anchor="middle" font-family="${esc(MONO_STACK)}" font-size="12" fill="${t.chipText}">${esc(item)}</text>`;
+        const chip = `<rect x="${x.toFixed(1)}" y="${y - 15}" width="${w.toFixed(1)}" height="24" rx="12" fill="${t.fill}" stroke="${t.fillRim}"/>
+  <text x="${(x + w / 2).toFixed(1)}" y="${y + 1}" text-anchor="middle" font-family="${esc(MONO_STACK)}" font-size="12" fill="${t.body}">${esc(item)}</text>`;
         x += w + 8;
         return chip;
       })
@@ -756,7 +1032,11 @@ function stackSVG(t, fontCss) {
 // ------------------------------------------------------------------ rule
 
 function ruleSVG(t) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="2" viewBox="0 0 ${W} 2" role="presentation">
+  // Carries the panels' horizontal margin even though it has no pane of its own.
+  // Every asset is rendered at width="100%", so a rule drawn edge to edge would
+  // be wider on the page than the panes above it and the column would look bent.
+  const vw = W + MARGIN * 2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${vw}" height="2" viewBox="0 0 ${vw} 2" role="presentation">
   <defs>
     <linearGradient id="r" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="${t.hairline}" stop-opacity="0"/>
@@ -764,7 +1044,7 @@ function ruleSVG(t) {
       <stop offset="1" stop-color="${t.hairline}" stop-opacity="0"/>
     </linearGradient>
   </defs>
-  <rect width="${W}" height="1" y="0.5" fill="url(#r)"/>
+  <rect x="${MARGIN}" width="${W}" height="1" y="0.5" fill="url(#r)"/>
 </svg>
 `;
 }
@@ -776,7 +1056,7 @@ function ruleSVG(t) {
 
 const FACES = {
   sans400: { file: 'MonaSans.woff2', family: 'Mona Sans', weight: 400, pins: 'wght=400,wdth=100,opsz=16' },
-  sans800: { file: 'MonaSans.woff2', family: 'Mona Sans', weight: 800, pins: 'wght=800,wdth=112,opsz=32' },
+  sans800: { file: 'MonaSans.woff2', family: 'Mona Sans', weight: 800, pins: 'wght=800,wdth=115,opsz=32' },
   mono400: { file: 'MonaSansMono.woff2', family: 'Mona Sans Mono', weight: 400, pins: 'wght=400,opsz=16' },
   mono600: { file: 'MonaSansMono.woff2', family: 'Mona Sans Mono', weight: 600, pins: 'wght=600,opsz=16' },
 };
@@ -839,8 +1119,14 @@ async function stampReadme(names) {
   const versions = new Map();
   await Promise.all(
     [...new Set(names)].map(async (name) => {
-      const bytes = await readFile(join(ASSETS, `${name}.svg`));
-      versions.set(name, createHash('sha256').update(bytes).digest('hex').slice(0, 10));
+      // A panel that is not on disk keeps whatever key the README already has,
+      // rather than taking the whole stamp down with it.
+      try {
+        const bytes = await readFile(join(ASSETS, `${name}.svg`));
+        versions.set(name, createHash('sha256').update(bytes).digest('hex').slice(0, 10));
+      } catch (err) {
+        console.warn(`readme: ${name}.svg not stamped (${err.message})`);
+      }
     }),
   );
 
@@ -859,7 +1145,20 @@ async function stampReadme(names) {
 
 // -------------------------------------------------------------------- main
 
+// Every panel the README points at. Named once so --stamp-only knows the set
+// without having to trust whatever happens to be sitting in assets/.
+const PANELS = ['hero', 'pulse', 'langs', 'stack', 'rule'].flatMap((n) => [`${n}-dark`, `${n}-light`]);
+
 async function main() {
+  // --stamp-only reruns just the cache-key rewrite over the SVGs already on
+  // disk: no network, no fonttools, no rendering. CI uses it to keep README.md
+  // out of the render's hands — the job that can push re-derives the keys from
+  // the checked-out script instead of committing a README the render wrote.
+  if (process.argv.includes('--stamp-only')) {
+    await stampReadme(PANELS);
+    return;
+  }
+
   await mkdir(ASSETS, { recursive: true });
 
   let contributions;
@@ -908,15 +1207,20 @@ async function main() {
     return;
   }
 
+  // Re-level before rendering, but summarize from the original counts — the
+  // streaks and totals are facts about the data, not about how it is shaded.
+  const days = rebucket(contributions.days);
+
   const data = {
     contributions: {
       total: contributions.total,
-      start: contributions.days[0].date,
-      end: contributions.days[contributions.days.length - 1].date,
-      ...summarize(contributions.days),
-      days: contributions.days,
+      start: days[0].date,
+      end: days[days.length - 1].date,
+      ...summarize(days),
+      days,
     },
     languages: repoData.languages,
+    languageCount: repoData.languageCount,
     totals: {
       ...repoData.totals,
       repos: clampInt(user?.public_repos, 0, MAX_COUNT, repoData.totals.repos),
@@ -937,7 +1241,8 @@ async function main() {
 
   console.log(
     `wrote ${written.length} panels — ${nf.format(data.contributions.total)} contributions, ` +
-      `${data.totals.repos} repos, ${data.totals.stars} stars, ${data.languages.length} languages`,
+      `${data.totals.repos} repos, ${data.totals.stars} stars, ${data.languageCount} languages ` +
+      `in ${data.languages.length} segments`,
   );
 }
 

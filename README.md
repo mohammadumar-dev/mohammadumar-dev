@@ -21,15 +21,15 @@
 <br>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/pulse-dark.svg?v=3dcf34b27c">
-  <source media="(prefers-color-scheme: light)" srcset="assets/pulse-light.svg?v=caf37dfad4">
-  <img alt="Contribution calendar for the last year, with totals for contributions, active days, longest streak, public repos and stars earned." src="assets/pulse-dark.svg?v=3dcf34b27c" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/pulse-dark.svg?v=ccedf3b08d">
+  <source media="(prefers-color-scheme: light)" srcset="assets/pulse-light.svg?v=9185183c6c">
+  <img alt="Contribution calendar for the last year, with totals for contributions, active days, longest streak, public repos and stars earned." src="assets/pulse-dark.svg?v=ccedf3b08d" width="100%">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/langs-dark.svg?v=0ab8998b20">
-  <source media="(prefers-color-scheme: light)" srcset="assets/langs-light.svg?v=bb32bce7cd">
-  <img alt="Language breakdown by bytes across public repositories." src="assets/langs-dark.svg?v=0ab8998b20" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/langs-dark.svg?v=b733de5674">
+  <source media="(prefers-color-scheme: light)" srcset="assets/langs-light.svg?v=093a1931e9">
+  <img alt="Language breakdown by bytes across public repositories." src="assets/langs-dark.svg?v=b733de5674" width="100%">
 </picture>
 
 <picture>

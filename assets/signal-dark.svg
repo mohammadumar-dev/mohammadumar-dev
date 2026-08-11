@@ -1,18 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1048" height="312" viewBox="0 0 1048 312" role="img" aria-label="Language breakdown by bytes across public repos: Java 54.0 percent, TypeScript 25.0 percent, Other 7.5 percent, JavaScript 6.6 percent, Go 4.3 percent, Python 2.6 percent. Stack: Java, Go, Python, TypeScript, JavaScript, SQL, Spring Boot, Node.js, FastAPI, REST, Microservices, Hibernate, React, Next.js, Tailwind, shadcn/ui, Angular, PostgreSQL, Redis, MongoDB, Prisma, Elasticsearch, Flyway, Docker, AWS, Linux, Nginx, Kubernetes, GitHub Actions, Spring AI, Claude, OpenAI, Groq, RAG, MCP." font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
-  <title>Language breakdown by bytes across public repos: Java 54.0 percent, TypeScript 25.0 percent, Other 7.5 percent, JavaScript 6.6 percent, Go 4.3 percent, Python 2.6 percent. Stack: Java, Go, Python, TypeScript, JavaScript, SQL, Spring Boot, Node.js, FastAPI, REST, Microservices, Hibernate, React, Next.js, Tailwind, shadcn/ui, Angular, PostgreSQL, Redis, MongoDB, Prisma, Elasticsearch, Flyway, Docker, AWS, Linux, Nginx, Kubernetes, GitHub Actions, Spring AI, Claude, OpenAI, Groq, RAG, MCP.</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1048" height="312" viewBox="0 0 1048 312" role="img" aria-label="Language breakdown by bytes across public repos: Java 53.6 percent, TypeScript 25.0 percent, Other 7.5 percent, JavaScript 7.0 percent, Go 4.3 percent, Python 2.6 percent. Stack: Java, Go, Python, TypeScript, JavaScript, SQL, Spring Boot, Node.js, FastAPI, REST, Microservices, Hibernate, React, Next.js, Tailwind, shadcn/ui, Angular, PostgreSQL, Redis, MongoDB, Prisma, Elasticsearch, Flyway, Docker, AWS, Linux, Nginx, Kubernetes, GitHub Actions, Spring AI, Claude, OpenAI, Groq, RAG, MCP." font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
+  <title>Language breakdown by bytes across public repos: Java 53.6 percent, TypeScript 25.0 percent, Other 7.5 percent, JavaScript 7.0 percent, Go 4.3 percent, Python 2.6 percent. Stack: Java, Go, Python, TypeScript, JavaScript, SQL, Spring Boot, Node.js, FastAPI, REST, Microservices, Hibernate, React, Next.js, Tailwind, shadcn/ui, Angular, PostgreSQL, Redis, MongoDB, Prisma, Elasticsearch, Flyway, Docker, AWS, Linux, Nginx, Kubernetes, GitHub Actions, Spring AI, Claude, OpenAI, Groq, RAG, MCP.</title>
   <defs>
-    <linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="rgba(255,255,255,.075)"/>
-      <stop offset="1" stop-color="rgba(255,255,255,.022)"/>
+    <linearGradient id="surface" x1="0" y1="0" x2=".22" y2="1">
+      <stop offset="0" stop-color="rgba(150,170,255,.085)"/>
+      <stop offset="1" stop-color="rgba(120,140,220,.025)"/>
     </linearGradient>
     <linearGradient id="rim" x1="0" y1="0" x2=".55" y2="1">
-      <stop offset="0" stop-color="rgba(255,255,255,.34)"/>
-      <stop offset=".38" stop-color="rgba(255,255,255,.09)"/>
-      <stop offset=".72" stop-color="rgba(255,255,255,.09)" stop-opacity="0"/>
+      <stop offset="0" stop-color="rgba(226,232,255,.42)"/>
+      <stop offset=".38" stop-color="rgba(180,195,255,.11)"/>
+      <stop offset=".72" stop-color="rgba(180,195,255,.11)" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="fringe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="rgba(140,170,255,.55)"/>
+      <stop offset=".4" stop-color="rgba(140,170,255,.55)" stop-opacity="0"/>
+      <stop offset=".68" stop-color="rgba(255,186,208,.34)" stop-opacity="0"/>
+      <stop offset="1" stop-color="rgba(255,186,208,.34)"/>
+    </linearGradient>
+    <linearGradient id="edgeLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgba(232,238,255,.55)"/>
+      <stop offset=".42" stop-color="rgba(232,238,255,.55)" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="specular" cx=".18" cy="0" r=".8">
-      <stop offset="0" stop-color="rgba(255,255,255,.10)"/>
-      <stop offset="1" stop-color="rgba(255,255,255,.10)" stop-opacity="0"/>
+      <stop offset="0" stop-color="rgba(190,205,255,.13)"/>
+      <stop offset="1" stop-color="rgba(190,205,255,.13)" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="rgba(255,255,255,.06)" stop-opacity="0"/>
@@ -20,8 +30,8 @@
       <stop offset="1" stop-color="rgba(255,255,255,.06)" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#2c2c30"/>
-      <stop offset="1" stop-color="#2c2c30" stop-opacity="0"/>
+      <stop offset="0" stop-color="#252a3a"/>
+      <stop offset="1" stop-color="#252a3a" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="bloom0">
       <stop offset="0" stop-color="rgba(150,170,255,.11)"/>
@@ -35,13 +45,19 @@
       <stop offset="0" stop-color="rgba(105,125,215,.05)"/>
       <stop offset="1" stop-color="rgba(105,125,215,.05)" stop-opacity="0"/>
     </radialGradient>
-    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#000000" flood-opacity="0.85"/>
+    <filter id="lift" x="-12%" y="-12%" width="124%" height="136%">
+      <feDropShadow dx="0" dy="10" stdDeviation="13" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+    <filter id="edgeBlur" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="edgeCrisp" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="1.5"/>
     </filter>
     <filter id="grain" x="0" y="0" width="100%" height="100%">
       <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/>
     </filter>
-    <clipPath id="pane"><rect x="0" y="0" width="1000" height="264" rx="22"/></clipPath>
+    <clipPath id="pane"><path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V225.00C1000.00 250.74 986.74 264.00 961.00 264.00H39.00C13.26 264.00 0.00 250.74 0.00 225.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z"/></clipPath>
     <clipPath id="barclip"><rect x="40" y="100" width="920" height="12" rx="6"/></clipPath>
   </defs>
   <style>
@@ -69,56 +85,59 @@
     }
   </style>
   <g transform="translate(24,24)">
-  <rect x="0" y="0" width="1000" height="264" rx="22" fill="#0a0a0c" filter="url(#lift)"/>
+  <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V225.00C1000.00 250.74 986.74 264.00 961.00 264.00H39.00C13.26 264.00 0.00 250.74 0.00 225.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="#090b12" filter="url(#lift)"/>
   <g clip-path="url(#pane)">
     <g style="mix-blend-mode:screen">
       <ellipse cx="140" cy="26" rx="420" ry="260" fill="url(#bloom0)"/>
       <ellipse cx="780" cy="164" rx="360" ry="223" fill="url(#bloom1)"/>
       <ellipse cx="450" cy="277" rx="340" ry="211" fill="url(#bloom2)"/>
     </g>
-    <rect x="0" y="0" width="1000" height="264" fill="url(#surface)"/>
-    <rect x="0" y="0" width="1000" height="164" fill="url(#specular)" opacity=".5"/>
+    <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V225.00C1000.00 250.74 986.74 264.00 961.00 264.00H39.00C13.26 264.00 0.00 250.74 0.00 225.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="url(#surface)"/>
+    <rect x="0" y="0" width="1000" height="164" fill="url(#specular)" opacity=".55"/>
     <rect class="sweep" x="-500" y="0" width="500" height="264" fill="url(#sweep)"/>
+    <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V225.00C1000.00 250.74 986.74 264.00 961.00 264.00H39.00C13.26 264.00 0.00 250.74 0.00 225.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="16" filter="url(#edgeBlur)"/>
+    <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V225.00C1000.00 250.74 986.74 264.00 961.00 264.00H39.00C13.26 264.00 0.00 250.74 0.00 225.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="none" stroke="url(#edgeLight)" stroke-width="2.5" filter="url(#edgeCrisp)"/>
     <rect x="0" y="0" width="1000" height="264" filter="url(#grain)" opacity="0.032" style="mix-blend-mode:overlay"/>
   </g>
-  <rect x=".5" y=".5" width="999" height="263" rx="21.5" fill="none" stroke="url(#rim)"/>
-  <text x="40" y="46" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#75757c">SURFACE</text>
-  <text x="960" y="46" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#75757c">by bytes across public repos</text>
-  <circle cx="46" cy="74" r="6" fill="#b07219" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="60" y="79" font-size="21" font-weight="800" letter-spacing="-.5" fill="#f2f2f7">Java</text>
-  <text x="114.5" y="79" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#a1a1a8">54.0% of 13 languages</text>
-  <rect x="40" y="100" width="920" height="12" rx="6" fill="rgba(0,0,0,.45)"/>
-  <rect x="40" y="100" width="920" height="12" rx="6" fill="none" stroke="rgba(255,255,255,.05)"/>
-  <path d="M 46 101 H 954" stroke="rgba(255,255,255,.34)" stroke-width="1" fill="none" opacity=".28"/>
+  <path d="M38.70 0.60H961.30C986.45 0.60 999.40 13.55 999.40 38.70V225.30C999.40 250.45 986.45 263.40 961.30 263.40H38.70C13.55 263.40 0.60 250.45 0.60 225.30V38.70C0.60 13.55 13.55 0.60 38.70 0.60Z" fill="none" stroke="url(#fringe)" stroke-width="1.1"/>
+  <path d="M38.70 0.60H961.30C986.45 0.60 999.40 13.55 999.40 38.70V225.30C999.40 250.45 986.45 263.40 961.30 263.40H38.70C13.55 263.40 0.60 250.45 0.60 225.30V38.70C0.60 13.55 13.55 0.60 38.70 0.60Z" fill="none" stroke="url(#rim)"/>
+  <text x="40" y="46" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#767884">SURFACE</text>
+  <text x="960" y="46" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#767884">by bytes across public repos</text>
+  <circle cx="46" cy="74" r="6" fill="#c98a3e" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="60" y="79" font-size="21" font-weight="800" letter-spacing="-.5" fill="#f4f5fb">Java</text>
+  <text x="114.5" y="79" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#a3a5b0">53.6% of 13 languages</text>
+  <rect x="40" y="100" width="920" height="12" rx="6" fill="rgba(3,5,12,.5)"/>
+  <rect x="40" y="100" width="920" height="12" rx="6" fill="none" stroke="rgba(180,195,255,.06)"/>
+  <path d="M 46 101 H 954" stroke="rgba(226,232,255,.42)" stroke-width="1" fill="none" opacity=".28"/>
   <g class="bar" clip-path="url(#barclip)">
-    <rect x="40.00" y="100" width="496.78" height="12" fill="#b07219"/>
-    <rect x="536.78" y="100" width="230.00" height="12" fill="#3178c6"/>
-    <rect x="536.78" y="100" width="1" height="12" fill="#0a0a0c" opacity=".55"/>
-    <rect x="766.78" y="100" width="69.38" height="12" fill="#75757c"/>
-    <rect x="766.78" y="100" width="1" height="12" fill="#0a0a0c" opacity=".55"/>
-    <rect x="836.16" y="100" width="60.29" height="12" fill="#f1e05a"/>
-    <rect x="836.16" y="100" width="1" height="12" fill="#0a0a0c" opacity=".55"/>
-    <rect x="896.46" y="100" width="39.97" height="12" fill="#00ADD8"/>
-    <rect x="896.46" y="100" width="1" height="12" fill="#0a0a0c" opacity=".55"/>
-    <rect x="936.42" y="100" width="23.58" height="12" fill="#3572A5"/>
-    <rect x="936.42" y="100" width="1" height="12" fill="#0a0a0c" opacity=".55"/>
+    <rect x="40.00" y="100" width="493.28" height="12" fill="#c98a3e"/>
+    <rect x="533.28" y="100" width="230.00" height="12" fill="#5b9ae8"/>
+    <rect x="533.28" y="100" width="1" height="12" fill="#090b12" opacity=".55"/>
+    <rect x="763.28" y="100" width="68.89" height="12" fill="#767884"/>
+    <rect x="763.28" y="100" width="1" height="12" fill="#090b12" opacity=".55"/>
+    <rect x="832.18" y="100" width="64.73" height="12" fill="#b3a83a"/>
+    <rect x="832.18" y="100" width="1" height="12" fill="#090b12" opacity=".55"/>
+    <rect x="896.90" y="100" width="39.68" height="12" fill="#2fb6d2"/>
+    <rect x="896.90" y="100" width="1" height="12" fill="#090b12" opacity=".55"/>
+    <rect x="936.59" y="100" width="23.41" height="12" fill="#3a7ea2"/>
+    <rect x="936.59" y="100" width="1" height="12" fill="#090b12" opacity=".55"/>
   </g>
   <rect x="40" y="100" width="920" height="12" rx="6" fill="none" stroke="rgba(255,255,255,.16)"/>
-  <circle cx="44.0" cy="136" r="4" fill="#b07219" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="54.0" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a1a1a8">Java 54.0%</text>
-  <circle cx="147.0" cy="136" r="4" fill="#3178c6" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="157.0" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a1a1a8">TypeScript 25.0%</text>
-  <circle cx="291.4" cy="136" r="4" fill="#75757c" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="301.4" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a1a1a8">Other 7.5%</text>
-  <circle cx="394.4" cy="136" r="4" fill="#f1e05a" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="404.4" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a1a1a8">JavaScript 6.6%</text>
-  <circle cx="531.9" cy="136" r="4" fill="#00ADD8" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="541.9" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a1a1a8">Go 4.3%</text>
-  <circle cx="614.2" cy="136" r="4" fill="#3572A5" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
-  <text x="624.2" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a1a1a8">Python 2.6%</text>
-  <rect x="40" y="164" width="920" height="1" fill="#2c2c30" opacity=".5"/>
-  <text x="40" y="190" font-size="12.5"><tspan fill="#d0d0d6">Java</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Go</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Python</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">TypeScript</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">JavaScript</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">SQL</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Spring Boot</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Node.js</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">FastAPI</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">REST</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Microservices</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Hibernate</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">React</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Next.js</tspan></text>
-  <text x="40" y="212" font-size="12.5"><tspan fill="#d0d0d6">Tailwind</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">shadcn/ui</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Angular</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">PostgreSQL</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Redis</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">MongoDB</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Prisma</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Elasticsearch</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Flyway</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Docker</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">AWS</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Linux</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Nginx</tspan></text>
-  <text x="40" y="234" font-size="12.5"><tspan fill="#d0d0d6">Kubernetes</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">GitHub Actions</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Spring AI</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Claude</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">OpenAI</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">Groq</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">RAG</tspan><tspan fill="#75757c"> · </tspan><tspan fill="#d0d0d6">MCP</tspan></text>
+  <circle cx="44.0" cy="136" r="4" fill="#c98a3e" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="54.0" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a3a5b0">Java 53.6%</text>
+  <circle cx="147.0" cy="136" r="4" fill="#5b9ae8" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="157.0" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a3a5b0">TypeScript 25.0%</text>
+  <circle cx="291.4" cy="136" r="4" fill="#767884" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="301.4" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a3a5b0">Other 7.5%</text>
+  <circle cx="394.4" cy="136" r="4" fill="#b3a83a" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="404.4" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a3a5b0">JavaScript 7.0%</text>
+  <circle cx="531.9" cy="136" r="4" fill="#2fb6d2" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="541.9" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a3a5b0">Go 4.3%</text>
+  <circle cx="614.2" cy="136" r="4" fill="#3a7ea2" stroke="rgba(255,255,255,.16)" stroke-width=".75"/>
+  <text x="624.2" y="140" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="#a3a5b0">Python 2.6%</text>
+  <rect x="40" y="164" width="920" height="1" fill="#252a3a" opacity=".5"/>
+  <text x="40" y="190" font-size="12.5"><tspan fill="#d2d4de">Java</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Go</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Python</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">TypeScript</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">JavaScript</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">SQL</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Spring Boot</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Node.js</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">FastAPI</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">REST</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Microservices</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Hibernate</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">React</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Next.js</tspan></text>
+  <text x="40" y="212" font-size="12.5"><tspan fill="#d2d4de">Tailwind</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">shadcn/ui</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Angular</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">PostgreSQL</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Redis</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">MongoDB</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Prisma</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Elasticsearch</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Flyway</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Docker</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">AWS</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Linux</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Nginx</tspan></text>
+  <text x="40" y="234" font-size="12.5"><tspan fill="#d2d4de">Kubernetes</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">GitHub Actions</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Spring AI</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Claude</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">OpenAI</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">Groq</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">RAG</tspan><tspan fill="#767884"> · </tspan><tspan fill="#d2d4de">MCP</tspan></text>
   </g>
 </svg>

@@ -1,18 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1048" height="472" viewBox="0 0 1048 472" role="img" aria-label="Commit rhythm: a radial heatmap of 419 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 59 percent between 22:00 and 04:00, active in 20 of 24 hours." font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
-  <title>Commit rhythm: a radial heatmap of 419 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 59 percent between 22:00 and 04:00, active in 20 of 24 hours.</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1048" height="472" viewBox="0 0 1048 472" role="img" aria-label="Commit rhythm: a radial heatmap of 422 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 60 percent between 22:00 and 04:00, active in 20 of 24 hours." font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
+  <title>Commit rhythm: a radial heatmap of 422 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 60 percent between 22:00 and 04:00, active in 20 of 24 hours.</title>
   <defs>
-    <linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="rgba(255,255,255,.075)"/>
-      <stop offset="1" stop-color="rgba(255,255,255,.022)"/>
+    <linearGradient id="surface" x1="0" y1="0" x2=".22" y2="1">
+      <stop offset="0" stop-color="rgba(150,170,255,.085)"/>
+      <stop offset="1" stop-color="rgba(120,140,220,.025)"/>
     </linearGradient>
     <linearGradient id="rim" x1="0" y1="0" x2=".55" y2="1">
-      <stop offset="0" stop-color="rgba(255,255,255,.34)"/>
-      <stop offset=".38" stop-color="rgba(255,255,255,.09)"/>
-      <stop offset=".72" stop-color="rgba(255,255,255,.09)" stop-opacity="0"/>
+      <stop offset="0" stop-color="rgba(226,232,255,.42)"/>
+      <stop offset=".38" stop-color="rgba(180,195,255,.11)"/>
+      <stop offset=".72" stop-color="rgba(180,195,255,.11)" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="fringe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="rgba(140,170,255,.55)"/>
+      <stop offset=".4" stop-color="rgba(140,170,255,.55)" stop-opacity="0"/>
+      <stop offset=".68" stop-color="rgba(255,186,208,.34)" stop-opacity="0"/>
+      <stop offset="1" stop-color="rgba(255,186,208,.34)"/>
+    </linearGradient>
+    <linearGradient id="edgeLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="rgba(232,238,255,.55)"/>
+      <stop offset=".42" stop-color="rgba(232,238,255,.55)" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="specular" cx=".18" cy="0" r=".8">
-      <stop offset="0" stop-color="rgba(255,255,255,.10)"/>
-      <stop offset="1" stop-color="rgba(255,255,255,.10)" stop-opacity="0"/>
+      <stop offset="0" stop-color="rgba(190,205,255,.13)"/>
+      <stop offset="1" stop-color="rgba(190,205,255,.13)" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="rgba(255,255,255,.06)" stop-opacity="0"/>
@@ -20,8 +30,8 @@
       <stop offset="1" stop-color="rgba(255,255,255,.06)" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#2c2c30"/>
-      <stop offset="1" stop-color="#2c2c30" stop-opacity="0"/>
+      <stop offset="0" stop-color="#252a3a"/>
+      <stop offset="1" stop-color="#252a3a" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="bloom0">
       <stop offset="0" stop-color="rgba(150,170,255,.11)"/>
@@ -35,13 +45,19 @@
       <stop offset="0" stop-color="rgba(105,125,215,.05)"/>
       <stop offset="1" stop-color="rgba(105,125,215,.05)" stop-opacity="0"/>
     </radialGradient>
-    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#000000" flood-opacity="0.85"/>
+    <filter id="lift" x="-12%" y="-12%" width="124%" height="136%">
+      <feDropShadow dx="0" dy="10" stdDeviation="13" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+    <filter id="edgeBlur" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="edgeCrisp" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="1.5"/>
     </filter>
     <filter id="grain" x="0" y="0" width="100%" height="100%">
       <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/>
     </filter>
-    <clipPath id="pane"><rect x="0" y="0" width="1000" height="424" rx="22"/></clipPath>
+    <clipPath id="pane"><path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V385.00C1000.00 410.74 986.74 424.00 961.00 424.00H39.00C13.26 424.00 0.00 410.74 0.00 385.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z"/></clipPath>
   </defs>
   <style>
     @font-face{font-family:'Mona Sans';font-weight:400;font-style:normal;font-display:block;src:url(data:font/woff2;base64,d09GMgABAAAAACl4AA4AAAAAVwgAACkdAAIG6QAAAAAAAAAAAAAAAAAAAAAAAAAAGlQb2kYcgQ4GYD9TVEFUYgCBTgq8ZK93ATYCJAODPAuBYAAEIAWJQAcgG8ROJdNtHsrtAPz/USfJNP//OTkZQ4aeDZdlHWKZGQqCK7GEtgtXyJAtYRf27cbykmOJ1jLd4w/VxEXPiQsvuk7MYKrCx/7jZh44aSRrEaOZEhVzovnX9Fy/J/be61VGjdwaLIgKmpVkQ0wQvTR+xB8FP1HoOEKSWQJpDPSSfAHZAisAkogDshNufqxZAgs1Cai6CVfb/IDb+rcxOA+xAvG0wQAka4NRI1Jh0GLl3feqfl7W7/JH5P0K/dEJj2TzsSdppMElL9gfKERlmiY5Lu//12nfVlgDtXu2BCya5Yq4/MSQZOCHhjyJEzZQDCSDHBPJMpDAsoDfu/T//kHOuz9Z8AWFJgXyQvGYqKvGsoK8BM4CcHlN84gF8H/UZs4CtRk4dWkX9kTsV/Fv8q2qhORq9iyqcNmJ6GSl581wzt+9M7bFEVBMg5QuKbo0ff8IZne1lXAKgSdP9CDAuFpJ+YQKt3MC+MYSIQHi77c5KYn2jzSXhMnE80NEe1kCCgD4/28zbedagVVwJ8RzTmRgpegYisZQxUU1/l8jz9M7syTT7DdpLcOsdk0yKyRtQNoglAhFuWuWWVEIoHIqKrkiaAn6hsqtwmWKqk5HL9FVIMsRF1d5ikj5vcoyL7y3nwpxiGWQGtd1g2tyNDshxNj/uBLAdGA7kFhQHRB8fIguaggNE5SbF2LYMEQRVLl6CJSRCQKDBLuF3jsWTNVBBT10xBOB0sc31kxDKQzQQIB4dGd+GoqAegilKJqzWfgRKIHOHjbuB7WMN9riiMvc7l6v+cgP0hQdIQtDXBX+SEQ2cFZnW2rSnbFM5wXpyFh26xslK1uFarJ2Vaq6xRYeRYBiMXMCJ7ixefgVC0kpk5HHUzCuGZMySaycOLZkZ8bLYSCAu8DDkjBKDB4VvEolG0Ek62BRRvNE8dYWqyxZwngrGJQZ4njGc2OIK5esaTxCMWVjnvq8USKEYq2JJ8lFy1c3WslYV4xXgEjWwhArKVmUH6FxUnTLuqgBCowWMVtVjKkmr7ra6ptp6ExjE02NtDTSCiNsSJJBCqXGYYQwt2TJgGMgUlmrGIhAF5MsI10ek7WSaF79VQ2UQjeG8oXRsRA+KA60WcVdUFMRN1JDdZZkDkzuSFQZ4QbootIlMCmjRLSJdZd4M+OdYRCpEmlNTB0mZUme/Lx5xNVIdgijrMBTg7e6fqAoS/NE8JaGiOEp05FKFBC16+lcqOStk5NoLNepfFGFMoZzGalitF1jvWe8j7VDLQqF5rGIQpSVxatL4snl8bCar6E+dxSqObpOCv1JnUp0ZDBADUXEqJF2guQopHqNdmKsFURaEQ+mRTSI9UdjJlGTXBH3OsxDBzkspNgTIIXsozuULorF0jF7TkDs2RGX6T3ZvFawZCKgrFA2GAcOuoh0OWUs5eGVERHs+blzoLrKX0iwrHBn6C5Kdlm6HZkI2UhDtRVGOF8Q3YF0HsNAaex8K/IbyQmD4yE0ocsb7QaUr6B4RRyWKHgjRDXWPuYoy90qqk8F6wv3mGh3ontPujXotFkYmPbJ9K9DI4Vq7ztqju3upbYKgSadbnyfd62XQF8DfdxeGdA7Eb0N2tkZ86tC54EEDItENBvu/Sz64mXCJMU4ioveMj8NpoPR0XIpYGm0Cj+6vmgr/hwBliEwlRpCB+tx8DGPqpzVv3L4jS70Cv0RQzYyd0Xg5aIrBtBb96LuFKo0ycXIRgV1kLk+ijI9XU+X9pbTCCNcBzGgIRJ6i0Xfp5+DyrdPy5UBFKOL6UzvwHBpfgpZG+PofKC/n0irdBdH8B2N0F6yievDX6OEJrhJUhcKUhL10v5z5h8arWxNq/a+kDewT9sMedpbgLSnVZfn60C+XWD5CX7vteFOiMwVxQETuBXMpUbxhAcPkYcwTJqzUVDJo2XclCUn4yN46aiEkkKUOLJnlzrdEV+dkr6uj23Of+0YlHHC+PCgLFh9gPLo4teG4js8laN5UYxONiSYnJkyu4PImHbjz9Rpfn/gyioK9MnA5c6keP4eCqGVF8fRobySD07lJpLmVfjVNuwWD09+bJPITO2Ct7nlElnefdq9ebHbRaNWa0eVfEEnSqvlJpsD0YxUWOcU2MR2Eu+pSyS5fbBUSi6cuXPFwWFQeXQtm1mcm0N1pJ+IAE2qe6fAyqtMcnn4PV8alb5jGtta+M7xZweGXDA+PUlSNP4AJYovf2WofU9O5filkm+dbAkESFD/4xhEbbVT4vhyfumgkVgmLGqToJD1LF69jAqFqBltIy0OCoGfYdkrHNU6goGJZG8cQAWNVGrBBBhHavDvTCUJF20LogMoUNt/DFXtiZM9vU8WDze2gFMNiDh1N20+qXSV4f/WtjW1ejPdaD5TR+TFtdOh6dnaxhgcikUVJsMht2vqmjlTL2/E9Y2qxWmWrEI3NSeRHPwplEVLiWRJ4tSMkKba+Ye2u5Eo2fFYREGkovX7XZ80s0FTZP1FynJn45smU1sM3l54M1vzx9VlEFQtlWaV8drjJKCrVzuQd9e+Af/y3Qvj3reBN4KEnc0J3nOPZLWAp+un2uErqAWiAdRE1+FHiHPQPgctA4TLIK2Rrsw9vveV+nd/UG21DLfjZp5lfnp5tXql6zQDdecwOcY2WUb5Pgot2SNz2WZ3cH2Y5HlwMrQYg+Xh04D9Ne7utUJqWqmjNR71TFZqASkrHUmLLM/o5520jWrlUunoAp61U5J+1tdXu/k68Z3DH35T/epuoO1ojN2egJOaufX1CZu75wl/Zm7XIrJdKOR28vAE7kLTPZDR0EuWWuvsPGoeFO1W1WwoCmWLcbUafGvAgVT4UiVACDgqe6g8OvK0/LNbLdnm8NzWiUBfVPqDmSkEfjVjcXMEXo6E1/0fllvtteNMYecQnpyriqo7eVD2iq3eKmU5mrQ9VJNJVzWDrdDgC4kDmdFIcpoVuAEn3ESgILGww9zsRlujzF72YFnBT8RGRCQ3075FZC2EUmsDtuSpDSccMczhECW7G6jM1eyXFz9zV/+4/H4hX6LFlzXm/by7CaA/dpT7kx6LF6jfmchpc8CiwBCJHOwFF/JBYTF5VJveJEoAJyBzIN4uN/MXSAuuSSMAFrIIVTfV+Av/cof/UPDkf/5vJ9+74MIHH1X80mv+fKasE57m6jxVFTZLLqNzARENAAAxQAAKxGEy1PgCEsCARCrjkJ37my3aSIIY4hAWq1YuD1WFItVrdcxQYBFIHWsAmhDdWVvdkc5LHppaWFoB1jaogHX5t9rmZmqqxkYKLUBPnioF7DFxTRWqB4BO0iZTGpT320OA7k6Jv1Yx79v08Njj0fh7zMeeuBpnUYx68CHHf6nJhdyUx3I9T7OcuDCGuGy1UIvDUc3q1bjkUYrZR/UQD4P4Pc4z6JEdw2PbeG+sD8c4HsERG9XRG2aDndZa6E3e4Sa3aWkQB/EAoRZXh1I3ctBxcrJ0cbFyc7P28LDx2Wdb33y389NvB4okaIiOGIhFsAkujUfwCQEgQhJCk9QnjUhjZEKakuakJSlVMTeEq0Fks4WQTdg75YBypgvFyrWUhykkGipnuInRGsY6swJuJUIlm2IOtZyK5FUYUYUFV4zAYcPkUGSorhEVWMyq2ZQhVXColsM1qgmLuTEcB9mYXalQlLGKMEQLdtVCdeRLQzgUYVoJ7ADOAFeAm0BgA6lRkRHlSpmreDuhiqzKzvd2ixGqIBcln6LQyFCfGy5ttC1jvavMSgBHVZ3OloThLwAOWaoCGngaz+Ge5N9AjCqWAhVA7fJkCV6KFvk6UG89ewymrK9HqBAyUWpEjcQoQS1KghvkVSlgLaoOm7kOsiY7ri8c2BfRh3oD1/GJez8kAY7UvF+WDKCpJ4UOsk5WW/cI0wdPfA9VYZ95Eoe5IlwtQgSjxJGEKUiHkg8JbPM7wmukvwXmIKgphwlmqHkh+fyAS0jhOj/HlkdkMiwrrYqjT7Mo1lHDfvJbEPbOGz2PkZ8wYIWxJCytmDQMHQz3th1LPgqiG4qFj0kCXISiEyTjpDMw4IoNVTGWG6obuAFoUHN7gbQr5soBZxouYBocFAz1sKEBBAM3Hwl6BSYwUjsGIMbqhoLLMDZDdNjMSeTdjIas4zMwOIwcThPlh/rjjtVrqiXd41PrgHgrMSRuIkVr09yaDPKyFFWoSkMoa2BBe6K43Wq6rq4RbkkNDno1LtVmXVnpjhKVc++GAaqKULKylNWg828CBub/1vwEOTlgtX6jG2AABWQDVBMQVcmZWW5sKqVgGG2ArjKt6hurzpoBjeRpWKsQLAp0s3lmAdCppvWKK5ZAoI2BwnnOLGanoG1UroJicc+pcsN+EegMK/5pjbZAvws6XjOrS6BdxcuVLJeFgdUImABEN7A6DutG/sIMSmSIAI5qjBYxwA7goTqRsS/9RBrdObhSfTK08Ggwm3WrMx1myfQwu9bzjJzVYFK16KxUABYhIACLRKKqUYm1aQK+6gQgr2ErNQX+mEWDogECAoFzwgm8YK38JG8tSbJissFNyshWWIg8kFItQusSKmqq1pTWGCob1sCQ4GCw9SfExcsyrLjFEmVeaNDUIWnXm3KhW1ysYq14+y7Mb0BqOWObfkI6tHx7NJlIk1rXENqrk9Mm7BqZfETK5QhFbLTD6YJveOOzYF4hDL7UfTSZEabWipaA8F1rpOx7wh92ho1qq1jJMoME7YuvSwfBz/Vtk5yiOxVlWHNZUAk+l+CdqLVT9+nyTbAu0hJvLG3LBz48fkJ+kP9+r5fv+Pzi9ds7afhzTsqwte5o13T3yqMArnRdnt0TWwLeCFNlXXMnwX/rhblYvzgmM3Fwkm43jcCqwSYVy0K0l8jRFCNyDs4WDDKZJUit+Jx/zk+MNJoVNsikYKrZHJ5yRyReDb5b22GkD6mlpV7Uj5E8HzdLUQ2+rS43m8vpxZxL6ykf+Wh1JbMXt2aX2bYvw+5hswW+HUnF9aaJnZvdEm4esZWA5qdIOzm6PDLZKh7EYtisPkYiHTjkFt+9pFK9Cs/gf/CDouGxfHhKDwlokG9tn4ile891Pe+NO22R0xhnNlD+jaBOUpVW/bx2Fw5yL/vqtuv9aP9Iz43qQTZji4VPZVqONOrQvfP55Gni4mJgvLTpKdI4CPO+7fj4LL48JCgZk8t2HQ6qqXCXNVpvqdSkaQ3Olqj3FgJfNNi6ohFTs6oQwlsVSjOyEckB7MysaB+mn6e9OgsKvOw+PHx3q66DbOsgTcWEF2oBv2xHpSh9to71iaRYkWB2Z1rt1M73k958V/jW+veeeP6iH375/V+bnrd4/jD5RaHd6s4lvXT+d0fNoLN79odTercMYyCiVUyhu4vBrp7KJXbf3UJRkZ8MY94UVfCWUNXyaLF1ek4qW5QMwVkM/sFltViRXs0agzecbc+GdatZLBj6zgm5Dlcqgu2ybt/2wjnIa6AfmM2x1oJNmhKTGA88bHRSLB+6dzvHTlKpI1kWNBZMZLUtObeTEkIEcPuFPXsmdrphUMRgMd1sqqXCZdF4XBq7MAfnezRGwBaBGFy3iAFObb1xSo27Jgo3ozoPZe0xDg2sOJ5yUW7eUJ6QCbyyszZJroFNj++kYe8cQW9uKSoREeryY7VhgdqL9Vs/+UFo0Wbol5BPyeWM3S1DzB4HCy9/Lf7az3LV+lrzBmHsu13fWL/9pY47b3Zchy3pGjyEzrLHXDKbTA0RHDBf9SjaM2DJikzM9T1VkpB5zNhzzWgrwLT36M7E2Hj9h79ousy+vFOfyoTiB9DgepI+mIEtZYMh2d1jfu/HjZ3Pn+ePyxtwBO95dmd7K5i7H7nM3rwxr0ZC90scFzr3xew+ZUoDHSrp4yqd7wvedLaii/YpAi8JqbmfXtjy4spHdUJ9SN5/eIiketttjythx+SYcmaqsperXFhTG0fGWFI6x0UwDbaPvLyPv73P3vq5O/0v+dOL8L32KPYMSvzs5+iFl1qtymZ8rUnIjdFv7Pd9LDk3nZyEXdqgjfTujbzNnVqpy+nZ4dunkj2KVeOW6LwgHJnwwbkoyYg7UDe2yTZB0s5eKX9wiJqg0SfRpcfxR1Sho9ZM1n1mQI0FA5TNPZ9JPH3IRH/pA14IJeb5f/z4Pk2PfDMzvvSWWZTtxOpfspMRUb7MK//8g0P/j7YfvuOLn057lJsc95FbLr93BmEkBQFCYe9Pkgk0LExMrD31ghuMZcndRilYrzEsamU2TreemeFfDdY3T16KJmYW73Y1KqSKTJB3Th/2SFeOGK0TGR5Pm8FMeXuj3mj4CG94Ps5IndCvkvH1SPUn5Y1WLHlHzEy6tLcDsUy9PLtnc3XLx3YAUSsH9+a0TwqbMR8Ga3vFp0jhcxsivOtjgPeMeQJbgs08MRbT23SFtiDrGSLO04cZFyQmpnJ7i+BR9FDVTZ2dBcvRA3YHH2a2AXcN64zg3cI11FE37oVSA1UvXHDwP+wxS7SlY6LWacyf+Typ6CKYkLVYWU1o6+3L9V2becLT/BoT5WhHD17vN0azErntZNwNPkH2VjzR3dtvF8n+AzasPz6mw77g/P3+81NHQzJSPWtMOlt4OhA/EzbZSDFifrG7ywabTbMrIV5W2WtH30SZzZ+//EBVFYZlsjpIpDQDutxWXKz671mC994LBshhfigxfILYJ4NSx0qwcwqTIYOdSDwVLXVx0qnpkQJM2Y5Q5lYN6rfyIza1VbpOJxeWeoYJQYAKQLFddZAcJxIyiQOyISDoQr/BWI2jYA25xZ+Q5giEkZvkDiV+eF5vAYKa1VCeXNvZAko0wOW3Aii+O6HVZSpnm+ljG35j1hrzZddcPg0+btJMy111TES7YRjHQG+XOs/GHV5Q/F3IUhy1nHvL4q5pX8FsWj52AJjcN0rn8AWwqhHawxdwhMog4iPvFNPuXpmDAbsImh1NMiGhm9Fhjk3z1WZ2Yc3gC2y1AsuD6CpLmt5Dken5a8MaMFugYlNY/ENuQ4FBl1E3G6y1RZz9uk3NufEjtl4I6jPK8ziTgQvubaDEYLNpXMRAFGBgoG/kQfnks6tvvrn74YeHX357EsgvNufwajCAAyyGDpwpUnxFVU1dQ1NLmyAprEwSxIS6fozRcYouzJRFHG7pawZrenq6gQUc6tXl6esAgClgBOjpenaoHtqhhfbWdTByZmUDRgHddMtNRx3iJTeUgCxBjrox19NHQZWGYcbKSSOIMgm9WY8LQ5n4BOX9Ufp/L//1a9TbeLPh+2WCT5QytkgibybqEFheqqaDt9aZ1KWckK4rotyQsQtyQHSuew8e+pqgrlg4ZyoHcqB/DIDok0+XHFexsVjV7duUpo+uk4C/1ZMy8QJs7XLEPh0BckL+gdUK1xcJi/rabNd76/aaUQTeutE1SJCXXl69AUn6Pw2uATIQl2JgqdQGAcQmBaAgnTxxAOT3QGCAsHSKyiJEwUhLx9x77yxVjoGtj5YFLWvMuA22uMRdq9P/AVaT0MEl5IybsLHXl/wdnQU6DNqXvwDoG63+rwHRAOwE9gFwCACCT0ZIwYS8rDha0BBKlFuYh9eoYSP8clIi0sbFTEsYlDQGhBmAf4F3wOT/wPQbwLvA91mxihosNJFCy0+QBmzhnmxtlFynAcVpK2WO8yVG3dOo4sNxQGE0rqVVW5SwLGMSJzxt/slh3HMcmw0e8q3CNeXo3A/DfDatlQvmxM5j18/CMm4nC6p22vPMUExzeDiEPRbP03zaqUfpfqsemLtqjmsPl47q+EnbvVXUdKor3VaDTXN+x9Rf7jRzeLbHLLVmw2A3ufSM1pM0jj0G8i7s1HS1V7NWQLkCzBezRPVPjW2sIjKylqMV+lW114qaY2t0xdTxwLUttJRtoHdkmCOcbED4JRIuc5FLoGl7oMYrcSt1cqgbwef0MbdiTxJjiSrT0LxeUnCSaWSX6NjiPDrKFpDiNoc4ytkoDQ3jhNMbOG6Q166T6NxqTu5E3oYdBrZLr2PjZMjb55xAXUJqeRHHwTd8DdZ0ZNsEOGHeCqy+X0Bf0NlNc3hsQi754pbLDI5x+GIyS9CsMCgjv2ZHPmTZx64OxQNjmiUeMHWTSN5+TY8zODGokUnaAJQv+5fxdsvH2qGGuv65uP3YaAfpW+MJahtGo2p8+ZErMSShGBVMZc4wxEEDJ5OHnRqoICXRF895aeXSLMuvahpyXEASXZyKPpk0jZsehZV1w2nfKY1q6+V0lBquRtvO9wUP79A8HKN6IZ3IKDQNEaDlOvRUIeFOZdDuKYqwcXMtXkWk68368lHkceqlNm/qYJQ3pvy8G8nJenOuxQbLlrWPFKlcEC/g4GCySRLaSOoYWjat3Wdg+iWOkDkLJSw8wDyWVtNQLqsDT/VhDHp5MgXtz+lY7jfhs83ovQDy9cJof8Umg5M5X1TZ7Q+uZn6BuCePliy48bzysXk/FtRYi0yeahZTbL4SE55lzkWRWxqGv2yTrpJOozSRkkt4e2kSJpg0mdUXLKBj6ATnbIhi9LV/ukMaqAof1qjVxCrAW1+mH0G28SZZPcCP4MPyO2qhbRxAZ39rxPeRmoJyGf3hoNFu5FwXJ10gsjhW52De6yiy10ZE6Zuo+WT829JFlU/GuePMmTVc83hVDskbBJU9PrA/Q4yewpK9F4AHIUNq4HH8qBjSWpyNkqL8kN3h12m0HBCJT8Y9z15hQ4s3ly92mVv8ifS0wlMFZBrYrDD8FNnsyW0ProDLxspklv2lU2J62Xf3mnSj+bn3WYe/5xGPTQs7vkEBshOMCbGTEbShsxZCIL0z+nOteGs89T15duQBITiBy7R/K+eYx7FzAT5sP4f611A05CTpqbq8ZK3XYAS8OT9R46zNTdD5dECRiXplAh0QdEBGnTV5klZgD62UUCYxZ3AiUZTZZBtbgmx10NDRDDJ5Y1AnCs1oiObJ+GcZcBKGFa1mLIz0Msj8FnNOSzEIdy1xfy5wIN93X+aU5pEIhur81PujW7l4hJ77f/VDkYFYxYvugBbRCt6BWaq/TyZ9m286hD8HVonS8UQWTW+8Wy9RsH+xbuyyxTT10kJ0fNc6KFkKFhHgIoLXlzV5cqIATYlBNsD6oe/LxZv5mpPIw5cfs03Q/v1raDmNOnJkrdrxjZn7RoPjchrDzxeSI2c/nDOH519P9o+5NO/VpKPv/Cvy/K1344LSC4J7np6yg3s9q50bR6BpPn9kbsAXG9YbI3sxO8eZthW2Ta5Wb6D8LouZstm+dn1swk0KDWXGTxOvgqDoBB2+Zm4+fM2J+HB4pz48VezOHtA66S4NNUlqd9C0bsekza2hBTrX9iybCk2fpQ+DZ6lx6GDMc8XMjOfyWsBQYyI0gau30LRm84SFulVx6zuP7N+eN9oy5E3h352nNns3g2fpj+cNFSfTlr17/HtAUHQyGbpmZjZyzanEcGi7OjTCseUv1Fn621TUNGnYHqf1O6ftlGNUq5n1lf1KMHeNBk8eDhbAt5RaTv3yue6WS54LPWe5BaCCSuj+MNWmmtL9ycQs8IfOOTg/cWh1rbjx2tlnltLLacd5XKDeFX0VXEuHj1you5/1KPTwhYeXk/Moa4X/h93nhHedFfiR1WXNJa83wfymMJPxfSGxPLfez2J8OJ2GzqLjidA1s/Ohq0/QQyPHaVExP2eYauphd2jSrt0ep3mcSZJyT5BQQsffrE/YKfAsdS1sXztp1w/NKDyv+57xRyjSEfH4X/h/K+KfJzwki1KbikrBt+SZXCikSGvCUsF8S2W3bOLZspmkc9VY1/xJ+Ve+zz0uh4Xwm+3vnJeCT2xQmwoMaxZz0N54II4beq3+FicnUjYiUniNRmNiXuqlpvuMMU9mU8REOgNGdZfI3+gp8ZcVenVRp9mSWieLAHYwfSj905I9bIeVRTss5KaB59OnM6P5ZK4wnDiden7biSO7oXpp9IIXjYtM/eLJF0eQpU3QuDRSuKb7NEt0evyaNeNXiF9idb80eMXwnUtb87uk77Nk7w/u2gKN537un1qzaC6wTIWFxYlPfZzzZg686ZhjOecOvDkJdeLiayfWPDKwnxnbf8YjEyXX9qWgzjv4idGHHQmzfZl3rVHstrAAHipK4/IN4Yh8Qxo3m5MmPoMxESmNMCYZnUmz2UURonZvn1zc7iPEQrtvJG1sjxEiEZQU0UYlEx2PfBv3YDUJs9k80jCLWeB+tzRlbPv4i8UiQtTuEWvFbR5CKIQ3zVgN64NB48Y5K2XMCg2BhcStLqVCZpd0DBiMnQN2kUTj1l0eX2cM50UmePj6pjZZEqYazB3/tnQ4waxJmCzuLYgVfe1eXCz64U16R0h4zhShWx8M6zZMWqnApEO2nRG9/BkkHS5Qaof0dOyQ0ZXhG640mvdAyB8lRVZ+J9UOhSfiznjOaLVYKFLXcn9Laso59WQc7rp3vY/tTu1yd1ucOEHlsMqUwWxKm+QLwaB8bdpktKT0bRhaiH7tV+QKQqqt1CrscAvlwnaXVSgSEb3tUQPty9mA+CYObuZAyqALZybmtTF+VO83CQNd+2RNccBL4qW3YMtIb9ONnfK40aSzGkloemXjt+94xoa/oT986dmXJp9/7ZmxsStpsH4T/xZyk0XRESZJ6zSGgL6R6UqbDP7kyIwl3hdQUfruP9vcfYJYn1/t0al4q0siMCMnmaNJDn5BpO1eoqfDK2/Ot2yWMG4IBg0bZm2UewYRmveMlRJTdhF/wGTsjNnFEglX8GNgGnMjRRIgSiLoBLNDfT0qXz+tmTZ2YHVx7nfDfLs06Rs9mVXUNgviixNY9Vnhe+s3m8VsGu+++ND3hDAMnYYnHL6RtCGMvj8BL/FjWQYSUKo4l0QXi8WWFl+PMgb3rEwLlC5JLGDr02hOd6/aEaojikItu/r6JGScr9dFOySkaSB5SiK7vpN38w7ln76WGxXUdCgH1601BAddg6cGOFcvuM4gmk7wcE8aLihKTwyTtMSj9Vt68d4Ov5IXK40wpjEHbTZCSUkmJxYfYAoP5MSZ+0omgFmScApa9zOb95OCQaeg5QDzYT59PjNwbsmsvbL1MKPlMFE5D6995z9jqy+3YIH5ywdv++vpyrEdd5yFHT3rjjyIhtXtexfbM/xX/4aRMuFGrHtjtiz9LjXlUphIqMFlO/iu47hsp9F10xzNbrG30n8spp3TT8ZOl4y7xged8dJ41RTUc//H6mXcemiA6cezrmzGROKWkFXfAfzogmvhidgj7pWTEKzkNqQORlJVEAThVbzsI2Wq4Cpc0M++WlUae+I9L0/Gc7gLHxSWa+uW6x8ldbX1cP1aQ3BY/NULBthy+89tJK1nv6JanXg+8JXpqPaqtet0V01HfL7OvLyygJVo2Z5Ot2yzWuVyrmjdBhWt282f2+XwYOMNpMBiNbrib6WA7+enyIA2/8TA8T/bDVabweAOodYEIHb96KjGSuRkiqRJ2hF0ed/1PPOiOQzDhyDwMheeMaHQ51A8YQ44cdJPWQinjXDY9SYHodFYTTrBoq4mKdJmhuVWIi+WR7U6fbSC8YI1RRK6zLTcBZNH6ktPvUKJHNaPx99KwmvGFIasKS2Y+KHbGaIpbzBGihyij1Orjl8RDFf9JCFC3RLrkE456aSMs/NGN/xQFFOaI5P7dHcuxOL4YJ++P5E+x6nTWChH6znIOKbO4XZ8UKseIZ2mqRmDS+y3dnU4JS5/lOgjuzudYle4n4S71snfzZ6mRlfrtzhffItwz6Vfkr29bhDebl5mTBr7OrxW+TJz2hrT6lTRIZGNLIhVUa3ONjDNXLbJ2719JlNyTkqR/ojLRPjcHo/fTZgiLocpacdVaquFIKwWtcqOm8GzhE9Zw5KyhqVl3KVlDXp/9m/RG/GqpzbZkZXf+efR0Nywqq61qTl883ubCsD/T/f+un54sOjNWd9dAvVf4H7LuH6I5iXccm59OZfbXN/b1B41feedAddH39nN0zpMZpzy9dGA6/JjSrtjWKyIGdtGpktkJ9+7qhoNrgTyjTYer43XWMnjVTbCxt/YhObZ6LN33XVP9B4NG1f0Kti48xnlPVdf/Sz5rJONK3vh2vcPGw8vYnMvki9e9KLtxf3G/Ytc3Ae2Dy76gPyocfGiRWhb6q+S9wwAu/UrVj+0iLQeLYgi+zz7QCSUeqQgTnlSsCeaZuzenWaEAj5fiGactyfJ8Ph9cPwqVUsLX9/Ac/Ia9ILOFlXbZfajXbJTDIy/Wdxx1H4ZMKu4n9kPKQ7ZPwPx2Ix/pvJkNwQKdw8X7t+4efihe8fXzd6UzF8z5RUtBAll3xo/9p1N1tON93RGDIRg0KWUdD1/DbaSkpR/oWK2teOraH0usO+QJz12KhG8fGwyeOnJ+Dgx3TY9P3eWwMYr0kVQO2KVOYRyVcxJSG09sJrpbvlk7Im3CZd4uE8h8UZ61FJK0G2XmAeGIvwNthazWyT8oVu0pqexUogv3vTIlL+vt/o39HrZfMmXjJhYElE7c7PR9tvIRqtfrrYSKhOtuiXBJ3ZaQz//8iCJkktXuEaQuVW+voshthRsDMLn1qn1BcSaRRz9vriX1mm7wdvk5IRKRnpULmP8rLEzvNNSPc1Ji8O40+7XywRcD9df4irO8w0RF71rYmsrsY3YSewi4G/bE84nnqWeLR4qoPr3defr57/ueB3kz+4+uWL3qfhHjw9/9CiEwxfcw6udeuACfSXv5iZZ641fNTW8+F/7Vmntjm4Z/LSUPOt/PX1H5o4IpJbIp0cTVQ7vSC7nGyZwrMjmuC08JnDZ7S5f0AUmVAtmzhmiebsiPMO5nGeEWNnp0AS2Q9UK4jEY/paQpqXNPBQK6LrXaMMeErC1OoFJJtX3lF5e4OOitcvSeq1AV/l3ullAbiaXf+5hN8hwg/jSoRJgZsyInz/nTbl24nbqqYsKKLJUK9+NaYyMylf0hKmrhqngY3v02gFsBz7JXlP9yfWzKxyQl/Pb9ftP+W1hsrTrzo8IM1yW39feLa5fglv7T7QWlwCjaAL2WO+7l+JXuUxhfnWZ1bbP3FMP7/0f+nlwrX++3DMQICd+ad8/015nw/PCYHwBePbBbALA/1sDH0f127q3HgYmQQEC/Pilsn71td/LT2nV1XnpRfX4HORXanc1/36h3+u8y7AWr3xso7Af+P2N/9ap3BHu9fC/jMAXxA3QeUH0are2s9UEG7s5nobvJjXvDat2h4rtw8l+9aOI5mWdUC8WJl6njjPgpEPPzKzepWCN0JtSed81N/uI7Z0ZmxFB3Itw83uIL464b7QerSxNTPf/l+Z8CSubseM/JbGsdimcCuLk30QSJAXAhrNoNV3dGVWrx59U8zJ40+jZDPswaJpfr8on8xrwC6E3tHtT4H36P3TzrASeR7Rfm/ItqLstvdjDrWyD1vuSeHuJ726Gjfxmc+vwbifBRQWh7aab0+fGy/W2kO9XPYdCfJtIR1DXumKUbhEJnnoacmC5vtanzw0CvMSDSQxV17IsasGhwICMlQCegU4AUe+TAKrUPwEG3bGzMacAE3G2AEvHnR0owonrAivV352BYo33QoCj5b4KlERbsgOlVE+YXU6WXcFoc67ql58EAZhaC2kAAU5tC6BQ//YEBErrCrqUCr/17jkoFKklbCZLBllZsLeCvC3o7V6EAuC+gERK95QbcgKsfnIJuSDL5CTlAZ7ZKdLuyfyuTLaLGfQUM2pvzLfT3ApRrT2VTjo0gZRuHvKkk8luougJDcKCBAu6Avucy/HysHH+6ovFGt+U8wCqlZnn3t4Z19vwSGfLSGBj01J96V6z7dwYwkr21CIWLa092jAvBaK1uvBrO0Ma5iRgXiiXpje2ZacgxGZBQOJ02DOpw72DNTrAtaWO5SDUlrY0QeklYXAJEMKGXMgTrLJwUhUoV9CQCGrW4akCGXITOadh58oYmGSUEUtRyzBsmDjMxwUFsS0UKTNXDxgGYkV4dEwTp4yhqVKqIBTZlE5O8XgWzGQGzvuGJcOc0DPHKNL5heENq0s/ZK0c+qMvPb4xECgEZ0Y8qAkw7SlHHro1gRwgi/ZVPesMBgA=) format('woff2')}
@@ -69,24 +85,27 @@
     }
   </style>
   <g transform="translate(24,24)">
-  <rect x="0" y="0" width="1000" height="424" rx="22" fill="#0a0a0c" filter="url(#lift)"/>
+  <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V385.00C1000.00 410.74 986.74 424.00 961.00 424.00H39.00C13.26 424.00 0.00 410.74 0.00 385.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="#090b12" filter="url(#lift)"/>
   <g clip-path="url(#pane)">
     <g style="mix-blend-mode:screen">
       <ellipse cx="140" cy="42" rx="420" ry="260" fill="url(#bloom0)"/>
       <ellipse cx="780" cy="263" rx="360" ry="223" fill="url(#bloom1)"/>
       <ellipse cx="450" cy="445" rx="340" ry="211" fill="url(#bloom2)"/>
     </g>
-    <rect x="0" y="0" width="1000" height="424" fill="url(#surface)"/>
-    <rect x="0" y="0" width="1000" height="263" fill="url(#specular)" opacity=".5"/>
+    <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V385.00C1000.00 410.74 986.74 424.00 961.00 424.00H39.00C13.26 424.00 0.00 410.74 0.00 385.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="url(#surface)"/>
+    <rect x="0" y="0" width="1000" height="263" fill="url(#specular)" opacity=".55"/>
     <rect class="sweep" x="-500" y="0" width="500" height="424" fill="url(#sweep)"/>
+    <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V385.00C1000.00 410.74 986.74 424.00 961.00 424.00H39.00C13.26 424.00 0.00 410.74 0.00 385.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="16" filter="url(#edgeBlur)"/>
+    <path d="M39.00 0.00H961.00C986.74 0.00 1000.00 13.26 1000.00 39.00V385.00C1000.00 410.74 986.74 424.00 961.00 424.00H39.00C13.26 424.00 0.00 410.74 0.00 385.00V39.00C0.00 13.26 13.26 0.00 39.00 0.00Z" fill="none" stroke="url(#edgeLight)" stroke-width="2.5" filter="url(#edgeCrisp)"/>
     <rect x="0" y="0" width="1000" height="424" filter="url(#grain)" opacity="0.032" style="mix-blend-mode:overlay"/>
   </g>
-  <rect x=".5" y=".5" width="999" height="423" rx="21.5" fill="none" stroke="url(#rim)"/>
-  <text x="40" y="46" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#75757c">COMMIT RHYTHM</text>
-  <text x="960" y="46" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#75757c">Mon inner → Sun outer · 24 sectors, midnight up · IST</text>
-  <circle cx="250" cy="228" r="104" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="92"/>
-  <circle cx="250" cy="228" r="150" fill="none" stroke="rgba(255,255,255,.05)"/>
-  <circle cx="250" cy="228" r="58" fill="none" stroke="rgba(255,255,255,.05)"/>
+  <path d="M38.70 0.60H961.30C986.45 0.60 999.40 13.55 999.40 38.70V385.30C999.40 410.45 986.45 423.40 961.30 423.40H38.70C13.55 423.40 0.60 410.45 0.60 385.30V38.70C0.60 13.55 13.55 0.60 38.70 0.60Z" fill="none" stroke="url(#fringe)" stroke-width="1.1"/>
+  <path d="M38.70 0.60H961.30C986.45 0.60 999.40 13.55 999.40 38.70V385.30C999.40 410.45 986.45 423.40 961.30 423.40H38.70C13.55 423.40 0.60 410.45 0.60 385.30V38.70C0.60 13.55 13.55 0.60 38.70 0.60Z" fill="none" stroke="url(#rim)"/>
+  <text x="40" y="46" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#767884">COMMIT RHYTHM</text>
+  <text x="960" y="46" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#767884">Mon inner → Sun outer · 24 sectors, midnight up · IST</text>
+  <circle cx="250" cy="228" r="104" fill="none" stroke="rgba(3,5,12,.5)" stroke-width="92"/>
+  <circle cx="250" cy="228" r="150" fill="none" stroke="rgba(180,195,255,.06)"/>
+  <circle cx="250" cy="228" r="58" fill="none" stroke="rgba(180,195,255,.06)"/>
   <g class="live">
     <path class="cell" d="M241.56 158.22A70.29 70.29 0 0 1 258.44 158.22L257.07 169.58A58.85 58.85 0 0 0 242.93 169.58Z" fill="#c6cff7" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:0ms"/>
     <path class="cell" d="M259.90 158.41A70.29 70.29 0 0 1 276.22 162.78L271.95 173.40A58.85 58.85 0 0 0 258.29 169.74Z" fill="#8b99dc" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:16ms"/>
@@ -137,7 +156,7 @@
     <path class="cell" d="M199.90 161.28A83.44 83.44 0 0 1 217.27 151.25L221.75 161.78A71.99 71.99 0 0 0 206.77 170.43Z" fill="#8b99dc" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:352ms"/>
     <path class="cell" d="M218.88 150.59A83.44 83.44 0 0 1 238.24 145.40L239.86 156.73A71.99 71.99 0 0 0 223.15 161.20Z" fill="#c6cff7" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:368ms"/>
     <path class="cell" d="M238.40 132.12A96.58 96.58 0 0 1 261.60 132.12L260.23 143.48A85.14 85.14 0 0 0 239.77 143.48Z" fill="#8b99dc" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:0ms"/>
-    <path class="cell" d="M263.61 132.38A96.58 96.58 0 0 1 286.02 138.39L281.75 149.01A85.14 85.14 0 0 0 262.00 143.71Z" fill="#1a1d2c" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:16ms"/>
+    <path class="cell" d="M263.61 132.38A96.58 96.58 0 0 1 286.02 138.39L281.75 149.01A85.14 85.14 0 0 0 262.00 143.71Z" fill="#5c6ab3" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:16ms"/>
     <path class="cell" d="M287.89 139.16A96.58 96.58 0 0 1 307.99 150.77L301.12 159.92A85.14 85.14 0 0 0 283.40 149.69Z" fill="#1a1d2c" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:32ms"/>
     <path class="cell" d="M309.59 152.00A96.58 96.58 0 0 1 326.00 168.41L317.00 175.47A85.14 85.14 0 0 0 302.53 161.00Z" fill="#1a1d2c" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:48ms"/>
     <path class="cell" d="M327.23 170.01A96.58 96.58 0 0 1 338.84 190.11L328.31 194.60A85.14 85.14 0 0 0 318.08 176.88Z" fill="#1a1d2c" stroke="rgba(255,255,255,.035)" stroke-width=".5" style="animation-delay:64ms"/>
@@ -261,38 +280,38 @@
     <path d="M153.58 113.09A150.00 150.00 0 0 1 250.00 78.00L250.00 170.00A58.00 58.00 0 0 0 212.72 183.57Z" fill="rgba(255,255,255,.06)" opacity="0.5"/>
     <path d="M193.81 88.92A150.00 150.00 0 0 1 250.00 78.00L250.00 170.00A58.00 58.00 0 0 0 228.27 174.22Z" fill="rgba(255,255,255,.06)" opacity="0.4"/>
     <path d="M226.53 79.85A150.00 150.00 0 0 1 250.00 78.00L250.00 170.00A58.00 58.00 0 0 0 240.93 170.71Z" fill="rgba(255,255,255,.06)" opacity="0.35"/>
-    <line x1="250" y1="170.0" x2="250" y2="78.0" stroke="rgba(255,255,255,.34)" stroke-width="1" opacity=".45"/>
+    <line x1="250" y1="170.0" x2="250" y2="78.0" stroke="rgba(226,232,255,.42)" stroke-width="1" opacity=".45"/>
     <animateTransform attributeName="transform" type="rotate" from="0 250 228" to="360 250 228" dur="18s" repeatCount="indefinite"/>
   </g>
-  <text x="250" y="59" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#75757c">00</text>
-  <text x="420" y="232" text-anchor="start" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#75757c">06</text>
-  <text x="250" y="406" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#75757c">12</text>
-  <text x="80" y="232" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#75757c">18</text>
-  <circle cx="250" cy="228" r="54" fill="#0a0a0c"/>
-  <circle cx="250" cy="228" r="54" fill="none" stroke="rgba(255,255,255,.09)"/>
-  <path d="M 215 187 A 54 54 0 0 1 285 187" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="1" opacity=".3"/>
-  <text x="250" y="229" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="23" font-weight="600" fill="#f2f2f7">419</text>
-  <text x="250" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" letter-spacing="1.6" fill="#75757c">COMMITS</text>
-  <text x="500" y="96" font-size="26" font-weight="800" letter-spacing="-.6" fill="#f2f2f7">22:00 – 01:00</text>
-  <text x="500" y="118" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#a1a1a8">the three hours most of it lands in</text>
-  <text x="500" y="168" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#75757c">BUSIEST DAY</text>
-  <text x="960" y="169" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f2f2f7">Monday</text>
-  <rect x="500" y="185" width="460" height="1" fill="#2c2c30" opacity=".5"/>
-  <text x="500" y="226" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#75757c">AFTER DARK · 22–04</text>
-  <text x="960" y="227" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f2f2f7">59%</text>
-  <rect x="500" y="243" width="460" height="1" fill="#2c2c30" opacity=".5"/>
-  <text x="500" y="284" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#75757c">HOURS ACTIVE</text>
-  <text x="960" y="285" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f2f2f7">20 / 24</text>
-  <rect x="500" y="301" width="460" height="1" fill="#2c2c30" opacity=".5"/>
-  <text x="500" y="342" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#75757c">WINDOW</text>
-  <text x="960" y="343" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f2f2f7">365 days</text>
-  <rect x="500" y="359" width="460" height="1" fill="#2c2c30" opacity=".5"/>
-  <text x="856" y="396" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#75757c">Less</text>
+  <text x="250" y="59" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#767884">00</text>
+  <text x="420" y="232" text-anchor="start" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#767884">06</text>
+  <text x="250" y="406" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#767884">12</text>
+  <text x="80" y="232" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#767884">18</text>
+  <circle cx="250" cy="228" r="54" fill="#090b12"/>
+  <circle cx="250" cy="228" r="54" fill="none" stroke="rgba(180,195,255,.11)"/>
+  <path d="M 215 187 A 54 54 0 0 1 285 187" fill="none" stroke="rgba(226,232,255,.42)" stroke-width="1" opacity=".3"/>
+  <text x="250" y="229" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="23" font-weight="600" fill="#f4f5fb">422</text>
+  <text x="250" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" letter-spacing="1.6" fill="#767884">COMMITS</text>
+  <text x="500" y="96" font-size="26" font-weight="800" letter-spacing="-.6" fill="#f4f5fb">22:00 – 01:00</text>
+  <text x="500" y="118" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#a3a5b0">the three hours most of it lands in</text>
+  <text x="500" y="168" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#767884">BUSIEST DAY</text>
+  <text x="960" y="169" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f4f5fb">Monday</text>
+  <rect x="500" y="185" width="460" height="1" fill="#252a3a" opacity=".5"/>
+  <text x="500" y="226" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#767884">AFTER DARK · 22–04</text>
+  <text x="960" y="227" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f4f5fb">60%</text>
+  <rect x="500" y="243" width="460" height="1" fill="#252a3a" opacity=".5"/>
+  <text x="500" y="284" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#767884">HOURS ACTIVE</text>
+  <text x="960" y="285" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f4f5fb">20 / 24</text>
+  <rect x="500" y="301" width="460" height="1" fill="#252a3a" opacity=".5"/>
+  <text x="500" y="342" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="1.3" fill="#767884">WINDOW</text>
+  <text x="960" y="343" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" font-weight="600" fill="#f4f5fb">365 days</text>
+  <rect x="500" y="359" width="460" height="1" fill="#252a3a" opacity=".5"/>
+  <text x="856" y="396" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#767884">Less</text>
   <rect x="864" y="387" width="10" height="10" rx="2.5" fill="#1a1d2c" stroke="rgba(255,255,255,.035)"/>
   <rect x="877" y="387" width="10" height="10" rx="2.5" fill="#383f6b" stroke="rgba(255,255,255,.035)"/>
   <rect x="890" y="387" width="10" height="10" rx="2.5" fill="#5c6ab3" stroke="rgba(255,255,255,.035)"/>
   <rect x="903" y="387" width="10" height="10" rx="2.5" fill="#8b99dc" stroke="rgba(255,255,255,.035)"/>
   <rect x="916" y="387" width="10" height="10" rx="2.5" fill="#c6cff7" stroke="rgba(255,255,255,.035)"/>
-  <text x="960" y="396" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#75757c">More</text>
+  <text x="960" y="396" text-anchor="end" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#767884">More</text>
   </g>
 </svg>

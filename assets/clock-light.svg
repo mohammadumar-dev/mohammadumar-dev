@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1048" height="472" viewBox="0 0 1048 472" role="img" aria-label="Commit rhythm: a radial heatmap of 422 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 60 percent between 22:00 and 04:00, active in 20 of 24 hours." font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
-  <title>Commit rhythm: a radial heatmap of 422 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 60 percent between 22:00 and 04:00, active in 20 of 24 hours.</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1048" height="472" viewBox="0 0 1048 472" role="img" aria-label="Commit rhythm: a radial heatmap of 424 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 60 percent between 22:00 and 04:00, active in 20 of 24 hours." font-family="&#39;Mona Sans&#39;, ui-sans-serif, system-ui, -apple-system, &#39;Segoe UI&#39;, Roboto, sans-serif">
+  <title>Commit rhythm: a radial heatmap of 424 commits over 365 days by weekday and hour. Peak window 22:00 – 01:00 IST, busiest day Monday, 60 percent between 22:00 and 04:00, active in 20 of 24 hours.</title>
   <defs>
     <linearGradient id="surface" x1="0" y1="0" x2=".22" y2="1">
       <stop offset="0" stop-color="rgba(255,255,255,.80)"/>
@@ -156,7 +156,7 @@
     <path class="cell" d="M199.90 161.28A83.44 83.44 0 0 1 217.27 151.25L221.75 161.78A71.99 71.99 0 0 0 206.77 170.43Z" fill="#45529a" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:352ms"/>
     <path class="cell" d="M218.88 150.59A83.44 83.44 0 0 1 238.24 145.40L239.86 156.73A71.99 71.99 0 0 0 223.15 161.20Z" fill="#262f5e" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:368ms"/>
     <path class="cell" d="M238.40 132.12A96.58 96.58 0 0 1 261.60 132.12L260.23 143.48A85.14 85.14 0 0 0 239.77 143.48Z" fill="#45529a" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:0ms"/>
-    <path class="cell" d="M263.61 132.38A96.58 96.58 0 0 1 286.02 138.39L281.75 149.01A85.14 85.14 0 0 0 262.00 143.71Z" fill="#7280c2" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:16ms"/>
+    <path class="cell" d="M263.61 132.38A96.58 96.58 0 0 1 286.02 138.39L281.75 149.01A85.14 85.14 0 0 0 262.00 143.71Z" fill="#45529a" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:16ms"/>
     <path class="cell" d="M287.89 139.16A96.58 96.58 0 0 1 307.99 150.77L301.12 159.92A85.14 85.14 0 0 0 283.40 149.69Z" fill="#e0e4f5" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:32ms"/>
     <path class="cell" d="M309.59 152.00A96.58 96.58 0 0 1 326.00 168.41L317.00 175.47A85.14 85.14 0 0 0 302.53 161.00Z" fill="#e0e4f5" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:48ms"/>
     <path class="cell" d="M327.23 170.01A96.58 96.58 0 0 1 338.84 190.11L328.31 194.60A85.14 85.14 0 0 0 318.08 176.88Z" fill="#e0e4f5" stroke="rgba(0,0,0,.06)" stroke-width=".5" style="animation-delay:64ms"/>
@@ -290,7 +290,7 @@
   <circle cx="250" cy="228" r="54" fill="#f7f8fc"/>
   <circle cx="250" cy="228" r="54" fill="none" stroke="rgba(38,48,88,.14)"/>
   <path d="M 215 187 A 54 54 0 0 1 285 187" fill="none" stroke="rgba(255,255,255,.98)" stroke-width="1" opacity=".3"/>
-  <text x="250" y="229" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="23" font-weight="600" fill="#1c1d24">422</text>
+  <text x="250" y="229" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="23" font-weight="600" fill="#1c1d24">424</text>
   <text x="250" y="249" text-anchor="middle" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" letter-spacing="1.6" fill="#8c8e9a">COMMITS</text>
   <text x="500" y="96" font-size="26" font-weight="800" letter-spacing="-.6" fill="#1c1d24">22:00 – 01:00</text>
   <text x="500" y="118" font-family="&#39;Mona Sans Mono&#39;, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#6c6e7a">the three hours most of it lands in</text>

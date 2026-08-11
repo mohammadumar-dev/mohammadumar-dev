@@ -545,25 +545,35 @@ function colorFor(name) {
 
 const THEMES = {
   dark: {
-    canvas: '#0a0a0c',
+    canvas: '#090b12',
     // The pane is a translucent sheet over the canvas rather than an opaque
     // fill, which is what lets the bloom underneath show through it.
-    glassTop: 'rgba(255,255,255,.075)',
-    glassBottom: 'rgba(255,255,255,.022)',
-    rim: 'rgba(255,255,255,.09)',
-    rimLit: 'rgba(255,255,255,.34)',
-    specular: 'rgba(255,255,255,.10)',
+    glassTop: 'rgba(150,170,255,.085)',
+    glassBottom: 'rgba(120,140,220,.025)',
+    rim: 'rgba(180,195,255,.11)',
+    rimLit: 'rgba(226,232,255,.42)',
+    specular: 'rgba(190,205,255,.13)',
+    // The band of darkness just inside the border. Nothing else in the stack
+    // says "this sheet has thickness" — without it the card is a flat fill with
+    // a line drawn round it.
+    edgeShadow: 'rgba(0,0,0,.55)',
+    // The bright line light leaves along the top inner edge as it refracts in.
+    edgeLight: 'rgba(232,238,255,.55)',
+    // Cool leading edge, warm trailing edge: the colour split a thick lens shows
+    // where it bends light hardest. Kept under half a pixel of visible width, so
+    // it registers as an edge catching light rather than as two coloured lines.
+    dispersion: ['rgba(140,170,255,.55)', 'rgba(255,186,208,.34)'],
     shadow: '#000000',
     shadowOpacity: 0.85,
-    well: 'rgba(0,0,0,.45)',
-    wellRim: 'rgba(255,255,255,.05)',
-    fg: '#f2f2f7',
-    body: '#d0d0d6',
-    muted: '#a1a1a8',
-    dim: '#75757c',
-    hairline: '#2c2c30',
-    fill: 'rgba(255,255,255,.05)',
-    fillRim: 'rgba(255,255,255,.09)',
+    well: 'rgba(3,5,12,.5)',
+    wellRim: 'rgba(180,195,255,.06)',
+    fg: '#f4f5fb',
+    body: '#d2d4de',
+    muted: '#a3a5b0',
+    dim: '#767884',
+    hairline: '#252a3a',
+    fill: 'rgba(180,195,255,.055)',
+    fillRim: 'rgba(180,195,255,.10)',
     // The bloom exists to give the glass something to bend and to keep large
     // flat areas from going dead. It carries the ramp's hue at a tenth of its
     // saturation — enough that the pane and the dial share a temperature, far
@@ -589,25 +599,30 @@ const THEMES = {
     swatchRim: 'rgba(255,255,255,.16)',
   },
   light: {
-    canvas: '#fbfbfd',
-    glassTop: 'rgba(255,255,255,.72)',
-    glassBottom: 'rgba(255,255,255,.44)',
+    canvas: '#f7f8fc',
+    glassTop: 'rgba(255,255,255,.80)',
+    glassBottom: 'rgba(236,240,252,.50)',
     // In light mode a pane reads as glass through its rim and shadow, not its
     // fill — white on white is invisible, so the rim has to carry it.
-    rim: 'rgba(0,0,0,.13)',
-    rimLit: 'rgba(255,255,255,.95)',
-    specular: 'rgba(255,255,255,.85)',
-    shadow: '#3c3c43',
-    shadowOpacity: 0.22,
-    well: 'rgba(0,0,0,.035)',
-    wellRim: 'rgba(0,0,0,.05)',
-    fg: '#1d1d1f',
-    body: '#3a3a3e',
-    muted: '#6e6e73',
-    dim: '#8e8e93',
-    hairline: '#d8d8de',
-    fill: 'rgba(0,0,0,.045)',
-    fillRim: 'rgba(0,0,0,.08)',
+    rim: 'rgba(38,48,88,.14)',
+    rimLit: 'rgba(255,255,255,.98)',
+    specular: 'rgba(255,255,255,.9)',
+    edgeShadow: 'rgba(44,56,104,.13)',
+    edgeLight: 'rgba(255,255,255,.95)',
+    dispersion: ['rgba(88,118,220,.30)', 'rgba(224,142,172,.22)'],
+    // A cool shadow rather than a grey one: a neutral drop shadow under a tinted
+    // card is the tell that the card was tinted afterwards.
+    shadow: '#2a3050',
+    shadowOpacity: 0.20,
+    well: 'rgba(40,50,90,.045)',
+    wellRim: 'rgba(40,50,90,.06)',
+    fg: '#1c1d24',
+    body: '#3a3b45',
+    muted: '#6c6e7a',
+    dim: '#8c8e9a',
+    hairline: '#d6dae8',
+    fill: 'rgba(40,50,90,.045)',
+    fillRim: 'rgba(40,50,90,.08)',
     bloom: ['rgba(58,66,110,.10)', 'rgba(58,66,110,.07)', 'rgba(58,66,110,.05)'],
     bloomBlend: 'multiply',
     grain: 0.018,
@@ -652,7 +667,36 @@ const PAD = 40;
 // Concentric radii, following Apple's rule that an inner corner equals its
 // parent's minus the padding between them, so nested rounds stay optically
 // parallel. Panels use R_LG; wells recessed into them round to their own height.
-const R_LG = 22;
+const R_LG = 26;
+
+/**
+ * A rounded rectangle with continuous ("squircle") corners.
+ *
+ * SVG's rx draws a circular quarter-arc, which meets the straight edge with a
+ * step change in curvature. The eye reads that discontinuity as a faintly
+ * pinched corner even when it cannot name what is wrong. Apple rounds hardware
+ * and UI with a continuous corner instead: the turn begins further back along
+ * the edge and curvature ramps into it rather than switching on. One cubic per
+ * corner approximates it closely enough at this size — the curve starts 1.5r
+ * from the corner and its control points sit at about a third of that, which
+ * flattens the approach and tightens the apex.
+ */
+function squircle(x, y, w, h, r) {
+  const p = Math.min(r * 1.5, Math.min(w, h) / 2);
+  const c = p * 0.34;
+  const f = (n) => n.toFixed(2);
+  const [x0, y0, x1, y1] = [x, y, x + w, y + h];
+  return (
+    `M${f(x0 + p)} ${f(y0)}H${f(x1 - p)}` +
+    `C${f(x1 - c)} ${f(y0)} ${f(x1)} ${f(y0 + c)} ${f(x1)} ${f(y0 + p)}` +
+    `V${f(y1 - p)}` +
+    `C${f(x1)} ${f(y1 - c)} ${f(x1 - c)} ${f(y1)} ${f(x1 - p)} ${f(y1)}` +
+    `H${f(x0 + p)}` +
+    `C${f(x0 + c)} ${f(y1)} ${f(x0)} ${f(y1 - c)} ${f(x0)} ${f(y1 - p)}` +
+    `V${f(y0 + p)}` +
+    `C${f(x0)} ${f(y0 + c)} ${f(x0 + c)} ${f(y0)} ${f(x0 + p)} ${f(y0)}Z`
+  );
+}
 
 // Bleed room outside the pane so it can cast a real shadow. A card that sits
 // flush to the edge of its own image cannot float, and floating is most of what
@@ -696,8 +740,11 @@ function pane(t, h, { bloom = true } = {}) {
         .join('\n    ')
     : '';
 
+  const shape = squircle(0, 0, W, h, R_LG);
+  const inset = squircle(0.6, 0.6, W - 1.2, h - 1.2, R_LG - 0.6);
+
   return {
-    defs: `<linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
+    defs: `<linearGradient id="surface" x1="0" y1="0" x2=".22" y2="1">
       <stop offset="0" stop-color="${t.glassTop}"/>
       <stop offset="1" stop-color="${t.glassBottom}"/>
     </linearGradient>
@@ -705,6 +752,16 @@ function pane(t, h, { bloom = true } = {}) {
       <stop offset="0" stop-color="${t.rimLit}"/>
       <stop offset=".38" stop-color="${t.rim}"/>
       <stop offset=".72" stop-color="${t.rim}" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="fringe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${t.dispersion[0]}"/>
+      <stop offset=".4" stop-color="${t.dispersion[0]}" stop-opacity="0"/>
+      <stop offset=".68" stop-color="${t.dispersion[1]}" stop-opacity="0"/>
+      <stop offset="1" stop-color="${t.dispersion[1]}"/>
+    </linearGradient>
+    <linearGradient id="edgeLight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${t.edgeLight}"/>
+      <stop offset=".42" stop-color="${t.edgeLight}" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="specular" cx=".18" cy="0" r=".8">
       <stop offset="0" stop-color="${t.specular}"/>
@@ -720,26 +777,37 @@ function pane(t, h, { bloom = true } = {}) {
       <stop offset="1" stop-color="${t.hairline}" stop-opacity="0"/>
     </linearGradient>
     ${bloomDefs}
-    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="${t.shadow}" flood-opacity="${t.shadowOpacity}"/>
+    <filter id="lift" x="-12%" y="-12%" width="124%" height="136%">
+      <feDropShadow dx="0" dy="10" stdDeviation="13" flood-color="${t.shadow}" flood-opacity="${t.shadowOpacity}"/>
+    </filter>
+    <filter id="edgeBlur" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="edgeCrisp" x="-12%" y="-12%" width="124%" height="124%">
+      <feGaussianBlur stdDeviation="1.5"/>
     </filter>
     <filter id="grain" x="0" y="0" width="100%" height="100%">
       <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/>
     </filter>
-    <clipPath id="pane"><rect x="0" y="0" width="${W}" height="${h}" rx="${R_LG}"/></clipPath>`,
-    // The canvas rect carries the shadow and is opaque; everything above it is
-    // translucent and stacks into the material.
-    body: `<rect x="0" y="0" width="${W}" height="${h}" rx="${R_LG}" fill="${t.canvas}" filter="url(#lift)"/>
+    <clipPath id="pane"><path d="${shape}"/></clipPath>`,
+    // The canvas path carries the shadow and is opaque; everything above it is
+    // translucent and stacks into the material. Order is the whole trick — a
+    // lens is layers of light, and any one of these on its own reads as a
+    // gradient rather than as glass.
+    body: `<path d="${shape}" fill="${t.canvas}" filter="url(#lift)"/>
   <g clip-path="url(#pane)">
     <g style="mix-blend-mode:${t.bloomBlend}">
       ${blooms}
     </g>
-    <rect x="0" y="0" width="${W}" height="${h}" fill="url(#surface)"/>
-    <rect x="0" y="0" width="${W}" height="${(h * 0.62).toFixed(0)}" fill="url(#specular)" opacity=".5"/>
+    <path d="${shape}" fill="url(#surface)"/>
+    <rect x="0" y="0" width="${W}" height="${(h * 0.62).toFixed(0)}" fill="url(#specular)" opacity=".55"/>
     <rect class="sweep" x="-${W * 0.5}" y="0" width="${W * 0.5}" height="${h}" fill="url(#sweep)"/>
+    <path d="${shape}" fill="none" stroke="${t.edgeShadow}" stroke-width="16" filter="url(#edgeBlur)"/>
+    <path d="${shape}" fill="none" stroke="url(#edgeLight)" stroke-width="2.5" filter="url(#edgeCrisp)"/>
     <rect x="0" y="0" width="${W}" height="${h}" filter="url(#grain)" opacity="${t.grain}" style="mix-blend-mode:${t.grainBlend}"/>
   </g>
-  <rect x=".5" y=".5" width="${W - 1}" height="${h - 1}" rx="${R_LG - 0.5}" fill="none" stroke="url(#rim)"/>`,
+  <path d="${inset}" fill="none" stroke="url(#fringe)" stroke-width="1.1"/>
+  <path d="${inset}" fill="none" stroke="url(#rim)"/>`,
   };
 }
 

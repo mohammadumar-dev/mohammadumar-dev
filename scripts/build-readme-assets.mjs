@@ -6,10 +6,15 @@
 // bake it into images. Everything here writes a dark/light pair; the README
 // picks between them with <picture media="(prefers-color-scheme: dark)">.
 //
-// The data half is lifted from the portfolio's scripts/fetch-github-data.mjs —
-// same GraphQL-then-mirror fallback for the contribution calendar, same
-// Linguist colours, same summarize(). If every source fails the committed SVGs
-// are left untouched, so a bad build never ships an empty grid.
+// There are two panels and both earn their place by showing something the
+// profile page cannot. GitHub already draws a contribution calendar directly
+// below this README, already lists the pinned repos, and already carries the
+// name, bio, company and social links in its sidebar — so none of that is here.
+// What is left is the commit rhythm (GitHub has the timestamps but never plots
+// them by hour) and the language mix (GitHub never sums bytes across repos).
+//
+// If the live data fails the committed SVGs are left untouched, so a bad build
+// never ships an empty dial.
 //
 // Fonts are inlined as data URIs, one static instance per weight a panel uses
 // (see subset-font.py). Every font-family still ends in a system stack, so a
@@ -34,12 +39,17 @@ const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 
 const nf = new Intl.NumberFormat('en-US');
 
-// ------------------------------------------------------------------- content
-// The only prose on the profile. Everything else on the page is a number.
+// A circadian chart is only meaningful in the author's own time. GraphQL hands
+// back every timestamp normalised to UTC, so the hour has to be resolved against
+// a fixed zone — fixed rather than the runner's, because CI runs in UTC and the
+// dial would otherwise rotate six hours the moment it moved off a laptop. India
+// observes no DST, so this is also what keeps the output byte-stable.
+const TZ = 'Asia/Kolkata';
+const TZ_LABEL = 'IST';
 
-const NAME = ['Mohammad', 'Umar Shaikh'];
-const BIO = 'Software engineer. Java and Spring Boot systems that stay up under load, plus production LLM tooling.';
-const META = ['Pune, India', 'Data Innovation Technologies', 'B.Sc. CS 2026'];
+// ------------------------------------------------------------------- content
+// The only authored text left on the profile. Everything else is a number the
+// build went and fetched.
 
 const STACK = [
   ['Languages', ['Java', 'Go', 'Python', 'TypeScript', 'JavaScript', 'SQL']],
@@ -70,11 +80,11 @@ const LANGUAGE_COLORS = {
 };
 
 // ------------------------------------------------------------------ network
-// One choke point for every outbound request, because two of the three data
-// sources are outside this repo's control.
+// One choke point for every outbound request. Both panels now read from a single
+// host, and the allowlist is what keeps it that way: a URL that arrives inside an
+// API response cannot redirect this build somewhere else.
 
 const API_HOST = 'api.github.com';
-const MIRROR_HOST = 'github-contributions-api.jogruber.de';
 const UA = `${LOGIN}-profile-build`;
 const TIMEOUT_MS = 20_000;
 const MAX_BYTES = 8 * 1024 * 1024;
@@ -92,17 +102,17 @@ async function readCapped(res, host) {
 }
 
 /**
- * The credential is attached by host, never by caller. GITHUB_TOKEN can write
- * to this repo, so it must not ride along to the contributions mirror or to any
- * URL that arrived inside an API response. Redirects are rejected rather than
- * followed for the same reason — a 302 is the cheapest way to move a header
- * somewhere it was not meant to go. Every call is time-boxed and size-capped so
- * one slow or hostile host cannot hang or exhaust the daily build.
+ * The credential is attached by host, never by caller. GITHUB_TOKEN can write to
+ * this repo, so it must not ride along to any URL that arrived inside an API
+ * response. Redirects are rejected rather than followed for the same reason — a
+ * 302 is the cheapest way to move a header somewhere it was not meant to go.
+ * Every call is time-boxed and size-capped so one slow or hostile host cannot
+ * hang or exhaust the daily build.
  */
 async function getJSON(url, { method = 'GET', body, accept = 'application/vnd.github+json' } = {}) {
   const target = new URL(url);
   if (target.protocol !== 'https:') throw new Error(`refusing non-https URL (${target.protocol})`);
-  if (target.host !== API_HOST && target.host !== MIRROR_HOST) {
+  if (target.host !== API_HOST) {
     throw new Error(`refusing request to unexpected host: ${target.host}`);
   }
 
@@ -128,158 +138,216 @@ async function getJSON(url, { method = 'GET', body, accept = 'application/vnd.gi
 // its shape, its size or its range — the panels index colour ramps with it and
 // size layout from its length.
 
-const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
-const MAX_DAYS = 400; // a year plus slack; anything larger is not a calendar
-const MAX_COUNT = 100_000;
-
-/**
- * The shape check is not enough on its own: '2024-99-99' matches ISO_DAY, and
- * the calendar then lays out from `new Date(...)` of it. That is an Invalid
- * Date, whose getUTCMonth() is NaN — MONTHS[NaN] is undefined, so a malformed
- * day from the mirror would print "undefined NaN, NaN" into the panel's title
- * and range. Round-tripping through Date rejects the impossible ones.
- */
-const isRealDay = (iso) => {
-  if (typeof iso !== 'string' || !ISO_DAY.test(iso)) return false;
-  const d = new Date(`${iso}T00:00:00Z`);
-  return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === iso;
-};
-
 const clampInt = (value, lo, hi, fallback = 0) => {
   const n = Number(value);
   return Number.isFinite(n) ? Math.min(Math.max(Math.trunc(n), lo), hi) : fallback;
 };
 
-function normalizeDays(raw, source) {
-  if (!Array.isArray(raw) || !raw.length) throw new Error(`${source} returned no days`);
-  if (raw.length > MAX_DAYS) throw new Error(`${source} returned ${raw.length} days, expected <= ${MAX_DAYS}`);
-  return raw.map((d, i) => {
-    const date = d?.date;
-    if (!isRealDay(date)) {
-      throw new Error(`${source} day ${i} has no usable date`);
+// ------------------------------------------------------------- commit rhythm
+// The dial needs the hour a commit landed, and no summary endpoint carries it:
+// contributionsCollection counts days, the events API only reaches back ninety
+// of them. So the timestamps are walked directly, repo by repo, and the caps
+// below are what keep "walk every commit" from being an unbounded promise on an
+// account that grows.
+
+const WINDOW_DAYS = 365;
+const MAX_REPOS = 60;
+const MAX_PAGES = 6; // × 100 commits, per repo
+const MAX_COMMITS = 4000; // across all repos, the point at which the dial stops changing shape
+
+const REPOS_QUERY = `query($login:String!,$from:DateTime!,$to:DateTime!){
+  user(login:$login){
+    id
+    contributionsCollection(from:$from,to:$to){
+      commitContributionsByRepository(maxRepositories:${MAX_REPOS}){
+        repository{ name owner{ login } }
+      }
     }
-    return {
-      date,
-      count: clampInt(d.count, 0, MAX_COUNT),
-      // Indexes THEMES[*].ramp — a value outside 0..4 renders fill="undefined".
-      level: clampInt(d.level, 0, 4),
-    };
-  });
-}
+  }
+}`;
 
-// -------------------------------------------------------------- contributions
-
-async function contributionsFromGraphQL() {
-  if (!TOKEN) throw new Error('no token');
-  const to = new Date();
-  const from = new Date(to);
-  from.setUTCDate(from.getUTCDate() - 364);
-  const query = `query($login:String!,$from:DateTime!,$to:DateTime!){
-    user(login:$login){
-      contributionsCollection(from:$from,to:$to){
-        contributionCalendar{
-          totalContributions
-          weeks{ contributionDays{ date contributionCount contributionLevel } }
+const HISTORY_QUERY = `query($owner:String!,$name:String!,$author:ID!,$since:GitTimestamp!,$cursor:String){
+  repository(owner:$owner,name:$name){
+    defaultBranchRef{
+      target{
+        ... on Commit{
+          history(author:{id:$author},since:$since,first:100,after:$cursor){
+            pageInfo{ hasNextPage endCursor }
+            nodes{ committedDate }
+          }
         }
       }
     }
-  }`;
+  }
+}`;
+
+const graphql = async (query, variables) => {
   const json = await getJSON('https://api.github.com/graphql', {
     method: 'POST',
-    body: JSON.stringify({
-      query,
-      variables: { login: LOGIN, from: from.toISOString(), to: to.toISOString() },
-    }),
+    body: JSON.stringify({ query, variables }),
   });
   if (json.errors?.length) throw new Error(json.errors.map((e) => e.message).join('; '));
-
-  const cal = json.data?.user?.contributionsCollection?.contributionCalendar;
-  if (!cal) throw new Error('graphql returned no calendar');
-
-  const LEVELS = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 };
-  const days = normalizeDays(
-    (cal.weeks ?? []).flatMap((w) =>
-      (w?.contributionDays ?? []).map((d) => ({
-        date: d?.date,
-        count: d?.contributionCount,
-        // Own-key only: LEVELS['constructor'] is a function, and `?? 0` would
-        // happily let it through. Same trap as colorFor().
-        level: Object.hasOwn(LEVELS, d?.contributionLevel ?? '') ? LEVELS[d.contributionLevel] : 0,
-      })),
-    ),
-    'graphql',
-  );
-  return { total: totalOf(cal.totalContributions, days), days, source: 'graphql' };
-}
-
-// The mirror is a third party. It gets no credential (see getJSON) and its
-// payload goes through the same normalizer as GitHub's own.
-async function contributionsFromMirror() {
-  const json = await getJSON(`https://${MIRROR_HOST}/v4/${encodeURIComponent(LOGIN)}?y=last`, {
-    accept: 'application/json',
-  });
-  const days = normalizeDays(json?.contributions, 'mirror');
-  return { total: totalOf(json?.total?.lastYear, days), days, source: 'mirror' };
-}
-
-const totalOf = (reported, days) => {
-  const sum = days.reduce((a, d) => a + d.count, 0);
-  const n = Number(reported);
-  return Number.isFinite(n) && n >= 0 ? Math.trunc(n) : sum;
+  return json.data;
 };
 
 /**
- * Re-levels the calendar by rank among active days rather than by GitHub's own
- * bucketing.
+ * Every commit timestamp this account authored in the last year, as ISO strings.
  *
- * GitHub scales its levels against your single busiest day, so one outlier
- * flattens everything under it — a 76-contribution day put 97% of this grid
- * into levels 0 and 1, which is why the heatmap read as two tones no matter how
- * the ramp was tuned. Ranking instead gives each level roughly a quarter of the
- * active days, so the whole ramp gets used and no single day can compress the
- * rest. It matters more here than on the site: a monochrome ramp has less to
- * separate its steps with than a green one does.
+ * The author filter is by node id rather than by email: a commit made from the
+ * web UI, from a phone, or under a `noreply` address is the same person, and
+ * matching on the address would quietly drop whole categories of work from the
+ * dial. GitHub already resolves the identity — this just asks it to.
  */
-function rebucket(days) {
-  const active = days
-    .filter((d) => d.count > 0)
-    .map((d) => d.count)
-    .sort((a, b) => a - b);
-  // Nothing to rank: keep whatever the API said.
-  if (!active.length) return days;
+async function commitTimesFromGraphQL() {
+  if (!TOKEN) throw new Error('no token');
+
+  const to = new Date();
+  const from = new Date(to);
+  from.setUTCDate(from.getUTCDate() - (WINDOW_DAYS - 1));
+  const since = from.toISOString();
+
+  const head = await graphql(REPOS_QUERY, { login: LOGIN, from: since, to: to.toISOString() });
+  const author = head?.user?.id;
+  if (typeof author !== 'string' || !author) throw new Error('graphql returned no user id');
+
+  const repos = (head.user.contributionsCollection?.commitContributionsByRepository ?? [])
+    .map((entry) => ({ owner: entry?.repository?.owner?.login, name: entry?.repository?.name }))
+    .filter((r) => typeof r.owner === 'string' && typeof r.name === 'string');
+  if (!repos.length) throw new Error('graphql returned no repositories with commits');
+
+  const times = [];
+  for (const repo of repos) {
+    if (times.length >= MAX_COMMITS) break;
+    let cursor = null;
+    try {
+      for (let page = 0; page < MAX_PAGES; page += 1) {
+        const data = await graphql(HISTORY_QUERY, { ...repo, author, since, cursor });
+        const history = data?.repository?.defaultBranchRef?.target?.history;
+        // An empty repo has no defaultBranchRef, and a non-Commit target (a tag)
+        // matches no inline fragment. Both are normal, not failures.
+        if (!history) break;
+        for (const node of history.nodes ?? []) {
+          if (typeof node?.committedDate === 'string') times.push(node.committedDate);
+        }
+        if (!history.pageInfo?.hasNextPage || times.length >= MAX_COMMITS) break;
+        cursor = history.pageInfo.endCursor;
+      }
+    } catch (err) {
+      // One unreadable repo is a gap in the sample, not a reason to lose the panel.
+      console.warn(`commits: skipped ${repo.owner}/${repo.name} (${err.message})`);
+    }
+  }
+
+  if (!times.length) throw new Error('no commit timestamps in the window');
+  return { times, days: WINDOW_DAYS };
+}
+
+const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const WEEKDAY_INDEX = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
+
+// The hours the dial calls "after dark". A window, not a threshold: the point is
+// the stretch either side of midnight, which a `hour >= 22` test cannot express.
+const NIGHT_HOURS = [22, 23, 0, 1, 2, 3];
+
+/**
+ * Timestamps -> a 7×24 grid of counts, in local time.
+ *
+ * Intl does the zone conversion rather than an offset constant, so this stays
+ * correct if TZ is ever pointed at a zone that observes DST. hourCycle is pinned
+ * to h23 because the default for en-US is h12, and 'h24' would render midnight
+ * as 24 and index off the end of the row.
+ */
+function bucketCommits(times) {
+  const fmt = new Intl.DateTimeFormat('en-US', {
+    timeZone: TZ,
+    weekday: 'short',
+    hour: '2-digit',
+    hourCycle: 'h23',
+  });
+
+  const grid = Array.from({ length: 7 }, () => new Array(24).fill(0));
+  let total = 0;
+
+  for (const iso of times) {
+    const at = new Date(iso);
+    if (!Number.isFinite(at.getTime())) continue;
+    const parts = fmt.formatToParts(at);
+    const weekday = parts.find((p) => p.type === 'weekday')?.value;
+    const hour = Number(parts.find((p) => p.type === 'hour')?.value);
+    // Both indexes reach into fixed-length arrays; an unexpected locale string
+    // or a NaN hour would write to a key that is not a cell at all.
+    if (!Object.hasOwn(WEEKDAY_INDEX, weekday ?? '')) continue;
+    if (!Number.isInteger(hour) || hour < 0 || hour > 23) continue;
+    grid[WEEKDAY_INDEX[weekday]][hour] += 1;
+    total += 1;
+  }
+
+  if (!total) throw new Error('no commit timestamps survived bucketing');
+  return { grid, total };
+}
+
+/** The widest `span` hours of the day, treating the day as a circle. */
+function peakWindow(hourTotals, span = 3) {
+  let best = { start: 0, sum: -1 };
+  for (let start = 0; start < 24; start += 1) {
+    let sum = 0;
+    for (let k = 0; k < span; k += 1) sum += hourTotals[(start + k) % 24];
+    if (sum > best.sum) best = { start, sum };
+  }
+  return { start: best.start, end: (best.start + span) % 24 };
+}
+
+function summarizeRhythm({ grid, total }, days) {
+  const hourTotals = new Array(24).fill(0);
+  const dayTotals = new Array(7).fill(0);
+  for (let d = 0; d < 7; d += 1) {
+    for (let h = 0; h < 24; h += 1) {
+      hourTotals[h] += grid[d][h];
+      dayTotals[d] += grid[d][h];
+    }
+  }
+
+  const peakDay = dayTotals.indexOf(Math.max(...dayTotals));
+  const night = NIGHT_HOURS.reduce((a, h) => a + hourTotals[h], 0);
+
+  return {
+    grid,
+    total,
+    days,
+    peak: peakWindow(hourTotals),
+    peakDay: WEEKDAYS[peakDay],
+    nightPct: Math.round((night / total) * 100),
+    hoursActive: hourTotals.filter((n) => n > 0).length,
+  };
+}
+
+/**
+ * Counts -> ramp levels 0..4, ranked among the non-empty cells.
+ *
+ * Scaling against the single busiest cell is what flattens a chart: one 3am
+ * marathon would put almost every other hour of the year into the bottom step,
+ * and the dial would read as one tone with a bright speck in it. Ranking instead
+ * gives each level roughly a quarter of the active cells, so the whole ramp gets
+ * used and no single outlier can compress the rest. It matters more here than it
+ * would with colour — a monochrome ramp has less to separate its steps with.
+ */
+function levelsFor(counts) {
+  const active = counts.filter((n) => n > 0).sort((a, b) => a - b);
+  if (!active.length) return counts.map(() => 0);
 
   const at = (p) => active[Math.floor(p * (active.length - 1))];
   const [t1, t2, t3] = [at(0.25), at(0.5), at(0.75)];
 
-  return days.map((d) => {
-    if (!Number.isFinite(d.count)) return d; // fall back to the API's level
-    if (d.count <= 0) return { ...d, level: 0 };
-    const level = d.count <= t1 ? 1 : d.count <= t2 ? 2 : d.count <= t3 ? 3 : 4;
-    return { ...d, level };
+  return counts.map((n) => {
+    if (!Number.isFinite(n) || n <= 0) return 0;
+    return n <= t1 ? 1 : n <= t2 ? 2 : n <= t3 ? 3 : 4;
   });
 }
 
-function summarize(days) {
-  let best = { date: days[0]?.date ?? null, count: 0 };
-  let longest = 0;
-  let run = 0;
-  for (const d of days) {
-    if (d.count > best.count) best = { date: d.date, count: d.count };
-    run = d.count > 0 ? run + 1 : 0;
-    if (run > longest) longest = run;
-  }
-  // Current streak ignores today when it is still empty — the day is not over yet.
-  let current = 0;
-  for (let i = days.length - 1; i >= 0; i -= 1) {
-    if (days[i].count > 0) current += 1;
-    else if (i === days.length - 1) continue;
-    else break;
-  }
-  const active = days.filter((d) => d.count > 0).length;
-  return { bestDay: best, longestStreak: longest, currentStreak: current, activeDays: active };
-}
-
-// ---------------------------------------------------------------- repos + user
+// ---------------------------------------------------------------------- repos
+// Only the language bytes are read here. Repo and star counts used to be printed
+// too, until it turned out the profile's own Repositories and Stars tabs sit
+// four pixels above wherever this renders.
 
 async function fetchRepos() {
   const raw = await getJSON(
@@ -315,14 +383,9 @@ async function fetchRepos() {
     }
   }
 
-  return {
-    languages: summarizeLanguages(byteTotals),
-    languageCount: byteTotals.size,
-    totals: {
-      stars: raw.reduce((a, r) => a + (r?.fork ? 0 : clampInt(r?.stargazers_count, 0, MAX_COUNT)), 0),
-      repos: owned.length,
-    },
-  };
+  const languages = summarizeLanguages(byteTotals);
+  if (!languages.length) throw new Error('no language bytes across public repos');
+  return { languages, languageCount: byteTotals.size };
 }
 
 // ------------------------------------------------------------------ languages
@@ -465,13 +528,20 @@ function colorFor(name) {
 }
 
 // --------------------------------------------------------------------- themes
-// Monochrome graphite, lifted from portfolio.html so the profile and the site
-// read as one system. Every distinction these panels make — hierarchy, state,
-// emphasis — is carried by luminance and weight rather than by hue, which is
-// why the steps below are wider apart than they would need to be if a colour
-// were helping. The one exception is the language bar, which wears each
-// language's own Linguist hex: that is borrowed identity, not decoration, and
-// being the only saturated thing here is what makes it read as information.
+// Graphite surfaces, indigo data.
+//
+// The chrome — canvas, glass, rims, hairlines, every piece of text — stays
+// neutral, and hierarchy inside it is still carried by luminance and weight
+// rather than hue. Colour is spent in exactly two places: the heat ramp, which
+// is the one thing on these panels that encodes a quantity, and a breath of it
+// in the pane's bloom so the glass belongs to the same temperature as what sits
+// on it. Everything that is not measuring something stays grey, which is what
+// keeps a palette from becoming decoration.
+//
+// The language bar is the third colour and answers to nobody: it wears each
+// language's own Linguist hex. Cool ramp, warm bar — the leading language here
+// is Java at #b07219, and picking indigo rather than amber is what keeps the
+// dial and the bar from reading as one confused system.
 
 const THEMES = {
   dark: {
@@ -494,19 +564,24 @@ const THEMES = {
     hairline: '#2c2c30',
     fill: 'rgba(255,255,255,.05)',
     fillRim: 'rgba(255,255,255,.09)',
-    // Neutral luminance only. The bloom exists to give the glass something to
-    // bend and to keep large flat areas from going dead — never to tint.
-    // Screen lifts on a near-black canvas; multiply would only muddy it.
-    bloom: ['rgba(235,235,245,.10)', 'rgba(210,210,225,.075)', 'rgba(190,190,205,.05)'],
+    // The bloom exists to give the glass something to bend and to keep large
+    // flat areas from going dead. It carries the ramp's hue at a tenth of its
+    // saturation — enough that the pane and the dial share a temperature, far
+    // too little to read as a colour in its own right. Screen lifts on a
+    // near-black canvas; multiply would only muddy it.
+    bloom: ['rgba(150,170,255,.11)', 'rgba(125,145,235,.08)', 'rgba(105,125,215,.05)'],
     bloomBlend: 'screen',
     grain: 0.032,
     grainBlend: 'overlay',
     sweep: 'rgba(255,255,255,.06)',
-    // Even steps in CIE L*, ~17 apart, not eyeballed hex. Contrast ratio is the
-    // wrong metric for small adjacent patches — it is dominated by the bright
-    // end, which is how a ramp can measure fine while the bottom two steps,
-    // where most days actually sit, are half the size of the top one.
-    ramp: ['#202225', '#4a4b4f', '#75777b', '#a4a6aa', '#dbdde1'],
+    // Deep navy → ice. Even steps in CIE L* (11, 28, 47, 65, 84 — ~18 apart),
+    // not eyeballed hex. Contrast ratio is the wrong metric for small adjacent
+    // patches: it is dominated by the bright end, which is how a ramp can
+    // measure fine while the bottom two steps, where most hours actually sit,
+    // are half the size of the top one. Hue rises with lightness rather than
+    // staying fixed, so the ramp still separates for a viewer who cannot see
+    // the blue at all — it has to survive being read as greyscale.
+    ramp: ['#1a1d2c', '#383f6b', '#5c6ab3', '#8b99dc', '#c6cff7'],
     cellRim: 'rgba(255,255,255,.035)',
     // Language hexes are fixed and cannot adapt to the canvas. The light theme's
     // problem is pale fills dissolving into it, the dark theme's is dark ones —
@@ -533,12 +608,15 @@ const THEMES = {
     hairline: '#d8d8de',
     fill: 'rgba(0,0,0,.045)',
     fillRim: 'rgba(0,0,0,.08)',
-    bloom: ['rgba(60,60,67,.10)', 'rgba(60,60,67,.07)', 'rgba(60,60,67,.05)'],
+    bloom: ['rgba(58,66,110,.10)', 'rgba(58,66,110,.07)', 'rgba(58,66,110,.05)'],
     bloomBlend: 'multiply',
     grain: 0.018,
     grainBlend: 'multiply',
     sweep: 'rgba(31,35,40,.05)',
-    ramp: ['#e3e5e9', '#b7b9bd', '#8a8c8f', '#5d5e62', '#333538'],
+    // The same ramp read the other way up: on a near-white canvas an empty hour
+    // has to be the palest step, so this runs pale periwinkle → deep indigo.
+    // L* 91, 73, 55, 38, 21 — the dark theme's spacing, mirrored.
+    ramp: ['#e0e4f5', '#a9b1dc', '#7280c2', '#45529a', '#262f5e'],
     cellRim: 'rgba(0,0,0,.06)',
     swatchRim: 'rgba(0,0,0,.20)',
   },
@@ -573,9 +651,8 @@ const PAD = 40;
 
 // Concentric radii, following Apple's rule that an inner corner equals its
 // parent's minus the padding between them, so nested rounds stay optically
-// parallel. Panels use R_LG; wells recessed into them use R_SM.
+// parallel. Panels use R_LG; wells recessed into them round to their own height.
 const R_LG = 22;
-const R_SM = 10;
 
 // Bleed room outside the pane so it can cast a real shadow. A card that sits
 // flush to the edge of its own image cannot float, and floating is most of what
@@ -698,6 +775,9 @@ ${fontCss}
     @media (prefers-reduced-motion:reduce){
       .sweep{animation:none;opacity:0}
       .live .cell,.bar{animation:none}
+      /* The radar is driven by SMIL, which no media query can pause — so the
+         element is removed instead. Nothing is lost: it carries no data. */
+      .radar{display:none}
     }
   </style>
   <g transform="translate(${MARGIN},${MARGIN})">
@@ -722,183 +802,169 @@ const well = (t, x, y, w, h, r) =>
   <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="none" stroke="${t.wellRim}"/>
   <path d="M ${x + r} ${y + 1} H ${x + w - r}" stroke="${t.rimLit}" stroke-width="1" fill="none" opacity=".28"/>`;
 
-// ------------------------------------------------------------------ hero
+// ------------------------------------------------------------------- clock
+// A polar heatmap of when commits actually land: seven concentric rings, Monday
+// innermost, each cut into twenty-four hour sectors with midnight at the top.
+//
+// The reason it is a dial and not another grid is that the thing it measures is
+// genuinely circular. 23:00 and 01:00 are two hours apart, and every rectangular
+// calendar in existence draws them at opposite ends of a row — which is exactly
+// where a late-night working pattern goes to hide. Wrapped around a circle the
+// same data reads as one continuous block, and the shape of a working day
+// becomes something you can see at a glance rather than something you infer.
 
-function heroSVG(t, fontCss) {
-  const H = 214;
-  const p = pane(t, H);
+const RAD = Math.PI / 180;
 
-  // The favicon motif from portfolio.html: a 3×3 contribution block as a mark.
-  // Recessed into a well like the calendar's grid, so the two panels share a
-  // vocabulary instead of the mark floating on the surface.
-  const marks = [1, 3, 2, 4, 2, 3, 2, 4, 1];
-  const MARK_X = PAD;
-  const MARK_Y = 42;
-  const cells = marks
-    .map((lvl, i) => {
-      const x = MARK_X + 9 + (i % 3) * 15;
-      const y = MARK_Y + 9 + Math.floor(i / 3) * 15;
-      return `<rect class="cell" x="${x}" y="${y}" width="12" height="12" rx="3" fill="${t.ramp[lvl]}" style="animation-delay:${i * 45}ms"/>`;
-    })
-    .join('');
-  const mark = `${well(t, MARK_X, MARK_Y, 60, 60, 14)}
-  <g class="live">${cells}</g>`;
+const CX = 250;
+const CY = 228;
+const R_OUT = 150;
+const R_IN = 58;
+const HUB = 54;
+const RINGS = 7;
+const PITCH = (R_OUT - R_IN) / RINGS;
+const RING_GAP = 1.7;
+const SECTOR = 360 / 24;
+const SECTOR_GAP = 1.2;
 
-  // Meta stacks up the right so the pane has weight on both sides instead of a
-  // long dead band between the name and the rule.
-  const meta = META.map(
-    (line, i) =>
-      `<text x="${W - PAD}" y="${60 + i * 24}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="12.5" fill="${t.dim}">${esc(line)}</text>`,
-  ).join('\n  ');
+// Midnight at the top, clockwise, each hour centred on its sector rather than
+// starting at it — the same convention every clock face on earth uses.
+const angleAt = (hour) => hour * SECTOR - 90 - SECTOR / 2;
+const polar = (r, deg) => [CX + r * Math.cos(deg * RAD), CY + r * Math.sin(deg * RAD)];
 
-  const body = `  ${p.body}
-  ${mark}
-  <text x="${PAD + 78}" y="66" font-size="33" font-weight="800" letter-spacing="-1.05" fill="${t.fg}">${esc(NAME[0])}</text>
-  <text x="${PAD + 78}" y="101" font-size="33" font-weight="800" letter-spacing="-1.05" fill="${t.fg}">${esc(NAME[1])}</text>
-  <text x="${PAD + 79}" y="126" font-family="${esc(MONO_STACK)}" font-size="13" fill="${t.muted}">@${esc(LOGIN)}</text>
-  ${meta}
-  <rect x="${PAD}" y="150" width="${W - PAD * 2}" height="1" fill="url(#rule)"/>
-  <rect x="${PAD}" y="168" width="3" height="18" rx="1.5" fill="${t.fg}" opacity=".55"/>
-  <text x="${PAD + 14}" y="182" font-size="15.5" fill="${t.body}">${esc(BIO)}</text>`;
-
-  return doc(t, H, fontCss, p.defs, body, `${NAME.join(' ')} — ${BIO}`);
+/** One annular sector. Sweeps are always under 180°, so the large-arc flag is fixed. */
+function wedge(r0, r1, a0, a1) {
+  const f = (n) => n.toFixed(2);
+  const [x0, y0] = polar(r1, a0);
+  const [x1, y1] = polar(r1, a1);
+  const [x2, y2] = polar(r0, a1);
+  const [x3, y3] = polar(r0, a0);
+  return `M${f(x0)} ${f(y0)}A${f(r1)} ${f(r1)} 0 0 1 ${f(x1)} ${f(y1)}L${f(x2)} ${f(y2)}A${f(r0)} ${f(r0)} 0 0 0 ${f(x3)} ${f(y3)}Z`;
 }
 
-// ------------------------------------------------------------------ pulse
+const hhmm = (h) => `${String(h).padStart(2, '0')}:00`;
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const parseDay = (iso) => new Date(`${iso}T00:00:00Z`);
-const pretty = (iso) => {
-  const d = parseDay(iso);
-  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
-};
+function clockSVG(t, fontCss, r) {
+  const H = 424;
+  const p = pane(t, H);
 
-function pulseSVG(t, fontCss, data) {
-  const c = data.contributions;
-  const days = c.days;
+  // A recessed annulus behind the rings, for the same reason the calendar sat in
+  // a well: the bottom step of the ramp is only just lighter than the canvas, so
+  // without a darker ground under it an empty hour is indistinguishable from no
+  // hour at all — and the dial reads as a sparse fan rather than a full day.
+  const ground = `<circle cx="${CX}" cy="${CY}" r="${(R_IN + R_OUT) / 2}" fill="none" stroke="${t.well}" stroke-width="${R_OUT - R_IN}"/>
+  <circle cx="${CX}" cy="${CY}" r="${R_OUT}" fill="none" stroke="${t.wellRim}"/>
+  <circle cx="${CX}" cy="${CY}" r="${R_IN}" fill="none" stroke="${t.wellRim}"/>`;
 
-  const GAP = 3;
-  const WD = 26; // weekday gutter
-  const WELL = 10; // recessed padding around the grid
-  const WELL_Y = 96;
+  // Levels are ranked across the whole grid at once, not per ring: a Sunday that
+  // is quiet compared to a Tuesday should look quiet, and re-ranking each ring
+  // against itself would flatten exactly the difference the dial exists to show.
+  const flat = r.grid.flat();
+  const levels = levelsFor(flat);
 
-  // Pad the first column so weekdays line up with real rows (Sunday first).
-  const lead = parseDay(days[0].date).getUTCDay();
-  const weeks = Math.ceil((days.length + lead) / 7);
-
-  // Size the cell so the well ends flush with the pane's right padding — a
-  // fixed cell leaves a ragged margin whenever the year is 52 weeks, not 53.
-  const span = W - PAD * 2 - WD - WELL * 2;
-  const CELL = +((span - GAP * (weeks - 1)) / weeks).toFixed(3);
-
-  const gridX = PAD + WD + WELL;
-  const gridY = WELL_Y + WELL;
-
-  const wellW = W - PAD * 2 - WD;
-  const wellH = 7 * CELL + 6 * GAP + WELL * 2;
-
-  const ruleY = Math.round(WELL_Y + wellH + 22);
-  const statY = ruleY + 38;
-  const H = statY + 40;
-
-  const cells = days
-    .map((day, i) => {
-      const idx = i + lead;
-      const week = Math.floor(idx / 7);
-      const row = idx % 7;
-      const x = (gridX + week * (CELL + GAP)).toFixed(2);
-      const y = (gridY + row * (CELL + GAP)).toFixed(2);
-      return `<rect class="cell" x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2.5" fill="${t.ramp[day.level]}" stroke="${t.cellRim}" style="animation-delay:${week * 12}ms"/>`;
-    })
-    .join('\n    ');
-
-  // Label a month at the first full week it owns, never twice in a row.
-  const marks = [];
-  let lastMonth = -1;
-  days.forEach((day, i) => {
-    const d = parseDay(day.date);
-    const month = d.getUTCMonth();
-    if (month !== lastMonth && d.getUTCDate() <= 7) {
-      const week = Math.floor((i + lead) / 7);
-      if (!marks.length || week - marks[marks.length - 1].week >= 3) marks.push({ week, label: MONTHS[month] });
-      lastMonth = month;
+  const cells = [];
+  for (let d = 0; d < RINGS; d += 1) {
+    const r0 = R_IN + d * PITCH + RING_GAP / 2;
+    const r1 = r0 + PITCH - RING_GAP;
+    for (let h = 0; h < 24; h += 1) {
+      const a0 = angleAt(h) + SECTOR_GAP / 2;
+      const a1 = a0 + SECTOR - SECTOR_GAP;
+      const level = levels[d * 24 + h];
+      cells.push(
+        `<path class="cell" d="${wedge(r0, r1, a0, a1)}" fill="${t.ramp[level]}" stroke="${t.cellRim}" stroke-width=".5" style="animation-delay:${h * 16}ms"/>`,
+      );
     }
-  });
-  // The ramp key owns the right end of this row, so drop any month that would
-  // run into it rather than letting the two overlap.
-  const monthCutoff = W - PAD - 34 - (5 * 10 + 4 * 3) - 44;
-  const months = marks
-    .map((m) => ({ ...m, x: gridX + m.week * (CELL + GAP) }))
-    .filter((m) => m.x < monthCutoff)
-    .map(
-      (m) =>
-        `<text x="${m.x.toFixed(1)}" y="${WELL_Y - 8}" font-family="${esc(MONO_STACK)}" font-size="11" fill="${t.dim}">${m.label}</text>`,
-    )
-    .join('\n  ');
+  }
 
-  const weekdays = [
-    [1, 'Mon'],
-    [3, 'Wed'],
-    [5, 'Fri'],
+  // Radar sweep. SMIL rather than a CSS keyframe because rotate() needs an origin
+  // in this group's own user space, and transform-origin resolves against the
+  // viewport — which the MARGIN translate has already moved out from under it.
+  // Three stacked wedges at low alpha stand in for the angular falloff SVG has no
+  // gradient for; the hairline is the leading edge.
+  const [handX, handY0] = polar(R_IN, -90);
+  const [, handY1] = polar(R_OUT, -90);
+  const radar = `<g class="radar">
+    ${[
+      [40, 0.5],
+      [22, 0.4],
+      [9, 0.35],
+    ]
+      .map(([width, o]) => `<path d="${wedge(R_IN, R_OUT, -90 - width, -90)}" fill="${t.sweep}" opacity="${o}"/>`)
+      .join('\n    ')}
+    <line x1="${handX}" y1="${handY0.toFixed(1)}" x2="${handX}" y2="${handY1.toFixed(1)}" stroke="${t.rimLit}" stroke-width="1" opacity=".45"/>
+    <animateTransform attributeName="transform" type="rotate" from="0 ${CX} ${CY}" to="360 ${CX} ${CY}" dur="18s" repeatCount="indefinite"/>
+  </g>`;
+
+  // Only the quarters are marked. Twenty-four numbers around a dial this size is
+  // a ring of noise, and the four that matter are enough to orient by.
+  const TICK_R = R_OUT + 16;
+  const ticks = [
+    [0, CX, CY - TICK_R - 3, 'middle'],
+    [6, CX + TICK_R + 4, CY + 4, 'start'],
+    [12, CX, CY + TICK_R + 12, 'middle'],
+    [18, CX - TICK_R - 4, CY + 4, 'end'],
   ]
     .map(
-      ([row, name]) =>
-        `<text x="${PAD}" y="${(gridY + row * (CELL + GAP) + CELL * 0.78).toFixed(1)}" font-family="${esc(MONO_STACK)}" font-size="10" fill="${t.dim}">${name}</text>`,
+      ([hour, x, y, anchor]) =>
+        `<text x="${x.toFixed(0)}" y="${y.toFixed(0)}" text-anchor="${anchor}" font-family="${esc(MONO_STACK)}" font-size="11" letter-spacing="1" fill="${t.dim}">${String(hour).padStart(2, '0')}</text>`,
     )
     .join('\n  ');
 
-  const stats = [
-    ['Contributions', c.total],
-    ['Active days', c.activeDays],
-    ['Current streak', c.currentStreak],
-    ['Longest streak', c.longestStreak],
-    ['Public repos', data.totals.repos],
-    ['Stars earned', data.totals.stars],
+  // The hub carries the sample size, so the number the whole dial is built from
+  // sits at the centre of it rather than in a footnote.
+  const hub = `<circle cx="${CX}" cy="${CY}" r="${HUB}" fill="${t.canvas}"/>
+  <circle cx="${CX}" cy="${CY}" r="${HUB}" fill="none" stroke="${t.rim}"/>
+  <path d="M ${CX - 35} ${CY - 41} A ${HUB} ${HUB} 0 0 1 ${CX + 35} ${CY - 41}" fill="none" stroke="${t.rimLit}" stroke-width="1" opacity=".3"/>
+  <text x="${CX}" y="${CY + 1}" text-anchor="middle" font-family="${esc(MONO_STACK)}" font-size="23" font-weight="600" fill="${t.fg}">${esc(nf.format(r.total))}</text>
+  <text x="${CX}" y="${CY + 21}" text-anchor="middle" font-family="${esc(MONO_STACK)}" font-size="9.5" letter-spacing="1.6" fill="${t.dim}">COMMITS</text>`;
+
+  // Readout: label left, value right, hairline under. A ledger rather than a row
+  // of stat tiles — it reads as a spec sheet, and it survives being narrow.
+  const RX = 500;
+  const RIGHT = W - PAD;
+  const peakLabel = `${hhmm(r.peak.start)} – ${hhmm(r.peak.end)}`;
+  const rows = [
+    ['Busiest day', r.peakDay],
+    ['After dark · 22–04', `${r.nightPct}%`],
+    ['Hours active', `${r.hoursActive} / 24`],
+    ['Window', `${nf.format(r.days)} days`],
   ];
-  const colW = (W - PAD * 2) / stats.length;
-  const statCells = stats
+  const ROW_TOP = 168;
+  const ROW_H = 58;
+  const readout = rows
     .map(([name, value], i) => {
-      const x = PAD + colW * i;
-      const divider =
-        i > 0
-          ? `<rect x="${(x - 14).toFixed(1)}" y="${statY - 22}" width="1" height="42" fill="${t.hairline}" opacity=".6"/>`
-          : '';
-      return `${divider}
-  <text x="${x.toFixed(1)}" y="${statY}" font-family="${esc(MONO_STACK)}" font-size="23" font-weight="600" fill="${t.fg}">${esc(nf.format(value ?? 0))}</text>
-  <text x="${x.toFixed(1)}" y="${statY + 20}" font-family="${esc(MONO_STACK)}" font-size="10.5" letter-spacing="1.2" fill="${t.dim}">${esc(name.toUpperCase())}</text>`;
+      const y = ROW_TOP + i * ROW_H;
+      return `<text x="${RX}" y="${y}" font-family="${esc(MONO_STACK)}" font-size="11" letter-spacing="1.3" fill="${t.dim}">${esc(name.toUpperCase())}</text>
+  <text x="${RIGHT}" y="${y + 1}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="19" font-weight="600" fill="${t.fg}">${esc(value)}</text>
+  <rect x="${RX}" y="${y + 17}" width="${RIGHT - RX}" height="1" fill="${t.hairline}" opacity=".5"/>`;
     })
     .join('\n  ');
 
-  // Ramp key, right-aligned on the month row. Sits on the baseline the month
-  // labels already establish so it reads as part of the grid's chrome.
   const KEY = 10;
-  const keyW = 5 * KEY + 4 * 3;
-  const keyRight = W - PAD;
-  const keyX = keyRight - 34 - keyW;
-  const legend = `<text x="${(keyX - 8).toFixed(1)}" y="${WELL_Y - 8}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="10" fill="${t.dim}">Less</text>
+  const keyY = 396;
+  const keyX = RIGHT - 34 - (5 * KEY + 4 * 3);
+  const legend = `<text x="${keyX - 8}" y="${keyY}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="10" fill="${t.dim}">Less</text>
   ${t.ramp
     .map(
       (fill, i) =>
-        `<rect x="${(keyX + i * (KEY + 3)).toFixed(1)}" y="${WELL_Y - 17}" width="${KEY}" height="${KEY}" rx="2.5" fill="${fill}" stroke="${t.cellRim}"/>`,
+        `<rect x="${keyX + i * (KEY + 3)}" y="${keyY - 9}" width="${KEY}" height="${KEY}" rx="2.5" fill="${fill}" stroke="${t.cellRim}"/>`,
     )
     .join('\n  ')}
-  <text x="${keyRight}" y="${WELL_Y - 8}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="10" fill="${t.dim}">More</text>`;
-
-  const range = `${pretty(c.start)} — ${pretty(c.end)}`;
-  const p = pane(t, H);
+  <text x="${RIGHT}" y="${keyY}" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="10" fill="${t.dim}">More</text>`;
 
   const body = `  ${p.body}
-  ${label(t, PAD, 52, 'Contributions')}
-  <text x="${W - PAD}" y="52" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="11" fill="${t.dim}">${esc(range)}</text>
-  ${months}
-  ${legend}
-  ${weekdays}
-  ${well(t, PAD + WD, WELL_Y, wellW, +wellH.toFixed(2), R_SM)}
+  ${label(t, PAD, 46, 'Commit rhythm')}
+  <text x="${W - PAD}" y="46" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="11" fill="${t.dim}">Mon inner → Sun outer · 24 sectors, midnight up · ${esc(TZ_LABEL)}</text>
+  ${ground}
   <g class="live">
-    ${cells}
+    ${cells.join('\n    ')}
   </g>
-  <rect x="${PAD}" y="${ruleY}" width="${W - PAD * 2}" height="1" fill="${t.hairline}" opacity=".5"/>
-  ${statCells}`;
+  ${radar}
+  ${ticks}
+  ${hub}
+  <text x="${RX}" y="96" font-size="26" font-weight="800" letter-spacing="-.6" fill="${t.fg}">${esc(peakLabel)}</text>
+  <text x="${RX}" y="118" font-family="${esc(MONO_STACK)}" font-size="12.5" fill="${t.muted}">the three hours most of it lands in</text>
+  ${readout}
+  ${legend}`;
 
   return doc(
     t,
@@ -906,15 +972,47 @@ function pulseSVG(t, fontCss, data) {
     fontCss,
     p.defs,
     body,
-    `${nf.format(c.total)} contributions between ${pretty(c.start)} and ${pretty(c.end)}`,
+    `Commit rhythm: a radial heatmap of ${nf.format(r.total)} commits over ${r.days} days by weekday and hour. ` +
+      `Peak window ${peakLabel} ${TZ_LABEL}, busiest day ${r.peakDay}, ${r.nightPct} percent between 22:00 and 04:00, ` +
+      `active in ${r.hoursActive} of 24 hours.`,
   );
 }
 
-// ------------------------------------------------------------------ languages
+// ------------------------------------------------------------------- signal
+// What gets written, and what it gets written with. The language bar is the one
+// aggregate GitHub never computes — per-repo breakdowns exist, an account-wide
+// one does not — and the stack runs underneath it as a single typographic line
+// rather than six labelled rows of pills, because the grouping was always
+// self-evident and the labels cost more vertical space than they returned.
 
-function langsSVG(t, fontCss, data) {
-  const H = 166;
-  const p = pane(t, H);
+// Six categories flattened into one sequence. The order still runs languages →
+// backend → frontend → data → devops → AI, so the grouping survives as rhythm
+// even though the headings are gone.
+const STACK_RUN = STACK.flatMap(([, items]) => items);
+
+/**
+ * Greedy wrap over the estimated advance width, since there is no text layout
+ * engine here and <text> will not break a line on its own — an SVG that overflows
+ * its viewBox does not scroll, it just loses the end of the sentence.
+ */
+function wrapRun(items, maxWidth, size) {
+  const SEP = ' · ';
+  const lines = [[]];
+  let width = 0;
+  for (const item of items) {
+    const advance = sw(item, size) + (lines[lines.length - 1].length ? sw(SEP, size) : 0);
+    if (lines[lines.length - 1].length && width + advance > maxWidth) {
+      lines.push([item]);
+      width = sw(item, size);
+    } else {
+      lines[lines.length - 1].push(item);
+      width += advance;
+    }
+  }
+  return lines;
+}
+
+function signalSVG(t, fontCss, data) {
   const langs = data.languages;
   // The segments already sum to 100 by construction; this only guards a bar
   // built from an empty or degenerate set.
@@ -973,15 +1071,41 @@ function langsSVG(t, fontCss, data) {
   <text x="${(PAD + 30 + sw(lead.name, 21)).toFixed(1)}" y="${barY - 21}" font-family="${esc(MONO_STACK)}" font-size="13" fill="${t.muted}">${esc(note)}</text>`
     : '';
 
+  // The stack, set as running text. Two tones inside one line: the tools at body
+  // weight, the separators dimmed back so they read as punctuation rather than as
+  // thirty-four more marks competing with the names.
+  const RUN_SIZE = 12.5;
+  const RUN_TOP = 190;
+  const RUN_LEAD = 22;
+  const runLines = wrapRun(STACK_RUN, W - PAD * 2, RUN_SIZE);
+  const run = runLines
+    .map((items, i) => {
+      const spans = items
+        .map(
+          (item, j) =>
+            `${j ? `<tspan fill="${t.dim}"> · </tspan>` : ''}<tspan fill="${t.body}">${esc(item)}</tspan>`,
+        )
+        .join('');
+      return `<text x="${PAD}" y="${RUN_TOP + i * RUN_LEAD}" font-size="${RUN_SIZE}">${spans}</text>`;
+    })
+    .join('\n  ');
+
+  const ruleY = 164;
+  const H = RUN_TOP + (runLines.length - 1) * RUN_LEAD + 30;
+  const p = pane(t, H);
+
   const body = `  ${p.body}
-  ${label(t, PAD, 46, 'Languages')}
+  ${label(t, PAD, 46, 'Surface')}
   <text x="${W - PAD}" y="46" text-anchor="end" font-family="${esc(MONO_STACK)}" font-size="11" fill="${t.dim}">by bytes across public repos</text>
   ${headline}
   ${well(t, PAD, barY, barW, barH, 6)}
   <g class="bar" clip-path="url(#barclip)">
     ${segments}
   </g>
-  <rect x="${PAD}" y="${barY}" width="${barW}" height="${barH}" rx="6" fill="none" stroke="${t.swatchRim}"/>`;
+  <rect x="${PAD}" y="${barY}" width="${barW}" height="${barH}" rx="6" fill="none" stroke="${t.swatchRim}"/>
+  ${key}
+  <rect x="${PAD}" y="${ruleY}" width="${W - PAD * 2}" height="1" fill="${t.hairline}" opacity=".5"/>
+  ${run}`;
 
   const defs = `${p.defs}
     <clipPath id="barclip"><rect x="${PAD}" y="${barY}" width="${barW}" height="${barH}" rx="6"/></clipPath>`;
@@ -991,62 +1115,10 @@ function langsSVG(t, fontCss, data) {
     H,
     fontCss,
     defs,
-    `${body}\n  ${key}`,
-    `Language breakdown by bytes: ${langs.map((l) => `${l.name} ${pct(l)} percent`).join(', ')}`,
+    body,
+    `Language breakdown by bytes across public repos: ${langs.map((l) => `${l.name} ${pct(l)} percent`).join(', ')}. ` +
+      `Stack: ${STACK_RUN.join(', ')}.`,
   );
-}
-
-// ------------------------------------------------------------------ stack
-
-function stackSVG(t, fontCss) {
-  const ROW_H = 42;
-  const TOP = 80;
-  const H = TOP + (STACK.length - 1) * ROW_H + 38;
-  const p = pane(t, H);
-
-  const LABEL_W = 108;
-  const rows = STACK.map(([name, items], r) => {
-    const y = TOP + r * ROW_H;
-    let x = PAD + LABEL_W;
-    const chips = items
-      .map((item) => {
-        const w = mw(item, 12) + 22;
-        const chip = `<rect x="${x.toFixed(1)}" y="${y - 15}" width="${w.toFixed(1)}" height="24" rx="12" fill="${t.fill}" stroke="${t.fillRim}"/>
-  <text x="${(x + w / 2).toFixed(1)}" y="${y + 1}" text-anchor="middle" font-family="${esc(MONO_STACK)}" font-size="12" fill="${t.body}">${esc(item)}</text>`;
-        x += w + 8;
-        return chip;
-      })
-      .join('\n  ');
-    return `<text x="${PAD}" y="${y + 1}" font-family="${esc(MONO_STACK)}" font-size="11" letter-spacing="1.2" fill="${t.dim}">${esc(name.toUpperCase())}</text>
-  ${chips}`;
-  }).join('\n  ');
-
-  const body = `  ${p.body}
-  ${label(t, PAD, 48, 'Stack')}
-  <rect x="${PAD}" y="60" width="${W - PAD * 2}" height="1" fill="url(#rule)"/>
-  ${rows}`;
-
-  return doc(t, H, fontCss, p.defs, body, `Stack: ${STACK.map(([n, i]) => `${n} — ${i.join(', ')}`).join('; ')}`);
-}
-
-// ------------------------------------------------------------------ rule
-
-function ruleSVG(t) {
-  // Carries the panels' horizontal margin even though it has no pane of its own.
-  // Every asset is rendered at width="100%", so a rule drawn edge to edge would
-  // be wider on the page than the panes above it and the column would look bent.
-  const vw = W + MARGIN * 2;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${vw}" height="2" viewBox="0 0 ${vw} 2" role="presentation">
-  <defs>
-    <linearGradient id="r" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="${t.hairline}" stop-opacity="0"/>
-      <stop offset=".5" stop-color="${t.hairline}"/>
-      <stop offset="1" stop-color="${t.hairline}" stop-opacity="0"/>
-    </linearGradient>
-  </defs>
-  <rect x="${MARGIN}" width="${W}" height="1" y="0.5" fill="url(#r)"/>
-</svg>
-`;
 }
 
 // ------------------------------------------------------------------- fonts
@@ -1063,6 +1135,25 @@ const FACES = {
 
 const HELPER = join(dirname(fileURLToPath(import.meta.url)), 'subset-font.py');
 
+// CI is Ubuntu, where `python3` is the interpreter and `python` may not exist at
+// all. Windows is the other way round: `python3` resolves to a Store stub that
+// exits non-zero without running anything, so trying it first and taking the
+// first one that answers is what makes a local render match what CI produces.
+const PYTHONS = ['python3', 'python'];
+
+async function subset(src, out, pins) {
+  let last;
+  for (const bin of PYTHONS) {
+    try {
+      // execFile, not exec: argv is passed through, never a shell string.
+      return await run(bin, [HELPER, src, out, pins], { timeout: 60_000 });
+    } catch (err) {
+      last = err;
+    }
+  }
+  throw last;
+}
+
 /** Builds every face once; returns a name → @font-face map, or {} if fonttools is missing. */
 async function buildFaces() {
   const built = {};
@@ -1074,8 +1165,7 @@ async function buildFaces() {
     await Promise.all(
       Object.entries(FACES).map(async ([name, face]) => {
         const out = join(workdir, `${name}.woff2`);
-        // execFile, not exec: argv is passed through, never a shell string.
-        await run('python3', [HELPER, join(FONTS, face.file), out, face.pins], { timeout: 60_000 });
+        await subset(join(FONTS, face.file), out, face.pins);
         const b64 = (await readFile(out)).toString('base64');
         built[name] =
           `    @font-face{font-family:'${face.family}';font-weight:${face.weight};font-style:normal;` +
@@ -1147,7 +1237,7 @@ async function stampReadme(names) {
 
 // Every panel the README points at. Named once so --stamp-only knows the set
 // without having to trust whatever happens to be sitting in assets/.
-const PANELS = ['hero', 'pulse', 'langs', 'stack', 'rule'].flatMap((n) => [`${n}-dark`, `${n}-light`]);
+const PANELS = ['clock', 'signal'].flatMap((n) => [`${n}-dark`, `${n}-light`]);
 
 async function main() {
   // --stamp-only reruns just the cache-key rewrite over the SVGs already on
@@ -1161,89 +1251,58 @@ async function main() {
 
   await mkdir(ASSETS, { recursive: true });
 
-  let contributions;
-  for (const attempt of [contributionsFromGraphQL, contributionsFromMirror]) {
-    try {
-      contributions = await attempt();
-      console.log(`contributions: ${contributions.total} via ${contributions.source}`);
-      break;
-    } catch (err) {
-      console.warn(`contributions via ${attempt.name} failed: ${err.message}`);
-    }
+  // Neither panel can be drawn from constants any more, so both are fetched
+  // independently and each one's failure is scoped to itself. There is no mirror
+  // for either: commit timestamps are not published anywhere outside the API, and
+  // an account-wide language total exists nowhere at all.
+  let rhythm = null;
+  try {
+    const commits = await commitTimesFromGraphQL();
+    rhythm = summarizeRhythm(bucketCommits(commits.times), commits.days);
+    console.log(`commits: ${rhythm.total} timestamps, peak ${hhmm(rhythm.peak.start)} ${TZ_LABEL}`);
+  } catch (err) {
+    console.warn(`commit rhythm failed: ${err.message}`);
   }
 
-  let user;
-  let repoData;
+  let repoData = null;
   try {
-    [user, repoData] = await Promise.all([
-      getJSON(`https://api.github.com/users/${encodeURIComponent(LOGIN)}`),
-      fetchRepos(),
-    ]);
+    repoData = await fetchRepos();
+    console.log(`languages: ${repoData.languageCount} distinct, ${repoData.languages.length} segments`);
   } catch (err) {
-    console.warn(`profile/repos failed: ${err.message}`);
+    console.warn(`languages failed: ${err.message}`);
   }
 
   const faces = await buildFaces();
-
-  // The hero, stack and rule need no network, so they are always safe to write.
   const written = [];
-  for (const [name, theme] of Object.entries(THEMES)) {
-    await writeFile(join(ASSETS, `stack-${name}.svg`), stackSVG(theme, css(faces, ['mono400'])), 'utf8');
-    await writeFile(join(ASSETS, `rule-${name}.svg`), ruleSVG(theme), 'utf8');
-    await writeFile(
-      join(ASSETS, `hero-${name}.svg`),
-      heroSVG(theme, css(faces, ['sans400', 'sans800', 'mono400'])),
-      'utf8',
-    );
-    written.push(`stack-${name}`, `rule-${name}`, `hero-${name}`);
-  }
-
-  if (!contributions || !repoData) {
-    console.warn('live data unavailable — keeping the committed pulse/langs panels');
-    // Stamp every panel the README points at, not just the ones rewritten this
-    // run: the untouched ones keep the hash they already have.
-    await stampReadme([...written, 'pulse-dark', 'pulse-light', 'langs-dark', 'langs-light']);
-    console.log(`wrote ${written.length} panels`);
-    return;
-  }
-
-  // Re-level before rendering, but summarize from the original counts — the
-  // streaks and totals are facts about the data, not about how it is shaded.
-  const days = rebucket(contributions.days);
-
-  const data = {
-    contributions: {
-      total: contributions.total,
-      start: days[0].date,
-      end: days[days.length - 1].date,
-      ...summarize(days),
-      days,
-    },
-    languages: repoData.languages,
-    languageCount: repoData.languageCount,
-    totals: {
-      ...repoData.totals,
-      repos: clampInt(user?.public_repos, 0, MAX_COUNT, repoData.totals.repos),
-    },
-  };
 
   for (const [name, theme] of Object.entries(THEMES)) {
-    await writeFile(
-      join(ASSETS, `pulse-${name}.svg`),
-      pulseSVG(theme, css(faces, ['mono400', 'mono600']), data),
-      'utf8',
-    );
-    await writeFile(join(ASSETS, `langs-${name}.svg`), langsSVG(theme, css(faces, ['mono400']), data), 'utf8');
-    written.push(`pulse-${name}`, `langs-${name}`);
+    if (rhythm) {
+      await writeFile(
+        join(ASSETS, `clock-${name}.svg`),
+        clockSVG(theme, css(faces, ['sans400', 'sans800', 'mono400', 'mono600']), rhythm),
+        'utf8',
+      );
+      written.push(`clock-${name}`);
+    }
+    if (repoData) {
+      await writeFile(
+        join(ASSETS, `signal-${name}.svg`),
+        signalSVG(theme, css(faces, ['sans400', 'sans800', 'mono400']), repoData),
+        'utf8',
+      );
+      written.push(`signal-${name}`);
+    }
   }
 
-  await stampReadme(written);
+  if (!rhythm) console.warn('keeping the committed clock panels');
+  if (!repoData) console.warn('keeping the committed signal panels');
 
-  console.log(
-    `wrote ${written.length} panels — ${nf.format(data.contributions.total)} contributions, ` +
-      `${data.totals.repos} repos, ${data.totals.stars} stars, ${data.languageCount} languages ` +
-      `in ${data.languages.length} segments`,
-  );
+  // Stamp every panel the README points at, not only the ones rewritten this
+  // run — an untouched panel keeps the key it already has, and leaving it out
+  // would strip the key rather than preserve it.
+  await stampReadme(PANELS);
+
+  console.log(`wrote ${written.length} of ${PANELS.length} panels`);
 }
 
 main().catch((err) => {

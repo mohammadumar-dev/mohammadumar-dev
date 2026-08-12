@@ -7,9 +7,9 @@
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/signal-dark.svg?v=687c1ef00f">
-  <source media="(prefers-color-scheme: light)" srcset="assets/signal-light.svg?v=db8b9b1841">
-  <img alt="Language breakdown by bytes across public repositories, above the working stack." src="assets/signal-dark.svg?v=687c1ef00f" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/signal-dark.svg?v=2b79d11943">
+  <source media="(prefers-color-scheme: light)" srcset="assets/signal-light.svg?v=a139130c08">
+  <img alt="Language breakdown by bytes across public repositories, above the working stack." src="assets/signal-dark.svg?v=2b79d11943" width="100%">
 </picture>
 
 <sub>Java and Spring Boot systems that stay up under load &nbsp;·&nbsp; production LLM tooling</sub>

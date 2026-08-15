@@ -1,9 +1,9 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/clock-dark.svg?v=44072ed4a3">
-  <source media="(prefers-color-scheme: light)" srcset="assets/clock-light.svg?v=207bae5caf">
-  <img alt="Commit rhythm: a radial heatmap of the last year of commits, seven weekday rings cut into twenty-four hour sectors, with the peak window, busiest day, share of commits after dark and hours active." src="assets/clock-dark.svg?v=44072ed4a3" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/clock-dark.svg?v=d480158f89">
+  <source media="(prefers-color-scheme: light)" srcset="assets/clock-light.svg?v=1a5580d769">
+  <img alt="Commit rhythm: a radial heatmap of the last year of commits, seven weekday rings cut into twenty-four hour sectors, with the peak window, busiest day, share of commits after dark and hours active." src="assets/clock-dark.svg?v=d480158f89" width="100%">
 </picture>
 
 <picture>
@@ -16,6 +16,6 @@
 
 <br>
 
-<sub><sup>Synced daily · last checked <!--sync-->15 Aug 2026, 16:11 UTC<!--/sync--></sup></sub>
+<sub><sup>Synced daily · last checked <!--sync-->15 Aug 2026, 16:16 UTC<!--/sync--></sup></sub>
 
 </div>

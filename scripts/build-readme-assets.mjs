@@ -1279,15 +1279,40 @@ const css = (faces, names) => names.map((n) => faces[n] || '').filter(Boolean).j
 
 // ------------------------------------------------------------------- readme
 /**
- * Rewrites the README's asset references as `assets/name.svg?v=<hash>`.
+ * Rewrites the `<!--sync-->...<!--/sync-->` span with the current UTC time.
+ *
+ * The panels only change when the underlying data does, by design — see
+ * stampReadme below. But "the workflow ran and re-checked the data" is true
+ * every day even on days the dial doesn't move, and unlike the panel data
+ * that fact costs nothing to be honest about: it is just the clock. Stamping
+ * it is what gives the daily run a real, truthful diff to commit — a
+ * heartbeat, not a manufactured change to the data itself.
+ */
+function stampSyncMarker(md) {
+  const label = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'UTC',
+  })
+    .format(new Date())
+    .replace(' at ', ', ');
+  return md.replace(/(<!--sync-->)[\s\S]*?(<!--\/sync-->)/, `$1${label} UTC$2`);
+}
+
+/**
+ * Rewrites the README's asset references as `assets/name.svg?v=<hash>`, and
+ * refreshes the sync stamp.
  *
  * A committed SVG changing is not enough to make the profile show it. GitHub
  * serves README images through a cache keyed on the URL, and that URL is
  * identical before and after a refresh — so the panel keeps rendering yesterday's
  * numbers until the cache happens to expire. Appending a hash of the file's own
  * bytes gives the cache a new key at exactly the moment the panel changes, and
- * never otherwise: a rebuild that produces identical SVGs leaves the README
- * untouched, so this does not manufacture a commit every night.
+ * never otherwise.
  */
 async function stampReadme(names) {
   let md;
@@ -1313,16 +1338,18 @@ async function stampReadme(names) {
   );
 
   // Matches both a bare reference and one this script stamped on a previous run.
-  const next = md.replace(/(assets\/)([a-z0-9-]+)(\.svg)(?:\?v=[0-9a-f]+)?/g, (whole, dir, name, ext) =>
+  const keyed = md.replace(/(assets\/)([a-z0-9-]+)(\.svg)(?:\?v=[0-9a-f]+)?/g, (whole, dir, name, ext) =>
     versions.has(name) ? `${dir}${name}${ext}?v=${versions.get(name)}` : whole,
   );
+  const keysChanged = keyed !== md;
 
+  const next = stampSyncMarker(keyed);
   if (next === md) {
-    console.log('readme: cache keys already current');
+    console.log('readme: unchanged');
     return;
   }
   await writeFile(README, next, 'utf8');
-  console.log(`readme: restamped ${versions.size} asset references`);
+  console.log(keysChanged ? `readme: restamped ${versions.size} asset references` : 'readme: sync marker refreshed');
 }
 
 // -------------------------------------------------------------------- main

@@ -140,9 +140,11 @@ jobs:
           rm -rf .panels
 
       # Run from the checked-out scripts, not from anything the render produced.
-      # Stamping only hashes the local SVGs and rewrites the ?v= keys already in
-      # the README, so README.md cannot change in any other way.
-      - name: Restamp README cache keys
+      # Stamping hashes the local SVGs, rewrites the ?v= keys already in the
+      # README, and refreshes the "last checked" timestamp — nothing else in
+      # README.md can change here. The timestamp is what gives a day with no
+      # panel change something true left to commit.
+      - name: Restamp README
         run: node scripts/build-readme-assets.mjs --stamp-only
 
       - name: Commit if anything changed

@@ -14,4 +14,8 @@
 
 <sub>Java and Spring Boot systems that stay up under load &nbsp;·&nbsp; production LLM tooling</sub>
 
+<br>
+
+<sub><sup>Synced daily · last checked <!--sync-->15 Aug 2026, 16:11 UTC<!--/sync--></sup></sub>
+
 </div>

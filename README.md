@@ -7,15 +7,15 @@
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/signal-dark.svg?v=2b79d11943">
-  <source media="(prefers-color-scheme: light)" srcset="assets/signal-light.svg?v=a139130c08">
-  <img alt="Language breakdown by bytes across public repositories, above the working stack." src="assets/signal-dark.svg?v=2b79d11943" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/signal-dark.svg?v=4fd69797de">
+  <source media="(prefers-color-scheme: light)" srcset="assets/signal-light.svg?v=71c4f31a2b">
+  <img alt="Language breakdown by bytes across public repositories, above the working stack." src="assets/signal-dark.svg?v=4fd69797de" width="100%">
 </picture>
 
 <sub>Java and Spring Boot systems that stay up under load &nbsp;·&nbsp; production LLM tooling</sub>
 
 <br>
 
-<sub><sup>Synced daily · last checked <!--sync-->15 Aug 2026, 16:16 UTC<!--/sync--></sup></sub>
+<sub><sup>Synced daily · last checked <!--sync-->16 Aug 2026, 05:42 UTC<!--/sync--></sup></sub>
 
 </div>

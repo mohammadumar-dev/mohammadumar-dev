@@ -1,6 +1,0 @@
-# The README's ?v= keys are a hash of each SVG's bytes on disk. Without this, a
-# checkout on Windows (core.autocrlf=true) hands the script CRLF files, every
-# hash differs from the one CI computed, and the stamp churns on every run.
-* text=auto eol=lf
-
-*.woff2 binary

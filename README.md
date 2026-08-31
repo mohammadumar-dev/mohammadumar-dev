@@ -17,18 +17,6 @@ AI/ML · Backend · Frontend · Cloud & DevOps — full-stack delivery built on 
 
 ---
 
-### About
-
-Software Engineer at **Data Innovation Technologies**, Pune, shipping across fintech, healthcare, govtech, and enterprise financial-services engagements. Comfortable end to end — Java/Spring Boot APIs, React/Next.js frontends, Azure/AWS/OpenShift environments, and CI/CD pipelines — with AI/LLM systems built independently on the side.
-
-| | |
-|---|---|
-| 📍 **Location** | Pune, India |
-| 🎓 **Education** | B.Sc. Computer Science, CGPA 8.58 |
-| 📚 **Currently** | Pursuing M.Sc. Computer Science, expected 2028 |
-
----
-
 ### GitHub activity
 
 <!--

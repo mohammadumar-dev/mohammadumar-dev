@@ -1,21 +1,51 @@
 <div align="center">
 
+# Hi, I'm Mohammad Umar Shaikh 👋
+
+**Software Engineer — Java · Spring Boot · Full-Stack · AI/LLM · Cloud**
+
+AI/ML · Backend · Frontend · Cloud & DevOps — full-stack delivery built on solid system design.
+
+<p>
+  <a href="https://mohammadumar.vercel.app"><img src="https://img.shields.io/badge/Portfolio-e28c63?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" /></a>
+  <a href="https://linkedin.com/in/mohammadumar-dev"><img src="https://img.shields.io/badge/LinkedIn-8ba9cc?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="https://x.com/_s_h_a_i_k_h_"><img src="https://img.shields.io/badge/X-262019?style=for-the-badge&logo=x&logoColor=white" alt="X" /></a>
+  <a href="mailto:mohammadumar.dev@gmail.com"><img src="https://img.shields.io/badge/Email-a6b46e?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+</p>
+
+</div>
+
+---
+
+### About
+
+Software Engineer at **Data Innovation Technologies**, Pune, shipping across fintech, healthcare, govtech, and enterprise financial-services engagements. Comfortable end to end — Java/Spring Boot APIs, React/Next.js frontends, Azure/AWS/OpenShift environments, and CI/CD pipelines — with AI/LLM systems built independently on the side.
+
+| | |
+|---|---|
+| 📍 **Location** | Pune, India |
+| 🎓 **Education** | B.Sc. Computer Science, CGPA 8.58 |
+| 📚 **Currently** | Pursuing M.Sc. Computer Science, expected 2028 |
+
+---
+
+### GitHub activity
+
+<!--
+  prefers-color-scheme picks the right variant automatically on github.com;
+  the plain <img> fallback covers renderers that don't support <picture>
+  (some IDE previews, older clients). Card refreshes daily (24h cache).
+-->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/clock-dark.svg?v=d480158f89">
-  <source media="(prefers-color-scheme: light)" srcset="assets/clock-light.svg?v=1a5580d769">
-  <img alt="Commit rhythm: a radial heatmap of the last year of commits, seven weekday rings cut into twenty-four hour sectors, with the peak window, busiest day, share of commits after dark and hours active." src="assets/clock-dark.svg?v=d480158f89" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://mohammadumar.vercel.app/api/github-card/dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://mohammadumar.vercel.app/api/github-card/light.svg" />
+  <img src="https://mohammadumar.vercel.app/api/github-card/light.svg" alt="Mohammad Umar Shaikh's GitHub activity — contributions, PR velocity, languages and 26-week signal" width="900" />
 </picture>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/signal-dark.svg?v=4fd69797de">
-  <source media="(prefers-color-scheme: light)" srcset="assets/signal-light.svg?v=71c4f31a2b">
-  <img alt="Language breakdown by bytes across public repositories, above the working stack." src="assets/signal-dark.svg?v=4fd69797de" width="100%">
-</picture>
+---
 
-<sub>Java and Spring Boot systems that stay up under load &nbsp;·&nbsp; production LLM tooling</sub>
+<div align="center">
 
-<br>
-
-<sub><sup>Synced daily · last checked <!--sync-->31 Aug 2026, 11:35 UTC<!--/sync--></sup></sub>
+**[Portfolio](https://mohammadumar.vercel.app)** · **[Resume](./resume.md)** · **[Email](mailto:mohammadumar.dev@gmail.com)**
 
 </div>

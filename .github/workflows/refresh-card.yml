@@ -1,0 +1,69 @@
+name: Refresh GitHub card
+
+# The activity card is rendered by the portfolio app and proxied through GitHub's
+# camo cache. Two layers of caching can freeze it:
+#   1. Vercel serves the prerendered SVG and only revalidates *on a request*, so a
+#      card nobody hits at the origin can go stale for weeks.
+#   2. camo keys its cache on the source URL, so the README has to point at a new
+#      URL to force a refetch.
+# This job warms the origin, then bumps ?v=<date> so camo pulls the fresh render.
+
+on:
+  schedule:
+    - cron: '17 6 * * *'   # daily, ~06:17 UTC (GitHub may delay busy-hour crons)
+  workflow_dispatch:
+
+# No secrets are used; the only privilege is writing a README commit back to
+# this repo. Everything else stays read-only.
+permissions: {}
+
+concurrency:
+  group: refresh-card
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # push the ?v= bump; nothing else
+    steps:
+      # Pinned to a commit: a tag like @v4 is mutable and could be repointed.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.3.0
+
+      - name: Warm the origin and read its sync date
+        id: warm
+        run: |
+          set -euo pipefail
+          base=https://mohammadumar.vercel.app/api/github-card
+          today=$(date -u +%F)
+
+          for theme in light dark; do
+            # First hit may serve the stale copy while Vercel regenerates in the
+            # background; the second picks up the fresh render.
+            curl -fsS --max-time 30 "$base/$theme.svg?warm=$today-1" -o /dev/null || true
+            sleep 5
+            curl -fsS --max-time 30 "$base/$theme.svg?warm=$today-2" -o "$theme.svg" || true
+          done
+
+          synced=$(grep -ohE 'synced [0-9]{4}-[0-9]{2}-[0-9]{2} UTC' light.svg dark.svg 2>/dev/null | head -1 || true)
+          rm -f light.svg dark.svg
+          echo "today=$today" >> "$GITHUB_OUTPUT"
+          echo "Origin reports: ${synced:-unknown}" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "${synced:-}" != "synced $today UTC" ]; then
+            echo "::warning::Card origin is not reporting today's date (${synced:-no sync line found}); check the portfolio API."
+          fi
+
+      - name: Bump the cache-busting version in README
+        env:
+          # Passed through env rather than inlined as ${{ }}, so the value is
+          # never expanded into the script text before the shell sees it.
+          TODAY: ${{ steps.warm.outputs.today }}
+        run: |
+          set -euo pipefail
+          today="$TODAY"
+          sed -i -E "s#(api/github-card/(light|dark)\.svg)(\?v=[0-9]{4}-[0-9]{2}-[0-9]{2})?#\1?v=$today#g" README.md
+          git diff --quiet README.md && { echo "README already on $today, nothing to commit."; exit 0; }
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: refresh activity card for $today [skip ci]"
+          git push

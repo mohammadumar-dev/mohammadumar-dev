@@ -22,12 +22,15 @@ AI/ML · Backend · Frontend · Cloud & DevOps — full-stack delivery built on 
 <!--
   prefers-color-scheme picks the right variant automatically on github.com;
   the plain <img> fallback covers renderers that don't support <picture>
-  (some IDE previews, older clients). Card refreshes daily (24h cache).
+  (some IDE previews, older clients).
+
+  ?v=<date> is bumped daily by .github/workflows/refresh-card.yml so GitHub's
+  camo proxy fetches a fresh render instead of replaying its cached copy.
 -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://mohammadumar.vercel.app/api/github-card/dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://mohammadumar.vercel.app/api/github-card/light.svg" />
-  <img src="https://mohammadumar.vercel.app/api/github-card/light.svg" alt="Mohammad Umar Shaikh's GitHub activity — contributions, PR velocity, languages and 26-week signal" width="900" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://mohammadumar.vercel.app/api/github-card/dark.svg?v=2026-09-20" />
+  <source media="(prefers-color-scheme: light)" srcset="https://mohammadumar.vercel.app/api/github-card/light.svg?v=2026-09-20" />
+  <img src="https://mohammadumar.vercel.app/api/github-card/light.svg?v=2026-09-20" alt="Mohammad Umar Shaikh's GitHub activity — contributions, PR velocity, languages and 26-week signal" width="900" />
 </picture>
 
 ---

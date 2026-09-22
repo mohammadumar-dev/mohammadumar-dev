@@ -69,3 +69,26 @@ jobs:
           git config user.email "mohammadumar.dev@gmail.com"
           git commit -am "chore: refresh activity card for $today [skip ci]"
           git push
+
+      # A new ?v= only helps if camo's first fetch lands on a fresh origin copy.
+      # It sometimes doesn't (Vercel's edge can still hold an older render), and
+      # camo then pins that stale copy for a day. PURGE is GitHub's documented way
+      # to evict a camo entry, so do it every run regardless of the bump.
+      - name: Purge camo's cached copy of the card
+        run: |
+          set -euo pipefail
+          sleep 30   # let the profile page pick up the README commit
+          # 6769746875622d63617264 is hex for "github-card": camo URLs embed the
+          # hex-encoded source URL, so this picks out the card and skips badges.
+          urls=$(curl -fsS --max-time 30 "https://github.com/${GITHUB_REPOSITORY_OWNER}" \
+            | grep -oE 'https://camo\.githubusercontent\.com/[0-9a-f]+/[0-9a-f]*6769746875622d63617264[0-9a-f]*' \
+            | sort -u || true)
+          if [ -z "$urls" ]; then
+            echo "::warning::No card image found on the profile page; nothing purged."
+            exit 0
+          fi
+          for u in $urls; do
+            curl -fsS --max-time 30 -X PURGE "$u" -o /dev/null || echo "::warning::PURGE failed for $u"
+            synced=$(curl -fsS --max-time 30 "$u" | grep -oE 'synced [0-9]{4}-[0-9]{2}-[0-9]{2} UTC' | head -1 || true)
+            echo "camo now serves: ${synced:-unknown}" | tee -a "$GITHUB_STEP_SUMMARY"
+          done

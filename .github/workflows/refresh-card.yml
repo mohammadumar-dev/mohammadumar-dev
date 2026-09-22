@@ -63,7 +63,9 @@ jobs:
           today="$TODAY"
           sed -i -E "s#(api/github-card/(light|dark)\.svg)(\?v=[0-9]{4}-[0-9]{2}-[0-9]{2})?#\1?v=$today#g" README.md
           git diff --quiet README.md && { echo "README already on $today, nothing to commit."; exit 0; }
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Use the repository owner's GitHub-linked identity so successful
+          # scheduled refreshes are attributed to their contribution graph.
+          git config user.name  "Mohammad Umar Shaikh"
+          git config user.email "mohammadumar.dev@gmail.com"
           git commit -am "chore: refresh activity card for $today [skip ci]"
           git push

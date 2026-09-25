@@ -28,9 +28,9 @@ AI/ML · Backend · Frontend · Cloud & DevOps — full-stack delivery built on 
   camo proxy fetches a fresh render instead of replaying its cached copy.
 -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://mohammadumar.vercel.app/api/github-card/dark.svg?v=2026-09-24" />
-  <source media="(prefers-color-scheme: light)" srcset="https://mohammadumar.vercel.app/api/github-card/light.svg?v=2026-09-24" />
-  <img src="https://mohammadumar.vercel.app/api/github-card/light.svg?v=2026-09-24" alt="Mohammad Umar Shaikh's GitHub activity — contributions, PR velocity, languages and 26-week signal" width="900" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://mohammadumar.vercel.app/api/github-card/dark.svg?v=2026-09-25" />
+  <source media="(prefers-color-scheme: light)" srcset="https://mohammadumar.vercel.app/api/github-card/light.svg?v=2026-09-25" />
+  <img src="https://mohammadumar.vercel.app/api/github-card/light.svg?v=2026-09-25" alt="Mohammad Umar Shaikh's GitHub activity — contributions, PR velocity, languages and 26-week signal" width="900" />
 </picture>
 
 ---
